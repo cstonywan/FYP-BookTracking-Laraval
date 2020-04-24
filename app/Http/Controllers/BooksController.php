@@ -1,0 +1,202 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Request;
+use App\Book;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+
+class BooksController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function manage()
+    {
+        $books = Book::all();
+        return view('books.manage')->with('books', $books);
+    }
+
+    public function search(Request $request)
+    {
+        // dd($request->all());
+        $content = $request->search_content;
+        $field = $request->search_field;
+
+        if ($content == null or $content == '')
+            $books = Book::all();
+        elseif ($field == 'all') {
+            $books = Book::where('id', 'like', '%'.$content.'%')
+                        ->orWhere('title', 'like', '%'.$content.'%')
+                        ->orWhere('type', 'like', '%'.$content.'%')
+                        ->orWhere('author', 'like', '%'.$content.'%')
+                        ->orWhere('publisher', 'like', '%'.$content.'%')
+                        ->orWhere('publicationYear', 'like', '%'.$content.'%')
+                        ->orWhere('language', 'like', '%'.$content.'%')
+                        ->orWhere('ISBN', 'like', '%'.$content.'%')
+                        ->orWhere('description', 'like', '%'.$content.'%')
+                        ->get();
+        }
+        else
+            $books = Book::where($field, 'like', '%'.$content.'%')->get();
+
+        return view('books.search', compact('books'));
+    }
+
+    public function detail($id)
+    {
+        $book = Book::find($id);
+        return view('books.detail', compact('book'));
+    }
+
+    public function store()
+    {
+        $validator = Validator::make(request()->all(), [
+            'tag_id' => 'required|max:255',
+            'title' => 'required|max:255',
+            'author' => 'nullable|max:255',
+            'type' => 'required',
+            'publisher' => 'nullable|max:255',
+            'publicationYear' => 'nullable|integer',
+            'language' => 'nullable|max:255',
+            'ISBN' => 'nullable|numeric',
+            'description' => 'nullable|max:255',
+            'pageNumber' => 'nullable|integer',
+            'status' => 'required',
+            'image' => 'nullable|image',
+        ]);    
+
+        $validator->after(function($validator) {
+            if (Book::where('tag_id','=',request('tag_id'))->get()) {
+                $validator->errors()->add('tag_id', 'Sorry, the Tag Id was in use!!');
+            }
+        });
+
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->getMessageBag()->toArray()]);
+        }
+        $data = array(
+            'tag_id' => request('tag_id'),
+            'title' => request('title'),
+            'author' => request('author'),
+            'type' => request('type'),
+            'publisher' => request('publisher'),
+            'publicationYear' => request('publicationYear'),
+            'language' => request('language'),
+            'ISBN' => request('ISBN'),
+            'description' => request('description'),
+            'pageNumber' => request('pageNumber'),
+            'status' => request('status'),
+            'image' => request('image'),
+        );
+       
+        if (request('image') == '') {
+            Book::create($data);
+        }
+        else {
+          // In server:
+          // $image = request()->file('image');
+          // $imageName = $image . "." . $image->getClientOriginalExtension();
+          // $imagePath = "uploads/" . $imageName;
+          // $fullPath = public_path() . '/storage/uploads';
+          // $upload = $image->move($fullPath, $imageName);
+            $image = request('image');
+            $imagePath = $image->store('uploads', 'public');
+            Book::create([                
+                'title' => $data['title'],
+                'author' => $data['author'],
+                'publisher' => $data['publisher'],
+                'publicationYear' => $data['publicationYear'],
+                'language' => $data['language'],
+                'ISBN' => $data['ISBN'],
+                'description' => $data['description'],
+                'pageNumber' => $data['pageNumber'],
+                'type' => $data['type'],
+                'status' => $data['status'],
+                'image' => $imagePath,
+                'tag_id' => $data['tag_id'],
+            ]);
+        }
+        Session::flash('message', 'Book has been added.');
+    }
+
+    public function edit($id){
+        $validator = Validator::make(request()->all(), [        
+            'title' => 'required|max:255',
+            'tag_id' =>'required|max:255',
+            'author' => 'nullable|max:255',
+            'type' => 'required',
+            'publisher' => 'nullable|max:255',
+            'publicationYear' => 'nullable|integer',
+            'language' => 'nullable|max:255',
+            'ISBN' => 'nullable|numeric',
+            'description' => 'nullable|max:255',
+            'pageNumber' => 'nullable|integer',
+            'status' => 'required',
+            'image' => 'nullable|image',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->getMessageBag()->toArray()]);
+        }
+        $book = Book::find($id);
+        if(request('image')) {
+            // Has image before
+            if ($book->image) {
+                $url = storage_path('app/public/'.$book->image);
+                if (file_exists($url)) {
+                    unlink($url);
+                }
+            }
+            // In server:
+            // $image = request()->file('image');
+            // $imageName = $image . "." . $image->getClientOriginalExtension();
+            // $imagePath = "uploads/" . $imageName;
+            // $fullPath = public_path() . '/storage/uploads';
+            // $upload = $image->move($fullPath, $imageName);
+            $image = request('image');
+            $imagePath = $image->store('uploads', 'public');
+            $book->image = $imagePath;
+        }
+        $book->tag_id = request('tag_id');
+        $book->title = request('title');
+        $book->author = request('author');
+        $book->publisher = request('publisher');
+        $book->publicationYear = request('publicationYear');
+        $book->language = request('language');
+        $book->ISBN = request('ISBN');
+        $book->description = request('description');
+        $book->type = request('type');
+        $book->status = request('status');
+        $book->pageNumber = request('pageNumber');
+        $book->save();
+
+        Session::flash('message', 'Book has been edited.');
+    }
+
+    public function delete($id)
+    {
+        $book = Book::find($id);
+        if ($book->image){
+            $url = storage_path('app/public/'.$book->image);
+            if (file_exists($url)) {
+                unlink($url);
+            }
+        }
+        $book->delete();
+
+        Session::flash('message', 'Book has been deleted.');
+    }
+    public function track()
+    {
+      $books = Book::all()->take(5);
+      return view('books.track')->with('books', $books);
+    }
+
+}
