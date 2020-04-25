@@ -6,11 +6,12 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>   
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
 <script type="text/javascript">
-        var resultRadiusA = @json($resultRadiusA);   
-        var resultRadiusB = @json($resultRadiusB); 
-        var resultRadiusC = @json($resultRadiusC); 
-        var resultRadiusD = @json($resultRadiusD);        
-        //document.write(resultRadiusB+"\n"); //radius
+        var resultRadiusA = @json($resultRadiusA ?? '');   
+        var resultRadiusB = @json($resultRadiusB ?? ''); 
+        var resultRadiusC = @json($resultRadiusC ?? ''); 
+        var resultRadiusD = @json($resultRadiusD ?? '');        
+       
+       
         // for(var i = 1; i < resultRadiusA.length; i++) {
         //     var resultRadiusa = resultRadiusA[i];
         //     for(var j = 0; j < resultRadiusa.length; j++) {
@@ -38,6 +39,19 @@
 
         function drawChartRadius() {
                 // var data = google.visualization.arrayToDataTable(resultRadiusA);
+                // if(count(resultRadiusC) == 1){
+                //     // var dataArray = [['Second','Reader A','Reader B','Reader C','Reader D']];
+                //     var dataArray = [['Second','Reader A','Reader B','Reader D']];
+                //     for(var i = 1; i < resultRadiusA.length; i++) {
+                //         var resultRadiusa = resultRadiusA[i];
+                //         var resultRadiusb = resultRadiusB[i];                    
+                //         var resultRadiusd = resultRadiusD[i];
+                //         for(var j = 0; j < resultRadiusa.length; j++) {
+                //             dataArray.push([resultRadiusa[0],resultRadiusa[1],resultRadiusb[1],resultRadiusd[1]]);
+                //         }
+                //     }                   
+                // }
+
                 var dataArray = [['Second','Reader A','Reader B','Reader C','Reader D']];
                 for(var i = 1; i < resultRadiusA.length; i++) {
                     var resultRadiusa = resultRadiusA[i];
@@ -457,25 +471,25 @@
                 <h3 align="center" style="color:#3A74A1">Note: Input the Tag ID for Testing</h3> 
                 <div  id="tmp"></div>               
                 @endif   
-                @if($resultRadiusA ?? '' != null)
-                    @if(count($resultRadiusA) != 1)                       
+                @if($resultRadiusA ?? '' ?? '' != null)
+                    @if(count($resultRadiusA ?? '') != 1)                       
                         <div  id="ColumnChartRadiusA"></div>
                         @else
                         <div  id="tmp"></div> 
                     @endif
                 @endif
-                @if($resultRadiusB ?? '' != null)
-                    @if(count($resultRadiusB) != 1)                     
+                @if($resultRadiusB ?? '' ?? '' != null)
+                    @if(count($resultRadiusB ?? '') != 1)                     
                         <div  id="ColumnChartRadiusB"></div>
                     @endif
                 @endif
-                @if($resultRadiusC ?? '' != null)
-                    @if(count($resultRadiusC) != 1)       
+                @if($resultRadiusC ?? '' ?? '' != null)
+                    @if(count($resultRadiusC ?? '') != 1)       
                         <div  id="ColumnChartRadiusC"></div>
                     @endif
                 @endif
-                @if($resultRadiusD ?? '' != null)
-                    @if(count($resultRadiusD) != 1)    
+                @if($resultRadiusD ?? '' ?? '' != null)
+                    @if(count($resultRadiusD ?? '') != 1)    
                         <div  id="ColumnChartRadiusD"></div>
                     @endif
                 @endif

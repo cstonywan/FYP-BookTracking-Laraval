@@ -66,9 +66,7 @@ class chartController extends Controller
                         ->where('reader_ip','=',$readerD_IP)
                         ->orderBy("created_at")                                             
                         ->get(); 
-
        
-
         $resultRadiusA[] = ['Second','Radius'];
         foreach ($recordRadiusA as $key => $value) {
         $resultRadiusA[++$key] = [(int)$value->Second, (float)$value->Radius];
@@ -239,7 +237,7 @@ class chartController extends Controller
                     ->with('count',$count)
                     ->with('showEmptyChart',$showEmptyChart);                                             
         }
-       
+      
         return view('/rfid/line-chart')
                 ->with('recordA',$resultA)
                 ->with('recordB',$resultB)
