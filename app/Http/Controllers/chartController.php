@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Rfid;
+use App\Book;
 use App\Setting;
 use App\Allradius;
 use DB;
@@ -18,7 +19,13 @@ class chartController extends Controller
     public function LineChart(Request $request)
     {
         //DB::table('migrations')->where('id','=','16')->delete();
-        $tag_id = $request->search_content;
+        $check_count = Setting::count();
+        $rfids = DB::table('all_tag_record')->get()->toArray();
+        $count = DB::table('all_tag_record')->count();
+          
+        //$BookName = Book::where('tag_id','like','%'.$key->tag_id.'%')->value('title');
+       
+        $tag_id = $request->search_tag;
         $field = $request->search_field;
 
         $get_setting= Setting::find(1); 
@@ -221,11 +228,7 @@ class chartController extends Controller
             $resultC = null;
             $resultD = null;
             $flag = null;
-            $showEmptyChart=true;
-
-            $check_count = Setting::count();
-            $rfids= DB::table('all_tag_record')->get();
-            $count= DB::table('all_tag_record')->count();
+            $showEmptyChart=true;          
             
             return view('/rfid/line-chart')
                     ->with('recordA',$resultA)
@@ -252,6 +255,9 @@ class chartController extends Controller
                 ->with('showRadiusChartA',$showRadiusChartA)
                 ->with('showRadiusChartA',$showRadiusChartB) 
                 ->with('showRadiusChartA',$showRadiusChartC)
-                ->with('showRadiusChartA',$showRadiusChartD);        
+                ->with('showRadiusChartA',$showRadiusChartD)
+                ->with('rfids',$rfids)
+                ->with('count',$count)
+                ->with('curTagID',$tag_id);        
     }
 }

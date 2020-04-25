@@ -8,11 +8,11 @@
             @csrf
 
             <div class="form-group row justify-content-center pt-3">
-                <div class="pt-1 col-md-1 d-none d-md-block">
+                <div class="pt-1 col-md-2 d-none d-md-block">
                     <img src="/icon/search.svg" height="30px" align="right">
                 </div>
-                <div class="col-md-3 col-sm-12">
-                    <select id="search_field" class="form-control custom-select custom-select-lg mb-3" name="search_field">
+                <div class="col-md-2 ">
+                    <select id="search_field"  class="form-control custom-select custom-select-lg mb-3" name="search_field">
                         <option value="all" selected>All Field</option>
                         <option value="id">ID</option>
                         <option value="title">Title</option>
@@ -26,12 +26,12 @@
                         <option value="pageNumber">Page Number</option>
                     </select>
                 </div>
-                <div class="col-md-6 col-sm-12">
-                    <input id="search_content" type="text" class="form-control" name="search_content" value="{{ old('search_content') }}" placeholder="Search" autocomplete="search_content" autofocus>
+                <div class="col-md-5 col-sm-12">
+                    <input  id="search_content" type="text" class="form-control" style="height:28px" name="search_content" value="{{ old('search_content') }}" placeholder="Search" autocomplete="search_content" autofocus>
                 </div>
                 <div class="col-md-2 col-sm-12 mt-3 mt-md-0 text-md-left text-right">
-                    <button type="submit" class="btn btn-success btn-lg">
-                        <strong>Search</strong>
+                    <button type="submit" class="btn btn-info btn-lg">
+                    <span style="color:#FFFFFF" class="glyphicon glyphicon-search"></span><strong style="color:#FFFFFF"> Search</strong>
                     </button>
                 </div>
             </div>

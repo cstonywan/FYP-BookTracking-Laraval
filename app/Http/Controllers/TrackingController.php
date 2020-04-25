@@ -48,7 +48,7 @@ class TrackingController extends Controller
 
         $tag_id = Book::find($id)->tag_id;
         $rfid_list = Rfid:: where('tag_id','like','%'.$tag_id.'%')
-                            ->where('updated_at','>=',$timeformatted) //get the most recent 3s record
+                            //->where('updated_at','>=',$timeformatted) //get the most recent 3s record
                             ->orderby('reader_ip')
                             ->get();
                             

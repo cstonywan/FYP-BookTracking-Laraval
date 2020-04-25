@@ -2,6 +2,182 @@
 
 @section('content')
 
+<style>
+    div.hidden {
+        display: none;
+    }
+</style>
+        <!-- Search field -->
+        <form action="" method="get">
+                    @csrf
+                <div class="form-group row justify-content-center pt-3">
+                        <!-- @if($flag==null && $recordA==null && $recordB==null && $recordC==null && $recordD==null)
+                        <button type="button" class="btn btn-link"  style="padding-left:20px"onclick="hideTagTable()">
+                               <h3>All Rfid Tags</h3>
+                        </button>
+                        @endif -->
+                        <h2 style="color:#3A74A1;padding-left:20px;">Total Tag Number: {{$count ?? ''}}</h2> 
+                        <div class="col-md-1 d-none d-md-block">                           
+                            <img src="/icon/search.svg" height="30px" align="right">
+                            <!-- <span style="color:#FFFFFF" class="glyphicon glyphicon-search"></span> -->
+                        </div>
+                        <div class="col-md-2 col-sm-8">
+                            <select id="search_field" class="form-control custom-select custom-select-lg mb-3" name="search_field">
+                                <option value="all" selected>All Reader</option>
+                                <option value="reader_a">Reader A</option>
+                                <option value="reader_b">Reader B</option>     
+                                <option value="reader_c">Reader C</option>     
+                                <option value="reader_d">Reader D</option>                                                   
+                            </select>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                       
+                            <select id="search_tag" class="form-control custom-select custom-select-lg mb-3" name="search_tag">                      
+                                @if($count ?? '' != null)
+                                    @foreach ($rfids ?? '' as $key)
+                                        <option value="{{$key->tag_id}}">{{$key->tag_id}}</option>
+                                    @endforeach
+                                @endif                                                
+                            </select>
+                            <!-- <input id="search_content" type="text" class="form-control" name="search_content" value="{{ old('search_content') }}" placeholder="Search" required autocomplete="search_content" autofocus> -->
+                        </div>
+                        <div class="col-md-1 col-sm-12 mt-3 mt-md-0 text-md-left text-right">
+                            <button type="submit" class="btn btn-info btn-lg">
+                            <span style="color:#FFFFFF" class="glyphicon glyphicon-search"></span><strong style="color:#FFFFFF"> Search</strong>
+                            </button>
+                        </div>
+                </div>
+        </form>
+        
+        <!-- The all tags Number -->
+        <!-- <div id="RfidTagTable" class="hidden col-md-4 col-sm-5" style="display: none;">
+             
+        </div>        -->
+       
+            
+           
+            </div>                
+            <!-- Each Reader Radius Testing -->
+            @if($flag == null)
+                <h1 align="center" style="color:#0062AF"><strong>The Result of Radius</strong></h1>               
+                @if($showEmptyChart)
+                <h3 align="center" style="color:#3A74A1">Note: Input the Tag ID for Testing</h3> 
+                <div  id="tmp"></div>               
+                @endif   
+                @if($resultRadiusA ?? '' ?? '' != null)
+                    @if(count($resultRadiusA ?? '') != 1)                       
+                        <div  id="ColumnChartRadiusA"></div>
+                        @else
+                        <div  id="tmp"></div> 
+                    @endif
+                @endif
+                @if($resultRadiusB ?? '' ?? '' != null)
+                    @if(count($resultRadiusB ?? '') != 1)                     
+                        <div  id="ColumnChartRadiusB"></div>
+                    @endif
+                @endif
+                @if($resultRadiusC ?? '' ?? '' != null)
+                    @if(count($resultRadiusC ?? '') != 1)       
+                        <div  id="ColumnChartRadiusC"></div>
+                    @endif
+                @endif
+                @if($resultRadiusD ?? '' ?? '' != null)
+                    @if(count($resultRadiusD ?? '') != 1)    
+                        <div  id="ColumnChartRadiusD"></div>
+                    @endif
+                @endif
+            @endif
+           
+            <!-- The All Radius Testing -->
+            @if($flag != null)    
+                <h1 align="center" style="color:#0062AF"><strong>The Result of Radius</strong></h1>           
+                <div  id="linechartRadius"></div>
+                <!-- <h1 align="center" style="color:#0062AF"><strong>The Rssi Testing</strong></h1> -->
+            @endif
+             <!-- The Rssi Testing -->
+            @if($showEmptyChart==false)            
+                <h1 align="center" style="color:#0062AF"><strong>The Rssi Testing</strong></h1>
+            @endif
+             <!-- The alert message of rssi chart -->
+             <div class="row justify-content-center">
+             @if($recordA != null)
+                @if(count($recordA) == 1)
+                    <div class="alert col-md-6 alert-warning alert-dismissible">
+                    <strong>Warning!</strong> The ReaderA cannot found the record.
+                    </div>    
+                @endif
+            @endif
+            @if($recordB != null)
+                @if(count($recordB) == 1)
+                    <div class="alert col-md-6 alert-warning alert-dismissible">
+                    <strong>Warning!</strong> The ReaderB cannot found the record.
+                    </div>
+                @endif
+            @endif
+            @if($recordC != null)
+                @if(count($recordC) == 1)
+                    <div class="alert col-md-6 alert-warning alert-dismissible">
+                    <strong>Warning!</strong> The ReaderC cannot found the record.
+                    </div>
+                @endif
+            @endif
+            @if($recordD != null)
+                @if(count($recordD) == 1)
+                    <div class="alert col-md-6 alert-warning alert-dismissible">
+                    <strong>Warning!</strong> The ReaderD cannot found the record.
+                    </div>
+                @endif
+            @endif    
+            </div>       
+
+            <div class="row">                
+                @if($recordA != null)
+                    @if(count($recordA) != 1)
+                        @if($flag == null)                           
+                            <div id="linechartA" style="width: 1500px; height: 300px"></div>
+                            @else
+                            <div class="col-md-6" id="linechartA"></div>
+                        @endif
+                    @endif
+                @endif
+
+                @if($recordB != null)  
+                    @if(count($recordB) != 1)
+                        @if($flag == null)                            
+                            <div id="linechartB" style="width: 1500px; height: 300px"></div>
+                        @else
+                            <div class="col-md-6" id="linechartB"></div>
+                        @endif
+                    @endif
+                @endif
+
+                @if($recordC != null)  
+                    @if(count($recordC) != 1)        
+                        @if($flag == null)                            
+                            <div id="linechartC" style="width: 1500px; height: 300px"></div>
+                        @else
+                            <div class="col-md-6" id="linechartC" ></div>
+                        @endif
+                    @endif
+                @endif
+
+                @if($recordD != null)  
+                    @if(count($recordD) != 1)
+                        @if($flag == null)                                                    
+                            <div id="linechartD" style="width: 1500px; height: 300px"></div>
+                        @else
+                            <div class="col-md-6" id="linechartD"></div>
+                        @endif
+                    @endif
+                @endif
+            </div>
+            <div align="right">
+                <button class="btn btn-info btn-lg"  onclick="count()">
+                    <strong style="color:#FFFFFF"> count</strong>
+                </button>
+            </div>
+            <div align="center" id="countResult"></div>
+<!-- The Radius line-chart -->
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>   
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
@@ -11,7 +187,6 @@
         var resultRadiusC = @json($resultRadiusC ?? ''); 
         var resultRadiusD = @json($resultRadiusD ?? '');        
        
-       
         // for(var i = 1; i < resultRadiusA.length; i++) {
         //     var resultRadiusa = resultRadiusA[i];
         //     for(var j = 0; j < resultRadiusa.length; j++) {
@@ -20,6 +195,7 @@
         //         document.write(resultRadiusa[1]+"\n"); //radius
         //     }
         // }
+
         console.log(resultRadiusA);
         console.log(resultRadiusB);
         console.log(resultRadiusC);
@@ -54,14 +230,9 @@
 
                 var dataArray = [['Second','Reader A','Reader B','Reader C','Reader D']];
                 for(var i = 1; i < resultRadiusA.length; i++) {
-                    var resultRadiusa = resultRadiusA[i];
-                    var resultRadiusb = resultRadiusB[i];
-                    var resultRadiusc = resultRadiusC[i];
-                    var resultRadiusd = resultRadiusD[i];
-                    for(var j = 0; j < resultRadiusa.length; j++) {
-                         dataArray.push([resultRadiusa[0],resultRadiusa[1],resultRadiusb[1],resultRadiusc[1],resultRadiusd[1]]);
-                    }
+                    dataArray.push([resultRadiusA[i][0],resultRadiusA[i][1],resultRadiusB[i][1],resultRadiusC[i][1],resultRadiusD[i][1]]);
                 }
+
                 var data = new google.visualization.arrayToDataTable(dataArray);
         
                 var options = {        
@@ -90,11 +261,8 @@
         function drawChartRadiusA() {
                 // var data = google.visualization.arrayToDataTable(resultRadiusA);
                 var dataArray = [['Second','Reader A']];
-                for(var i = 1; i < resultRadiusA.length; i++) {
-                    var resultRadiusa = resultRadiusA[i];                  
-                    for(var j = 0; j < resultRadiusa.length; j++) {
-                         dataArray.push([resultRadiusa[0],resultRadiusa[1]]);
-                    }
+                for(var i = 1; i < resultRadiusA.length; i++) {                     
+                    dataArray.push([resultRadiusA[i][0],resultRadiusA[i][1]]);                  
                 }
                 var data = new google.visualization.arrayToDataTable(dataArray);
         
@@ -123,11 +291,8 @@
         function drawChartRadiusB() {
                 // var data = google.visualization.arrayToDataTable(resultRadiusA);
                 var dataArray = [['Second','Reader B']];
-                for(var i = 1; i < resultRadiusB.length; i++) {
-                    var resultRadiusb = resultRadiusB[i];                  
-                    for(var j = 0; j < resultRadiusb.length; j++) {
-                         dataArray.push([resultRadiusb[0],resultRadiusb[1]]);                        
-                    }
+                for(var i = 1; i < resultRadiusB.length; i++) {                    
+                    dataArray.push([resultRadiusB[i][0],resultRadiusB[i][1]]);                        
                 }
                 var data = new google.visualization.arrayToDataTable(dataArray);
         
@@ -156,12 +321,8 @@
         function drawChartRadiusC() {
                 // var data = google.visualization.arrayToDataTable(resultRadiusA);
                 var dataArray = [['Second','Reader C']];
-                for(var i = 1; i < resultRadiusC.length; i++) {
-                    var resultRadiusc = resultRadiusC[i];
-                  
-                    for(var j = 0; j < resultRadiusc.length; j++) {
-                         dataArray.push([resultRadiusc[0],resultRadiusc[1]]);
-                    }
+                for(var i = 1; i < resultRadiusC.length; i++) {                   
+                    dataArray.push([resultRadiusC[i][0],resultRadiusC[i][1]]);
                 }
                 var data = new google.visualization.arrayToDataTable(dataArray);
         
@@ -191,11 +352,7 @@
                 // var data = google.visualization.arrayToDataTable(resultRadiusA);
                 var dataArray = [['Second','Reader D']];
                 for(var i = 1; i < resultRadiusD.length; i++) {
-                    var resultRadiusd = resultRadiusD[i];
-                  
-                    for(var j = 0; j < resultRadiusd.length; j++) {
-                         dataArray.push([resultRadiusd[0],resultRadiusd[1]]);
-                    }
+                    dataArray.push([resultRadiusD[i][0],resultRadiusD[i][1]]);                   
                 }
                 var data = new google.visualization.arrayToDataTable(dataArray);
         
@@ -251,16 +408,16 @@
                 chart.draw(data, options);        
         }
 
+    //   document.write(record[i][0]+":"+record[i][1]+","+"\n"); //radius
       var record = @json($recordA); 
       console.log(record);
-      
       function drawChart() {
-            // var jsonData = $.ajax({
-            // url: "/rfid/line-chart"+$('#search_content').val(),
-            // dataType:"POST",
-            // data:$recordA;
-            // async: false
-            // }).responseText;
+            var jsonData = $.ajax({
+            url: "/rfid/line-chart"+$('#search_content').val(),
+            dataType:"POST",
+            data:$recordA;
+            async: false
+            }).responseText;
             
             var data = google.visualization.arrayToDataTable(record);
            
@@ -289,14 +446,15 @@
             chart.draw(data, options);        
       }
 
-    //   $(document).ready(function(){
-    //     setInterval("drawChartB()", 1000);
-    //   });
+      $(document).ready(function(){
+        setInterval("drawChartB()", 1000);
+      });
 
 
       var recordB = @json($recordB); 
-      console.log(recordB);     
-     
+      console.log(recordB);   
+
+       
       function drawChartB() {
             var data = google.visualization.arrayToDataTable(recordB);
             var options = {        
@@ -396,190 +554,41 @@
             $temp.remove();        
       }
 
-</script>
-<style>
-    div.hidden {
-        display: none;
+      function count() {
+             var record = @json($recordB); 
+             var RssiList = [];
+             var sum = 0;
+             var mean = 0;
+             for(var i = 1 ; i<record.length; i++){               
+                RssiList[i]=record[i][1].toString(); 
+                sum += record[i][1];                     
+             }
+            mean = sum/record.length;
+            RssiList.sort();
+            var current = null;
+            var count = 0;
+            for (var i = 0; i < RssiList.length; i++) {
+                if (RssiList[i] != current) {
+                    if (count > 0) {
+                        // document.write(current + ': ' + count + ' times<br>');
+                        document.getElementById('countResult').innerHTML += current+': '+ count + ' times<br>';
+                    }
+                    current = RssiList[i];
+                    count = 1;
+                } 
+                else {
+                    count++;
+                }
+            }
+            document.getElementById('countResult').innerHTML += 'Sum of Rssi: '+ sum + ' dbm<br>';
+            document.getElementById('countResult').innerHTML += 'Mean of Rssi:'+ mean + ' dbm<br>';
+            // if (cnt > 0) {
+            //     document.write(current + ': ' + cnt + ' times');
+            // }
+
     }
-</style>
-        <!-- Search field -->
-        <form action="" method="get">
-                    @csrf
-                <div class="form-group row justify-content-center pt-3">
-                        @if($flag==null && $recordA==null && $recordB==null && $recordC==null && $recordD==null)
-                        <button type="button" class="btn btn-link"  style="padding-left:20px"onclick="hideTagTable()">
-                               <h3>Show All Rfid Tags</h3>
-                        </button>
-                        @endif
-                        <div class="col-md-1 d-none d-md-block">                           
-                            <img src="/icon/search.svg" height="30px" align="right">
-                        </div>
-                        <div class="col-md-2 col-sm-8">
-                            <select id="search_field" class="form-control custom-select custom-select-lg mb-3" name="search_field">
-                                <option value="all" selected>All Reader</option>
-                                <option value="reader_a">Reader A</option>
-                                <option value="reader_b">Reader B</option>     
-                                <option value="reader_c">Reader C</option>     
-                                <option value="reader_d">Reader D</option>                                                   
-                            </select>
-                        </div>
-                        <div class="col-md-5 col-sm-12">
-                            <input id="search_content" type="text" class="form-control" name="search_content" value="{{ old('search_content') }}" placeholder="Search" required autocomplete="search_content" autofocus>
-                        </div>
-                        <div class="col-md-1 col-sm-12 mt-3 mt-md-0 text-md-left text-right">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                <strong>Search</strong>
-                            </button>
-                        </div>
-                </div>
-        </form>
-      
-        <!-- The all tags -->
-                <div id="RfidTagTable" class="hidden col-md-4 col-sm-5" style="display: none;">
-                    @if($count ?? ''!=null)
-                    <div class="text-center ">
-                        <h1>All RFID Tags</h1>
-                        <p>Total Tag Number: {{$count ?? ''}}</p>
-                        <div class="table-responsive"> 
-                        <div class="res" style="color:MediumSeaGreen;"></div>          
-                            <table class="table table-light table-hover" style="backgroud-color:#000000">           
-                                <tbody>        
-                                    @foreach ($rfids as $key)
-                                    <tr id= "c">            
-                                        <td >{{$key->tag_id}}</td>                                                
-                                        <td>                                        
-                                            <button style="background: transparent;border: none;" onclick="copyToClipboard('#c')">
-                                            <img src="/icon/copy.png" height="20px" align="right">
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> 
-                    @endif 
-                </div>
-                
-            
-           
-            </div>                
-            <!-- Each Reader Radius Testing -->
-            @if($flag == null)
-                <h1 align="center" style="color:#0062AF"><strong>The Result of Radius</strong></h1>               
-                @if($showEmptyChart)
-                <h3 align="center" style="color:#3A74A1">Note: Input the Tag ID for Testing</h3> 
-                <div  id="tmp"></div>               
-                @endif   
-                @if($resultRadiusA ?? '' ?? '' != null)
-                    @if(count($resultRadiusA ?? '') != 1)                       
-                        <div  id="ColumnChartRadiusA"></div>
-                        @else
-                        <div  id="tmp"></div> 
-                    @endif
-                @endif
-                @if($resultRadiusB ?? '' ?? '' != null)
-                    @if(count($resultRadiusB ?? '') != 1)                     
-                        <div  id="ColumnChartRadiusB"></div>
-                    @endif
-                @endif
-                @if($resultRadiusC ?? '' ?? '' != null)
-                    @if(count($resultRadiusC ?? '') != 1)       
-                        <div  id="ColumnChartRadiusC"></div>
-                    @endif
-                @endif
-                @if($resultRadiusD ?? '' ?? '' != null)
-                    @if(count($resultRadiusD ?? '') != 1)    
-                        <div  id="ColumnChartRadiusD"></div>
-                    @endif
-                @endif
-            @endif
-           
-            <!-- The All Radius Testing -->
-            @if($flag != null)    
-                <h1 align="center" style="color:#0062AF"><strong>The Result of Radius</strong></h1>           
-                <div  id="linechartRadius"></div>
-                <!-- <h1 align="center" style="color:#0062AF"><strong>The Rssi Testing</strong></h1> -->
-            @endif
-             <!-- The Rssi Testing -->
-            @if($showEmptyChart==false)            
-                <h1 align="center" style="color:#0062AF"><strong>The Rssi Testing</strong></h1>
-            @endif
-             <!-- The alert message of rssi chart -->
-             <div class="row justify-content-center">
-             @if($recordA != null)
-                @if(count($recordA) == 1)
-                    <div class="alert col-md-6 alert-warning alert-dismissible">
-                    <strong>Warning!</strong> The ReaderA cannot found the record.
-                    </div>    
-                @endif
-            @endif
-            @if($recordB != null)
-                @if(count($recordB) == 1)
-                    <div class="alert col-md-6 alert-warning alert-dismissible">
-                    <strong>Warning!</strong> The ReaderB cannot found the record.
-                    </div>
-                @endif
-            @endif
-            @if($recordC != null)
-                @if(count($recordC) == 1)
-                    <div class="alert col-md-6 alert-warning alert-dismissible">
-                    <strong>Warning!</strong> The ReaderC cannot found the record.
-                    </div>
-                @endif
-            @endif
-            @if($recordD != null)
-                @if(count($recordD) == 1)
-                    <div class="alert col-md-6 alert-warning alert-dismissible">
-                    <strong>Warning!</strong> The ReaderD cannot found the record.
-                    </div>
-                @endif
-            @endif    
-            </div>       
 
-            <div class="row">                
-                @if($recordA != null)
-                    @if(count($recordA) != 1)
-                        @if($flag == null)                           
-                            <div id="linechartA" style="width: 1500px; height: 1200px"></div>
-                            @else
-                            <div class="col-md-6" id="linechartA"></div>
-                        @endif
-                    @endif
-                @endif
-
-                @if($recordB != null)  
-                    @if(count($recordB) != 1)
-                        @if($flag == null)                            
-                            <div id="linechartB" style="width: 1500px; height: 1200px"></div>
-                        @else
-                            <div class="col-md-6" id="linechartB"></div>
-                        @endif
-                    @endif
-                @endif
-
-                @if($recordC != null)  
-                    @if(count($recordC) != 1)        
-                        @if($flag == null)                            
-                            <div id="linechartC" style="width: 1500px; height: 1200px"></div>
-                        @else
-                            <div class="col-md-6" id="linechartC" ></div>
-                        @endif
-                    @endif
-                @endif
-
-                @if($recordD != null)  
-                    @if(count($recordD) != 1)
-                        @if($flag == null)                                                    
-                            <div id="linechartD" style="width: 1500px; height: 1200px"></div>
-                        @else
-                            <div class="col-md-6" id="linechartD"></div>
-                        @endif
-                    @endif
-                @endif
-            </div>
-             <!-- The Radius line-chart -->
-           
+</script>           
 
 @endsection
 

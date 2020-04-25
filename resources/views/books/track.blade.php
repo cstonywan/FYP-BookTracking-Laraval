@@ -80,7 +80,7 @@
                             </td>
                             <td width="10%" class="align-middle">
                                 <a href="{{ url('/b/detail/' . $book->id) }}" class="book-show-modal btn btn-info btn-lg">
-                                <i class="glyphicon glyphicon-eye-open"></i></a>
+                                <i class="glyphicon glyphicon-eye-open" style="backgroud-color:#FFFFFF"></i></a>
                             </td>
                         </tr>                        
                         @endforeach

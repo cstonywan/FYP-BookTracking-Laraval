@@ -53,9 +53,6 @@
                         @guest
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/') }}">Welcome</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('home') }}">Home</a>
                             </li>
                             <li class="nav-item">
@@ -71,29 +68,32 @@
                             </li>
                             @if (Auth::user()->role >= 1)
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('manageBook') }}">Manage Book</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('manageBorrow') }}">Manage Lending</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" href="{{ url('/borrow/record/' . Auth::user()->id ) }}">Handled Record</a>
                                 </li>
-                                @if (Auth::user()->role == 2)
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('manageUser') }}">Manage User</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('manageRfid') }}">Rfid Setting</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('showChart') }}">Show Rfid Line Chart</a>
-                                    </li>
-                                @endif
+                                <li class="nav-item dropdown">
+                                    <a id="manageDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                      Manage<span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="manageDropdown">
+                                        <a class="dropdown-item" href="{{ route('manageBook') }}">Manage Book</a>
+                                        <a class="dropdown-item" href="{{ route('manageBorrow') }}">Manage Lending</a>
+                                        <a class="dropdown-item" href="{{ route('manageRfid') }}">Rfid Setting</a>
+                                        @if (Auth::user()->role == 2)
+                                        <a class="dropdown-item" href="{{ route('manageUser') }}">Manage User</a>
+                                        @endif
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="statisticDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                      Statistic<span class="caret"></span>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="statisticDropdown">
+                                        <a class="dropdown-item" href="{{ route('showChart') }}">Show Rfid Line Chart</a>
+                                    </div>
+                                </li>
                             @endif
                         @endguest
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->

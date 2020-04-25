@@ -14,7 +14,7 @@ class Setting extends Model
         'ReaderD_ip',
         'distance_A',
         'distance_B',
-        'distance_C',
-        'distance_D',
+        'p',
+        'n',
     ];
 }
