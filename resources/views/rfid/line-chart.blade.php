@@ -6,11 +6,10 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>   
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
 <script type="text/javascript">
-        var resultRadiusA = @json($resultRadiusA ?? '');   
-        var resultRadiusB = @json($resultRadiusB ?? ''); 
-        var resultRadiusC = @json($resultRadiusC ?? ''); 
-        var resultRadiusD = @json($resultRadiusD ?? ''); 
-       
+        var resultRadiusA = @json($resultRadiusA);   
+        var resultRadiusB = @json($resultRadiusB); 
+        var resultRadiusC = @json($resultRadiusC); 
+        var resultRadiusD = @json($resultRadiusD);        
         //document.write(resultRadiusB+"\n"); //radius
         // for(var i = 1; i < resultRadiusA.length; i++) {
         //     var resultRadiusa = resultRadiusA[i];
@@ -20,13 +19,23 @@
         //         document.write(resultRadiusa[1]+"\n"); //radius
         //     }
         // }
-
         console.log(resultRadiusA);
         console.log(resultRadiusB);
         console.log(resultRadiusC);
         console.log(resultRadiusD);
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChartRadius);
+        google.charts.setOnLoadCallback(tmp);
+        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChartB);
+        google.charts.setOnLoadCallback(drawChartD);
+        google.charts.setOnLoadCallback(drawChartC);
+        google.charts.setOnLoadCallback(drawChartRadiusA);
+        google.charts.setOnLoadCallback(drawChartRadiusB);
+        google.charts.setOnLoadCallback(drawChartRadiusC);
+        google.charts.setOnLoadCallback(drawChartRadiusD);
+
+
         function drawChartRadius() {
                 // var data = google.visualization.arrayToDataTable(resultRadiusA);
                 var dataArray = [['Second','Reader A','Reader B','Reader C','Reader D']];
@@ -54,8 +63,7 @@
                     },              
                 title: 'Radius Result',
                 'height':250,
-               
-                
+                               
                 // backgroundColor: '#FFFFFF',
                 curveType: 'function',
                 legend: { position: 'right' }
@@ -63,9 +71,143 @@
                 var chart = new google.visualization.ColumnChart(document.getElementById('linechartRadius'));
                 chart.draw(data, options);        
         }
-        //This is blank chart
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(tmp);
+        //ReaderA Radius Result
+
+        function drawChartRadiusA() {
+                // var data = google.visualization.arrayToDataTable(resultRadiusA);
+                var dataArray = [['Second','Reader A']];
+                for(var i = 1; i < resultRadiusA.length; i++) {
+                    var resultRadiusa = resultRadiusA[i];                  
+                    for(var j = 0; j < resultRadiusa.length; j++) {
+                         dataArray.push([resultRadiusa[0],resultRadiusa[1]]);
+                    }
+                }
+                var data = new google.visualization.arrayToDataTable(dataArray);
+        
+                var options = {        
+                    vAxis: {
+                        title: 'Radius (m)'
+                    }, 
+                    hAxis: {
+                        title: 'Time (second)',
+                        maxValue: 60,
+                    },
+                    titleTextStyle: {
+                        color: '#3A74A1'
+                    },              
+                title: 'Reader A Radius Result',
+                'height':250,
+                               
+                // backgroundColor: '#FFFFFF',
+                curveType: 'function',
+                legend: { position: 'right' }
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById('ColumnChartRadiusA'));
+                chart.draw(data, options);        
+        }
+
+        function drawChartRadiusB() {
+                // var data = google.visualization.arrayToDataTable(resultRadiusA);
+                var dataArray = [['Second','Reader B']];
+                for(var i = 1; i < resultRadiusB.length; i++) {
+                    var resultRadiusb = resultRadiusB[i];                  
+                    for(var j = 0; j < resultRadiusb.length; j++) {
+                         dataArray.push([resultRadiusb[0],resultRadiusb[1]]);                        
+                    }
+                }
+                var data = new google.visualization.arrayToDataTable(dataArray);
+        
+                var options = {        
+                    vAxis: {
+                        title: 'Radius (m)'
+                    }, 
+                    hAxis: {
+                        title: 'Time (second)',
+                        maxValue: 60,
+                    },
+                    titleTextStyle: {
+                        color: 'red'
+                    },              
+                title: 'Reader B Radius Result',
+                'height':250,
+                colors: ['red'],                               
+                // backgroundColor: '#FFFFFF',
+                curveType: 'function',
+                legend: { position: 'right' }
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById('ColumnChartRadiusB'));
+                chart.draw(data, options);        
+        }
+
+        function drawChartRadiusC() {
+                // var data = google.visualization.arrayToDataTable(resultRadiusA);
+                var dataArray = [['Second','Reader C']];
+                for(var i = 1; i < resultRadiusC.length; i++) {
+                    var resultRadiusc = resultRadiusC[i];
+                  
+                    for(var j = 0; j < resultRadiusc.length; j++) {
+                         dataArray.push([resultRadiusc[0],resultRadiusc[1]]);
+                    }
+                }
+                var data = new google.visualization.arrayToDataTable(dataArray);
+        
+                var options = {        
+                    vAxis: {
+                        title: 'Radius (m)'
+                    }, 
+                    hAxis: {
+                        title: 'Time (second)',
+                        maxValue: 60,
+                    },
+                    titleTextStyle: {
+                        color: '#FF903F'
+                    },              
+                title: 'Reader C Radius Result',
+                'height':250,
+                colors: ['#FF903F'],                               
+                // backgroundColor: '#FFFFFF',
+                curveType: 'function',
+                legend: { position: 'right' }
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById('ColumnChartRadiusC'));
+                chart.draw(data, options);        
+        }
+
+        function drawChartRadiusD() {
+                // var data = google.visualization.arrayToDataTable(resultRadiusA);
+                var dataArray = [['Second','Reader D']];
+                for(var i = 1; i < resultRadiusD.length; i++) {
+                    var resultRadiusd = resultRadiusD[i];
+                  
+                    for(var j = 0; j < resultRadiusd.length; j++) {
+                         dataArray.push([resultRadiusd[0],resultRadiusd[1]]);
+                    }
+                }
+                var data = new google.visualization.arrayToDataTable(dataArray);
+        
+                var options = {        
+                    vAxis: {
+                        title: 'Radius (m)'
+                    }, 
+                    hAxis: {
+                        title: 'Time (second)',
+                        maxValue: 60,
+                    },
+                    titleTextStyle: {
+                        color: '#00DB42'
+                    },              
+                title: 'Reader D Radius Result',
+                'height':250,
+                colors: ['#00DB42'],                               
+                // backgroundColor: '#FFFFFF',
+                curveType: 'function',
+                legend: { position: 'right' }
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById('ColumnChartRadiusD'));
+                chart.draw(data, options);        
+        }
+        
+        //This is blank chart      
         function tmp() {               
                 
                 var dataArray = [['Second','Reader A','Reader B','Reader C','Reader D']];
@@ -86,8 +228,7 @@
                         color: '#048FFB'
                     },              
                 title: 'Radius Result',
-                'height':300,
-                
+                'height':300,                
                 // backgroundColor: '#FFFFFF',
                 curveType: 'function',
                 legend: { position: 'right' }
@@ -95,13 +236,6 @@
                 var chart = new google.visualization.ColumnChart(document.getElementById('tmp'));
                 chart.draw(data, options);        
         }
-
-
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-      google.charts.setOnLoadCallback(drawChartB);
-      google.charts.setOnLoadCallback(drawChartD);
-      google.charts.setOnLoadCallback(drawChartC);
 
       var record = @json($recordA); 
       console.log(record);
@@ -147,8 +281,7 @@
 
 
       var recordB = @json($recordB); 
-      console.log(recordB);
-     
+      console.log(recordB);     
      
       function drawChartB() {
             var data = google.visualization.arrayToDataTable(recordB);
@@ -172,8 +305,7 @@
             };
             var chart = new google.visualization.ScatterChart(document.getElementById('linechartB'));
             chart.draw(data, options);
-      }
-     
+      }     
 
       var recordC = @json($recordC); 
       console.log(recordC);
@@ -201,7 +333,6 @@
             chart.draw(data, options);
       }
       
-
       var recordD = @json($recordD); 
       console.log(recordD);
       function drawChartD() {
@@ -228,7 +359,6 @@
             chart.draw(data, options);
       }
       
-
       function hideTagTable() {       
             var x = document.getElementById("RfidTagTable");
             if (x.style.display === "none") {
@@ -280,7 +410,7 @@
                             </select>
                         </div>
                         <div class="col-md-5 col-sm-12">
-                            <input id="search_content" type="text" class="form-control" name="search_content" value="{{ old('search_content') }}" placeholder="Search" autocomplete="search_content" autofocus>
+                            <input id="search_content" type="text" class="form-control" name="search_content" value="{{ old('search_content') }}" placeholder="Search" required autocomplete="search_content" autofocus>
                         </div>
                         <div class="col-md-1 col-sm-12 mt-3 mt-md-0 text-md-left text-right">
                             <button type="submit" class="btn btn-success btn-lg">
@@ -289,9 +419,7 @@
                         </div>
                 </div>
         </form>
-
-        
-        
+      
         <!-- The all tags -->
                 <div id="RfidTagTable" class="hidden col-md-4 col-sm-5" style="display: none;">
                     @if($count ?? ''!=null)
@@ -318,51 +446,87 @@
                     </div> 
                     @endif 
                 </div>
-            <!-- The alert message -->
-            @if($recordA != null)
+                
+            
+           
+            </div>                
+            <!-- Each Reader Radius Testing -->
+            @if($flag == null)
+                <h1 align="center" style="color:#0062AF"><strong>The Result of Radius</strong></h1>               
+                @if($showEmptyChart)
+                <h3 align="center" style="color:#3A74A1">Note: Input the Tag ID for Testing</h3> 
+                <div  id="tmp"></div>               
+                @endif   
+                @if($resultRadiusA ?? '' != null)
+                    @if(count($resultRadiusA) != 1)                       
+                        <div  id="ColumnChartRadiusA"></div>
+                        @else
+                        <div  id="tmp"></div> 
+                    @endif
+                @endif
+                @if($resultRadiusB ?? '' != null)
+                    @if(count($resultRadiusB) != 1)                     
+                        <div  id="ColumnChartRadiusB"></div>
+                    @endif
+                @endif
+                @if($resultRadiusC ?? '' != null)
+                    @if(count($resultRadiusC) != 1)       
+                        <div  id="ColumnChartRadiusC"></div>
+                    @endif
+                @endif
+                @if($resultRadiusD ?? '' != null)
+                    @if(count($resultRadiusD) != 1)    
+                        <div  id="ColumnChartRadiusD"></div>
+                    @endif
+                @endif
+            @endif
+           
+            <!-- The All Radius Testing -->
+            @if($flag != null)    
+                <h1 align="center" style="color:#0062AF"><strong>The Result of Radius</strong></h1>           
+                <div  id="linechartRadius"></div>
+                <!-- <h1 align="center" style="color:#0062AF"><strong>The Rssi Testing</strong></h1> -->
+            @endif
+             <!-- The Rssi Testing -->
+            @if($showEmptyChart==false)            
+                <h1 align="center" style="color:#0062AF"><strong>The Rssi Testing</strong></h1>
+            @endif
+             <!-- The alert message of rssi chart -->
+             <div class="row justify-content-center">
+             @if($recordA != null)
                 @if(count($recordA) == 1)
-                    <div class="alert alert-warning alert-dismissible" style="width:30%;">
+                    <div class="alert col-md-6 alert-warning alert-dismissible">
                     <strong>Warning!</strong> The ReaderA cannot found the record.
                     </div>    
                 @endif
             @endif
             @if($recordB != null)
                 @if(count($recordB) == 1)
-                    <div class="alert alert-warning alert-dismissible" style="width:30%;">
+                    <div class="alert col-md-6 alert-warning alert-dismissible">
                     <strong>Warning!</strong> The ReaderB cannot found the record.
                     </div>
                 @endif
             @endif
             @if($recordC != null)
                 @if(count($recordC) == 1)
-                    <div class="alert alert-warning alert-dismissible" style="width:30%;">
+                    <div class="alert col-md-6 alert-warning alert-dismissible">
                     <strong>Warning!</strong> The ReaderC cannot found the record.
                     </div>
                 @endif
             @endif
             @if($recordD != null)
                 @if(count($recordD) == 1)
-                    <div class="alert alert-warning alert-dismissible" style="width:30%;">
+                    <div class="alert col-md-6 alert-warning alert-dismissible">
                     <strong>Warning!</strong> The ReaderD cannot found the record.
                     </div>
                 @endif
-            @endif
-            @if($flag == null) 
-                <h1 align="center" style="color:#0062AF"><strong>The Result of Radius</strong></h1>
-                <h3 align="center" style="color:#3A74A1">Note: Input the Tag ID for Testing</h3>
-                <div  id="tmp"></div>
-            @endif
-            @if($flag != null)    
-                <h1 align="center" style="color:#0062AF"><strong>The Result of Radius</strong></h1>           
-                <div  id="linechartRadius"></div>
-                <h1 align="center" style="color:#0062AF"><strong>The Rssi Testing</strong></h1>
-            @endif
-             <!-- The Rssi Testing -->
-            <div class="row">
-                
+            @endif    
+            </div>       
+
+            <div class="row">                
                 @if($recordA != null)
                     @if(count($recordA) != 1)
-                        @if($flag == null)
+                        @if($flag == null)                           
                             <div id="linechartA" style="width: 1500px; height: 1200px"></div>
                             @else
                             <div class="col-md-6" id="linechartA"></div>
@@ -372,7 +536,7 @@
 
                 @if($recordB != null)  
                     @if(count($recordB) != 1)
-                        @if($flag == null)
+                        @if($flag == null)                            
                             <div id="linechartB" style="width: 1500px; height: 1200px"></div>
                         @else
                             <div class="col-md-6" id="linechartB"></div>
@@ -382,7 +546,7 @@
 
                 @if($recordC != null)  
                     @if(count($recordC) != 1)        
-                        @if($flag == null)
+                        @if($flag == null)                            
                             <div id="linechartC" style="width: 1500px; height: 1200px"></div>
                         @else
                             <div class="col-md-6" id="linechartC" ></div>
@@ -392,7 +556,7 @@
 
                 @if($recordD != null)  
                     @if(count($recordD) != 1)
-                        @if($flag == null)
+                        @if($flag == null)                                                    
                             <div id="linechartD" style="width: 1500px; height: 1200px"></div>
                         @else
                             <div class="col-md-6" id="linechartD"></div>
@@ -400,7 +564,6 @@
                     @endif
                 @endif
             </div>
-
              <!-- The Radius line-chart -->
            
 
