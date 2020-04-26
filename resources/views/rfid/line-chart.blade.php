@@ -130,21 +130,55 @@
             @endif    
             </div>       
 
-            <div class="row">                
+            <div class="row justify-content-center">                
                 @if($recordA != null)
                     @if(count($recordA) != 1)
                         @if($flag == null)                           
-                            <div id="linechartA" style="width: 1500px; height: 300px"></div>
+                            <div class="col-md-12" id="linechartA"></div>
+                            <!-- Show Statistic of Reader A -->
+                            <div class="col-md-12">
+                                <h1 align=center style="color:#0062AF">Testing result of RSSI</h1>
+                                <h3 align=center style="color:#8a8a8a;" ><strong>Duplicates Rssi:</strong></h3>  
+                                <table>
+                                    <tr class="col">                         
+                                    @foreach(array_combine($CountofResultA['rssi'], $CountofResultA['num']) as $k=>$a)                                                                                                    
+                                        <p style="color:#8a8a8a;" align=center>{{$k}}: {{$a}} times</p>                                                                                               
+                                    @endforeach
+                                    </tr>
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Mean: {{$MeanofResultA}}</p></tr>               
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Median: {{$medianA}}</p></tr>
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Most: {{$FrequentofResultA}}</p></tr>                                                                                                                 
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Slope: {{$LinearRegressionA['slope']}}</p></tr>   
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Linear-Regression: {{$LinearRegressionA['intercept']}}</p></tr>                                                                                                                                                                                                                           
+                                </table>                    
+                            </div>                                                      
                             @else
                             <div class="col-md-6" id="linechartA"></div>
-                        @endif
+                        @endif                       
                     @endif
                 @endif
 
                 @if($recordB != null)  
                     @if(count($recordB) != 1)
                         @if($flag == null)                            
-                            <div id="linechartB" style="width: 1500px; height: 300px"></div>
+                            <div id="linechartB" class="col-md-12"></div>
+                            <!-- Show Statistic of Reader B -->
+                            <div class="col-md-12">
+                                <h1 align=center style="color:#0062AF">Testing result of RSSI</h1>
+                                <h3 align=center style="color:#8a8a8a;" ><strong>Duplicates Rssi:</strong></h3>  
+                                <table>
+                                    <tr class="col">                         
+                                    @foreach(array_combine($CountofResultB['rssi'], $CountofResultB['num']) as $k=>$a)                                                                                                    
+                                        <p style="color:#8a8a8a;" align=center>{{$k}}: {{$a}} times</p>                                                                                               
+                                    @endforeach
+                                    </tr>
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Mean: {{$MeanofResultB}}</p></tr>               
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Median: {{$medianB}}</p></tr>
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Most: {{$FrequentofResultB}}</p></tr>                                                                                                                 
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Slope: {{$LinearRegressionB['slope']}}</p></tr>   
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Linear-Regression: {{$LinearRegressionB['intercept']}}</p></tr>                                                                                                                                                                                                                           
+                                </table>                    
+                            </div>             
                         @else
                             <div class="col-md-6" id="linechartB"></div>
                         @endif
@@ -154,7 +188,24 @@
                 @if($recordC != null)  
                     @if(count($recordC) != 1)        
                         @if($flag == null)                            
-                            <div id="linechartC" style="width: 1500px; height: 300px"></div>
+                            <div id="linechartC" class="col-md-12"></div>
+                             <!-- Show Statistic of Reader C -->
+                             <div class="col-md-12">
+                                <h1 align=center style="color:#0062AF">Testing result of RSSI</h1>
+                                <h3 align=center style="color:#8a8a8a;" ><strong>Duplicates Rssi:</strong></h3>  
+                                <table>
+                                    <tr class="col">                         
+                                    @foreach(array_combine($CountofResultC['rssi'], $CountofResultC['num']) as $k=>$a)                                                                                                    
+                                        <p style="color:#8a8a8a;" align=center>{{$k}}: {{$a}} times</p>                                                                                               
+                                    @endforeach
+                                    </tr>
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Mean: {{$MeanofResultC}}</p></tr>               
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Median: {{$medianC}}</p></tr>
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Most: {{$FrequentofResultC}}</p></tr>                                                                                                                 
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Slope: {{$LinearRegressionC['slope']}}</p></tr>   
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Linear-Regression: {{$LinearRegressionC['intercept']}}</p></tr>                                                                                                                                                                                                                           
+                                </table>                    
+                            </div>       
                         @else
                             <div class="col-md-6" id="linechartC" ></div>
                         @endif
@@ -164,24 +215,48 @@
                 @if($recordD != null)  
                     @if(count($recordD) != 1)
                         @if($flag == null)                                                    
-                            <div id="linechartD" style="width: 1500px; height: 300px"></div>
+                            <div id="linechartD" class="col-md-12"></div>
+                            <!-- Show Statistic of Reader D -->
+                            <div class="col-md-12">
+                                <h1 align=center style="color:#0062AF">Testing result of RSSI</h1>
+                                <h3 align=center style="color:#8a8a8a;" ><strong>Duplicates Rssi:</strong></h3>  
+                                <table>
+                                    <tr class="col">                         
+                                    @foreach(array_combine($CountofResultD['rssi'], $CountofResultD['num']) as $k=>$a)                                                                                                    
+                                        <p style="color:#8a8a8a;" align=center>{{$k}}: {{$a}} times</p>                                                                                               
+                                    @endforeach
+                                    </tr>
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Mean: {{$MeanofResultD}}</p></tr>               
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Median: {{$medianD}}</p></tr>
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Most: {{$FrequentofResultD}}</p></tr>                                                                                                                 
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Slope: {{$LinearRegressionD['slope']}}</p></tr>   
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Linear-Regression: {{$LinearRegressionD['intercept']}}</p></tr>                                                                                                                                                                                                                           
+                                </table>                    
+                            </div>       
+                            
                         @else
                             <div class="col-md-6" id="linechartD"></div>
                         @endif
                     @endif
                 @endif
             </div>
-            <div align="right">
+            
+            
+                      
+                     
+            <!-- <div align="right">
                 <button class="btn btn-info btn-lg"  onclick="count()">
                     <strong style="color:#FFFFFF"> count</strong>
                 </button>
             </div>
-            <div align="center" id="countResult"></div>
+            <div align="center" id="countResult"></div> -->
 <!-- The Radius line-chart -->
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>   
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>  
 <script type="text/javascript">
+       // var tmp =@json($CountofResultA);
+       // alert(tmp);
         var resultRadiusA = @json($resultRadiusA ?? '');   
         var resultRadiusB = @json($resultRadiusB ?? ''); 
         var resultRadiusC = @json($resultRadiusC ?? ''); 
@@ -200,6 +275,7 @@
         console.log(resultRadiusB);
         console.log(resultRadiusC);
         console.log(resultRadiusD);
+
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChartRadius);
         google.charts.setOnLoadCallback(tmp);
@@ -247,7 +323,7 @@
                         color: '#3A74A1'
                     },              
                 title: 'Radius Result',
-                'height':250,
+                'height':300,
                                
                 // backgroundColor: '#FFFFFF',
                 curveType: 'function',
@@ -394,6 +470,9 @@
                     hAxis: {
                         title: 'Time (second)',
                         maxValue: 60,
+                        viewWindow: {
+                        min:0
+                        },
                     },
                     titleTextStyle: {
                         color: '#048FFB'
@@ -412,12 +491,12 @@
       var record = @json($recordA); 
       console.log(record);
       function drawChart() {
-            var jsonData = $.ajax({
-            url: "/rfid/line-chart"+$('#search_content').val(),
-            dataType:"POST",
-            data:$recordA;
-            async: false
-            }).responseText;
+            // var jsonData = $.ajax({
+            // url: "/rfid/line-chart"+$('#search_content').val(),
+            // dataType:"POST",
+            // data:$recordA;
+            // async: false
+            // }).responseText;
             
             var data = google.visualization.arrayToDataTable(record);
            
@@ -426,11 +505,18 @@
                     title: 'Rssi (dbm)',
                     maxValue: -64,
                     minValue:-50,
+                    viewWindow: {
+                        max:-50,
+                        min:-65
+                    },
                 }, 
                 hAxis: {
                     title: 'Time (second)',
                     maxValue: 60,
                     minValue: 0,
+                    viewWindow: {
+                        min:0
+                    },
                 }, 
             titleTextStyle: {
                 color: 'blue'
@@ -440,7 +526,12 @@
             colors: ['blue'],
             // backgroundColor: '#949494',
             curveType: 'function',
-            legend: { position: 'bottom' }
+            trendlines: { 0: {
+                type: 'linear',
+                showR2: true,
+                visibleInLegend: true,
+            } },    // Draw a trendline for data series 0.
+            legend: { position: 'right' }
             };
             var chart = new google.visualization.ScatterChart(document.getElementById('linechartA'));
             chart.draw(data, options);        
@@ -461,10 +552,17 @@
                 vAxis: {
                     title: 'Rssi (dbm)',
                     maxValue: -64,
+                    viewWindow: {
+                        max:-50,
+                        min:-65
+                    },
                 },
                 hAxis: {
                     title: 'Time (second)',
                     maxValue: 60,
+                    viewWindow: {
+                        min:0
+                    },
                 }, 
             titleTextStyle: {
                 color: 'red'
@@ -473,7 +571,14 @@
             'height':300,
             colors: ['red'],
             curveType: 'function',
-            legend: { position: 'bottom' }
+            trendlines: { 0: {
+                //labelInLegend: 'Test line',
+
+                type: 'linear',
+                showR2: true,
+                visibleInLegend: true,
+            } },    // Draw a trendline for data series 0.
+            legend: { position: 'right' }
             };
             var chart = new google.visualization.ScatterChart(document.getElementById('linechartB'));
             chart.draw(data, options);
@@ -487,9 +592,16 @@
                 vAxis: {
                     title: 'Rssi (dbm)',
                     maxValue: -64,
+                    viewWindow: {
+                        max:-50,
+                        min:-65
+                    },
                 },
                 hAxis: {
                     title: 'Time (second)',
+                    viewWindow: {
+                        min:0
+                    },
                     maxValue: 60,
                 }, 
             titleTextStyle: {
@@ -499,7 +611,12 @@
             'height':300,
             colors: ['#FF903F'],
             curveType: 'function',
-            legend: { position: 'bottom' }
+            trendlines: { 0: {
+                type: 'linear',
+                showR2: true,
+                visibleInLegend: true,
+            } },    // Draw a trendline for data series 0.
+            legend: { position: 'right' }
             };
             var chart = new google.visualization.ScatterChart(document.getElementById('linechartC'));
             chart.draw(data, options);
@@ -513,10 +630,17 @@
                 vAxis: {
                     title: 'Rssi (dbm)',
                     maxValue: -64,
+                    viewWindow: {
+                        max:-50,
+                        min:-65
+                    },
                 },
                 hAxis: {
                     title: 'Time (second)',
                     maxValue: 60,
+                    viewWindow: {
+                        min:0
+                    },
                 }, 
             titleTextStyle: {
                 color: '#00DB42'
@@ -524,8 +648,14 @@
             title: 'Reader D',
             'height':300,
             colors: ['#00DB42'],
+            
             curveType: 'function',
-            legend: { position: 'bottom' }
+            trendlines: { 0: {
+                type: 'linear',
+                showR2: true,
+                visibleInLegend: true,
+            } },    // Draw a trendline for data series 0.
+            legend: { position: 'right' }
             };
             var chart = new google.visualization.ScatterChart(document.getElementById('linechartD'));
             chart.draw(data, options);
@@ -555,7 +685,7 @@
       }
 
       function count() {
-             var record = @json($recordB); 
+             var record = @json($recordD); 
              var RssiList = [];
              var sum = 0;
              var mean = 0;

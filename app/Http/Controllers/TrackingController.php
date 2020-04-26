@@ -31,7 +31,7 @@ class TrackingController extends Controller
             $width  = Setting::find(1)->distance_A;
             $height = Setting::find(1)->distance_B;                        
       }
-     
+    //   return $records;
       return view('books.track')
                 ->with('books', $books)
                 ->with('records',$records)
@@ -54,13 +54,13 @@ class TrackingController extends Controller
                             
     
         //delete the radius record when pass 60s
-        $date = new DateTime;
+        // $date = new DateTime;
         
-        $date->modify('-60 second');
-        $formatted = $date->format('Y-m-d H:i:s');
+        // $date->modify('-60 second');
+        // $formatted = $date->format('Y-m-d H:i:s');
        
-        Allradius::where('tag_id','like','%'.$tag_id.'%')
-                   ->where('created_at', '<=', $formatted)->delete();
+        // Allradius::where('tag_id','like','%'.$tag_id.'%')
+        //            ->where('created_at', '<=', $formatted)->delete();
                 
         $records = array();
         $count = 0;
