@@ -38,9 +38,9 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/user/add', 'UsersController@store');
     Route::post('/user/edit/{id}', 'UsersController@edit');
     Route::get('/user/delete/{id}', 'UsersController@delete');
-    Route::get('/rfid/rfidRecord','SetupController@showall')->name('manageRfid');
-    Route::get('/rfid/rfidRecord/store','SetupController@store');    
-    Route::get('/rfid/line-chart', 'chartController@LineChart')->name('showChart');
+    Route::get('/rfid/rfidSetting','SetupController@showall')->name('manageRfid');
+    Route::get('/rfid/rfidSetting/store','SetupController@store');    
+    Route::get('/rfid/chart', 'chartController@Chart')->name('showChart');
     Route::get('/rfid/tracking/{id}', 'TrackingController@calculate');
     // Route::get('/rfid/line-chart', function () {
     //     return view('rfid/line-chart');

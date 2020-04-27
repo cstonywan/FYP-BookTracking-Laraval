@@ -76,19 +76,19 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="manageDropdown">
                                         <a class="dropdown-item" href="{{ route('manageBook') }}">Manage Book</a>
-                                        <a class="dropdown-item" href="{{ route('manageBorrow') }}">Manage Lending</a>
-                                        <a class="dropdown-item" href="{{ route('manageRfid') }}">Rfid Setting</a>
+                                        <a class="dropdown-item" href="{{ route('manageBorrow') }}">Manage Lending</a>                                                                             
                                         @if (Auth::user()->role == 2)
                                         <a class="dropdown-item" href="{{ route('manageUser') }}">Manage User</a>
                                         @endif
+                                        <a class="dropdown-item" href="{{ route('manageRfid') }}">Rfid Setting</a>   
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a id="statisticDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                       Statistic<span class="caret"></span>
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="statisticDropdown">
-                                        <a class="dropdown-item" href="{{ route('showChart') }}">Show Rfid Line Chart</a>
+                                    <div class="dropdown-menu" aria-labelledby="statisticDropdown">                                      
+                                        <a class="dropdown-item" href="{{ route('showChart') }}">Rfid Testing Chart</a>
                                     </div>
                                 </li>
                             @endif

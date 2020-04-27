@@ -16,7 +16,7 @@
 </div>   
     <div class="col-md-9 col-sm-6">           
         
-      <form action="/rfid/rfidRecord/store" method="get">
+      <form action="/rfid/rfidSetting/store" method="get">
           @csrf         
           <div class="row justify-content-center">
                   

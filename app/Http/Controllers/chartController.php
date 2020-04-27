@@ -8,6 +8,11 @@ use App\Rfid;
 use App\Book;
 use App\Setting;
 use App\Allradius;
+use App\Onemins;
+use App\Fivemins;
+use App\Fifteenmins;
+use App\Halfhour;
+use App\Onehour;
 use DB;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use DateTime;
@@ -16,21 +21,23 @@ class chartController extends Controller
 {
 
     //let user input id
-    public function LineChart(Request $request)
+    public function Chart(Request $request)
     {
         //DB::table('migrations')->where('id','=','16')->delete();
         $check_count = Setting::count();
-        $rfids = DB::table('all_tag_record')->get()->toArray();
-        $count = DB::table('all_tag_record')->count();
-          
-        //$BookName = Book::where('tag_id','like','%'.$key->tag_id.'%')->value('title');
+        // $rfids = DB::table('all_tag_record')->get()->toArray();
+        // $count = DB::table('all_tag_record')->count();
+        $rfids = Book::where('tag_id','!=','')->get();
+        $count = Book::where('tag_id','!=','')->count();
+       
        
         $tag_id = $request->search_tag;
         $field = $request->search_field;
-
-        $get_setting= Setting::find(1); 
+        $timeframe = $request->time_field;
+        $BookName = Book::where('tag_id','like','%'.$tag_id.'%')->value('title');
+        $get_setting = Setting::find(1); 
         // $date = new DateTime;
-        // $date->modify('-1 minutes');
+        // $date->modify('-3 minute');
         // $formatted_date = $date->format('Y-m-d H:i:s');
         
         $readerA_IP = $get_setting->ReaderA_ip;
@@ -38,10 +45,10 @@ class chartController extends Controller
         $readerC_IP = $get_setting->ReaderC_ip;
         $readerD_IP = $get_setting->ReaderD_ip;
 
-        $timeTracking = new DateTime;
-        $timeTracking->modify('-59 second');
-        $timeformatted = $timeTracking->format('Y-m-d H:i:s');
-
+        // $timeTracking = new DateTime;
+        // $timeTracking->modify('-59 second');
+        // $timeformatted = $timeTracking->format('Y-m-d H:i:s');
+        
         $recordRadiusA = Allradius::select(                                                 
             DB::raw("second(created_at) as Second"),                                      
             DB::raw("radius as Radius")
@@ -94,48 +101,209 @@ class chartController extends Controller
         $resultRadiusD[++$key] = [(int)$value->Second, (float)$value->Radius];
         }
 
-        
-        $recordA = DB::table('store_all_tag_record')
-                    ->select(                                                 
-                        DB::raw("second(created_at) as Second"),
-                        DB::raw("tag_rssi as Rssi")
-                        )                 
-                        ->where('tag_id','like', '%'.$tag_id.'%')                                                            
-                        ->where('reader_ip','=',$readerA_IP)     
-                        // ->where('created_at','>=', $formatted_date)                                                                                                                                              
-                        ->orderBy("created_at")                                             
-                        ->get();
-                     //  return   $recordA;
-        $recordB = DB::table('store_all_tag_record')
-                    ->select(                                                 
-                        DB::raw("second(created_at) as Second"),
-                        DB::raw("tag_rssi as Rssi")
-                        )               
-                        ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                        ->where('reader_ip','=',$readerB_IP)                                                                                                                          
-                        ->orderBy("created_at")                                             
-                        ->get();
+        // 
 
-        $recordC = DB::table('store_all_tag_record')
-                    ->select(                                                 
-                        DB::raw("second(created_at) as Second"),
-                        DB::raw("tag_rssi as Rssi")
-                        )               
-                        ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                        ->where('reader_ip','=',$readerC_IP)                                                                                                                          
-                        ->orderBy("created_at")                                             
-                        ->get();
+        if($timeframe == 'oneMins'){
+            $timeframeSimple = '1 mins';
+            $recordA = Onemins::select(                                                 
+                DB::raw("Second(created_at) as Second"),
+                DB::raw("tag_rssi as Rssi")
+                )                 
+                ->where('tag_id','like', '%'.$tag_id.'%')                                                            
+                ->where('reader_ip','=',$readerA_IP)     
+                // ->where('created_at','>=', $formatted_date)                                                                                                                                              
+                ->orderBy("created_at")                                             
+                ->get();
+            //  return   $recordA;
+            $recordB = Onemins::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerB_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();
 
-        $recordD = DB::table('store_all_tag_record')
-                    ->select(                                                 
-                        DB::raw("second(created_at) as Second"),
-                        DB::raw("tag_rssi as Rssi")
-                        )               
-                        ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                        ->where('reader_ip','=',$readerD_IP)                                                                                                                          
-                        ->orderBy("created_at")                                             
-                        ->get();
-                        
+            $recordC = Onemins::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerC_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();
+
+            $recordD = Onemins::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerD_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();       
+        }
+        elseif($timeframe == 'fiveMins'){
+            $timeframeSimple = '5 mins';
+            $recordA = Fivemins::select(                                                 
+                DB::raw("Second(created_at) as Second"),
+                DB::raw("tag_rssi as Rssi")
+                )                 
+                ->where('tag_id','like', '%'.$tag_id.'%')                                                            
+                ->where('reader_ip','=',$readerA_IP)     
+                // ->where('created_at','>=', $formatted_date)                                                                                                                                              
+                ->orderBy("created_at")                                             
+                ->get();
+            
+            $recordB = Fivemins::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerB_IP)  
+                    // ->where('created_at','>=', $formatted_date)                                                                                                                             
+                    ->orderBy("created_at")                                             
+                    ->get();
+
+            $recordC = Fivemins::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerC_IP)   
+                    // ->where('created_at','>=', $formatted_date)                                                                                                                            
+                    ->orderBy("created_at")                                             
+                    ->get();
+
+            $recordD = Fivemins::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerD_IP) 
+                    // ->where('created_at','>=', $formatted_date)                                                                                                                              
+                    ->orderBy("created_at")                                             
+                    ->get();       
+
+        }
+        elseif($timeframe == 'fifteenMins'){
+            $timeframeSimple = '15 mins';
+            $recordA = Fifteenmins::select(                                                 
+                DB::raw("Second(created_at) as Second"),
+                DB::raw("tag_rssi as Rssi")
+                )                 
+                ->where('tag_id','like', '%'.$tag_id.'%')                                                            
+                ->where('reader_ip','=',$readerA_IP)     
+                // ->where('created_at','>=', $formatted_date)                                                                                                                                              
+                ->orderBy("created_at")                                             
+                ->get();
+            
+            $recordB = Fifteenmins::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerB_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();
+
+            $recordC = Fifteenmins::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerC_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();
+
+            $recordD = Fifteenmins::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerD_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();       
+
+        }elseif($timeframe == 'halfhour'){
+            $timeframeSimple = '30 mins';
+            $recordA = Halfhour::select(                                                 
+                DB::raw("Second(created_at) as Second"),
+                DB::raw("tag_rssi as Rssi")
+                )                 
+                ->where('tag_id','like', '%'.$tag_id.'%')                                                            
+                ->where('reader_ip','=',$readerA_IP)     
+                // ->where('created_at','>=', $formatted_date)                                                                                                                                              
+                ->orderBy("created_at")                                             
+                ->get();
+            
+            $recordB = Halfhour::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerB_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();
+
+            $recordC = Halfhour::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerC_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();
+
+            $recordD = Halfhour::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerD_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();       
+
+        }
+        else{
+            $timeframeSimple = '1 hours';
+            $recordA = Onehour::select(                                                 
+                DB::raw("Second(created_at) as Second"),
+                DB::raw("tag_rssi as Rssi")
+                )                 
+                ->where('tag_id','like', '%'.$tag_id.'%')                                                            
+                ->where('reader_ip','=',$readerA_IP)     
+                // ->where('created_at','>=', $formatted_date)                                                                                                                                              
+                ->orderBy("created_at")                                             
+                ->get();
+          
+            $recordB = Onehour::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerB_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();
+
+            $recordC = Onehour::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerC_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();
+
+            $recordD = Onehour::select(                                                 
+                    DB::raw("second(created_at) as Second"),
+                    DB::raw("tag_rssi as Rssi")
+                    )               
+                    ->where('tag_id','like', '%'.$tag_id.'%')                                          
+                    ->where('reader_ip','=',$readerD_IP)                                                                                                                          
+                    ->orderBy("created_at")                                             
+                    ->get();       
+        }
+                            
         $resultA[] = ['Second','Rssi'];
         foreach ($recordA as $key => $value) {
             $resultA[++$key] = [(int)$value->Second, (int)$value->Rssi];
@@ -153,29 +321,56 @@ class chartController extends Controller
             $resultD[++$key] = [(int)$value->Second, (int)$value->Rssi];
         }
 
+        //Result A for Reader A
         $CountofResultA = $this->countDuplicatesRssi($resultA);
-        $MeanofResultA = $this->getMeanRssi($resultA);
-        $medianA = $this->getMedium($resultA);
-        $FrequentofResultA = $this->getMostFrequentRssi($resultA);
         $LinearRegressionA = $this->get_linear_regressionArray($resultA);
+        $MeanofResultA = $this->getMeanRssi($resultA); //Mean
+        $medianA = $this->getMedium($resultA);//Median
+        $FrequentofResultA = $this->getMostFrequentRssi($resultA); //Most        
+        $LinearRegressionAValueA = $this->getLinearRegressionIntercept($resultA);//linearRegression Value
+        $RadiusofMeanA = $this->RssiToRadius($MeanofResultA);
+        $RadiusofMedianA = $this->RssiToRadius($medianA);
+        $RadiusofMostA = $this->RssiToRadius($FrequentofResultA);
+        $RadiusofLinearRegressionValueA = $this->RssiToRadius($LinearRegressionAValueA);
 
+        //Result B for Reader B
         $CountofResultB = $this->countDuplicatesRssi($resultB);
+        $LinearRegressionB = $this->get_linear_regressionArray($resultB);
         $MeanofResultB = $this->getMeanRssi($resultB);
         $medianB = $this->getMedium($resultB);
         $FrequentofResultB = $this->getMostFrequentRssi($resultB);
-        $LinearRegressionB = $this->get_linear_regressionArray($resultB);
+        $LinearRegressionAValueB = $this->getLinearRegressionIntercept($resultB);//linearRegression Value
+        $RadiusofMeanB = $this->RssiToRadius($MeanofResultB);
+        $RadiusofMedianB = $this->RssiToRadius($medianB);
+        $RadiusofMostB = $this->RssiToRadius($FrequentofResultB);
+        $RadiusofLinearRegressionValueB = $this->RssiToRadius($LinearRegressionAValueB);
+       
 
+        //Result C for Reader C
         $CountofResultC = $this->countDuplicatesRssi($resultC);
+        $LinearRegressionC = $this->get_linear_regressionArray($resultC);
         $MeanofResultC = $this->getMeanRssi($resultC);
         $medianC = $this->getMedium($resultC);
         $FrequentofResultC = $this->getMostFrequentRssi($resultC);
-        $LinearRegressionC = $this->get_linear_regressionArray($resultC);
+        $LinearRegressionAValueC = $this->getLinearRegressionIntercept($resultC);//linearRegression Value
+        $RadiusofMeanC = $this->RssiToRadius($MeanofResultC);
+        $RadiusofMedianC = $this->RssiToRadius($medianC);
+        $RadiusofMostC = $this->RssiToRadius($FrequentofResultC);
+        $RadiusofLinearRegressionValueC = $this->RssiToRadius($LinearRegressionAValueC);
+        
 
+        //Result D for Reader D
         $CountofResultD = $this->countDuplicatesRssi($resultD);
+        $LinearRegressionD = $this->get_linear_regressionArray($resultD);
         $MeanofResultD = $this->getMeanRssi($resultD);
         $medianD = $this->getMedium($resultD);
         $FrequentofResultD = $this->getMostFrequentRssi($resultD);
-        $LinearRegressionD = $this->get_linear_regressionArray($resultD);
+        $LinearRegressionAValueD = $this->getLinearRegressionIntercept($resultD);//linearRegression Value
+        $RadiusofMeanD = $this->RssiToRadius($MeanofResultD);
+        $RadiusofMedianD = $this->RssiToRadius($medianD);
+        $RadiusofMostD = $this->RssiToRadius($FrequentofResultD);
+        $RadiusofLinearRegressionValueD = $this->RssiToRadius($LinearRegressionAValueD);
+        
 
         
         if($tag_id != null && $field == 'all'){          
@@ -329,7 +524,7 @@ class chartController extends Controller
             $flag = null;
             $showEmptyChart=true;          
             
-            return view('/rfid/line-chart')
+            return view('/rfid/chart')
                     ->with('recordA',$resultA)
                     ->with('recordB',$resultB)
                     ->with('recordC',$resultC)
@@ -346,8 +541,8 @@ class chartController extends Controller
         // return dd($this->getSortedArrayY($resultD));
         // $tmp = $this->get_linear_regressionArray($resultD);
         // $t=$this->getMostFrequentRssi($resultC);
-        // return $t;
-        return view('/rfid/line-chart')
+        //  return $resultD;
+        return view('/rfid/chart')
                 ->with('recordA',$resultA)
                 ->with('recordB',$resultB)
                 ->with('recordC',$resultC)
@@ -365,30 +560,55 @@ class chartController extends Controller
                 ->with('rfids',$rfids)
                 ->with('count',$count)
                 ->with('curTagID',$tag_id)
+                ->with('timeframeSimple',$timeframeSimple)
+                ->with('BookName',$BookName)
 
                 ->with('CountofResultA',$CountofResultA)
                 ->with('MeanofResultA',$MeanofResultA)
                 ->with('medianA',$medianA)
                 ->with('FrequentofResultA',$FrequentofResultA)
                 ->with('LinearRegressionA',$LinearRegressionA)
+                ->with('RadiusofMeanA',$RadiusofMeanA)
+                ->with('RadiusofMedianA',$RadiusofMedianA)
+                ->with('RadiusofMostA',$RadiusofMostA)
+                ->with('RadiusofLinearRegressionValueA',$RadiusofLinearRegressionValueA)
 
                 ->with('CountofResultB',$CountofResultB)
                 ->with('MeanofResultB',$MeanofResultB)
                 ->with('medianB',$medianB)
                 ->with('FrequentofResultB',$FrequentofResultB)
                 ->with('LinearRegressionB',$LinearRegressionB)
+                ->with('RadiusofMeanB',$RadiusofMeanB)
+                ->with('RadiusofMedianB',$RadiusofMedianB)
+                ->with('RadiusofMostB',$RadiusofMostB)
+                ->with('RadiusofLinearRegressionValueB',$RadiusofLinearRegressionValueB)
 
                 ->with('CountofResultC',$CountofResultC)
                 ->with('MeanofResultC',$MeanofResultC)
                 ->with('medianC',$medianC)
                 ->with('FrequentofResultC',$FrequentofResultC)
                 ->with('LinearRegressionC',$LinearRegressionC)
+                ->with('RadiusofMeanC',$RadiusofMeanC)
+                ->with('RadiusofMedianC',$RadiusofMedianC)
+                ->with('RadiusofMostC',$RadiusofMostC)
+                ->with('RadiusofLinearRegressionValueC',$RadiusofLinearRegressionValueC)
 
                 ->with('CountofResultD',$CountofResultD)
                 ->with('MeanofResultD',$MeanofResultD)
                 ->with('medianD',$medianD)
                 ->with('FrequentofResultD',$FrequentofResultD)
-                ->with('LinearRegressionD',$LinearRegressionD);
+                ->with('LinearRegressionD',$LinearRegressionD)
+                ->with('RadiusofMeanD',$RadiusofMeanD)
+                ->with('RadiusofMedianD',$RadiusofMedianD)
+                ->with('RadiusofMostD',$RadiusofMostD)
+                ->with('RadiusofLinearRegressionValueD',$RadiusofLinearRegressionValueD);
+    }
+
+    public function RssiToRadius($rssi) {
+        $p = Setting::find(1)->p;
+        $n = Setting::find(1)->n;
+        $x = ($p - $rssi) / (10 * $n);
+        return pow(10, $x);
     }
 
     public function countDuplicatesRssi($resultArray){
@@ -575,14 +795,5 @@ class chartController extends Controller
        sort($y);
        return $y;
    }
-
-    // public function getslope() {
-       
-    // }
-
-    // public function getintercept() {
-       
-    // }
-
 
 }

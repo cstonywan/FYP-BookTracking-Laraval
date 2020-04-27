@@ -46,7 +46,7 @@ class SetupController extends Controller
 
         Session::flash('message', 'RFID setting has been updated.');   
        
-        return view('rfid.rfidRecord')
+        return view('rfid.rfidSetting')
                 ->with('rfids',$rfids)
                 ->with('count',$count)
                 ->with('record',$record);   
@@ -72,7 +72,7 @@ class SetupController extends Controller
         $count =DB::table('all_tag_record')->count();
         $record = Setting::find(1);
         
-        return view('rfid.rfidRecord')
+        return view('rfid.rfidSetting')
                 ->with('rfids',$rfids)
                 ->with('count',$count)
                 ->with('record',$record);
