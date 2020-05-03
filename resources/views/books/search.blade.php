@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<head>
+
+</head>
 <div class="container">
     <div class="justify-content-center">
         <h1 align="center">Book Searching System</h1>
@@ -41,7 +44,7 @@
 
         <tbody>
           @foreach ($books as $book)
-            <tr onclick="location.href='{{ url('/b/detail/' . $book->id) }}'">
+            <tr>
                 <!-- <td width="1%" style="color:#9FA2A1">{{ $book->id }}</td> -->
                 <td width="10%">
                     @if($book->image)
@@ -51,16 +54,42 @@
                     @endif
                 </td>
                 <td>
+                <div class ="row">
                     <div class="media-content-type align-self-start">
-                        <span class="text-success" style="width:60%"><i>{{ $book->type }}</i></span>
-                        <span style="color:#955915"><b><sup>{{ $book->status }}</sup></b></span>
-                        <span>
-                        <a href="{{ url('/b/detail/' . $book->id) }}" class="book-show-modal btn btn-link">
-                            <h2><Strong class="text-info">{{ $book->title }}</Strong></h2></a>
-                        </span><br>
-                        <span style="color:#444444">Author: @if($book->author) {{ $book->author }} @else N/A @endif</span><br>
-                        <span style="color:#444444">Language: @if($book->language) {{$book->language }} @else N/A @endif</span><br><br>
-                        <span style="color:#9FA2A1">{{ $book->description }}</span></div>
+                       
+                        <div class="col-md-12">
+                            <span class="text-success" style="width:60%"><i>{{ $book->type }}</i></span>
+                            <span style="color:#955915"><b><sup>{{ $book->status }}</sup></b></span>
+                            <span>
+                            <a href="{{ url('/b/detail/' . $book->id) }}" class="book-show-modal btn btn-link">
+                                <h2 onclick="location.href='{{ url('/b/detail/' . $book->id) }}'"><Strong class="text-info">{{ $book->title }}</Strong></h2></a>
+                            </span>
+                        </div>
+
+                        <div class="col-md-6"><strong style="color:#043364">Author: </strong>  <p style="color:#8a8a8a">@if($book->author) {{ $book->author }} @else N/A @endif</p></div>
+                        <div class="col-md-6"><strong style="color:#043364">Language: </strong> <p style="color:#8a8a8a">@if($book->language) {{$book->language }} @else N/A @endif</p></div>
+                        <div class="col-md-12" style="color:#9FA2A1">{{ $book->description }}</div>
+                    </div>                   
+                </div>
+                </td>
+                <td>
+                    @if($book->status=="inLibrary")
+                        <div class="col-md-3">                                   
+                                <span>
+                                    <button type="button" class="btn btn-info" title="Track Book" style="background: transparent;border: none;background-repeat:no-repeat;  outline:none;" onclick="window.location='{{ url('/b/track/'.$book->id) }}'">
+                                    <img src="/icon/track.png" style ="border:0;"width="50px" height="50px">                                   
+                                    </button>
+                                </span>
+                        </div>
+                            @else
+                        <div class="col-md-3">    
+                            <span>
+                                <button type="button" class="btn btn-info" title="Track Book" style="background: transparent;border: none;background-repeat:no-repeat;  outline:none;" onclick="window.location='{{ url('/b/track/'.$book->id) }}'" disabled>
+                                <img src="/icon/track.png" style ="border:0;"width="50px" height="50px">                                   
+                                </button>
+                            </span>
+                        </div>
+                    @endif
                 </td>
                 <!-- <td class="text-center">
                     <a href="{{ url('/b/detail/' . $book->id) }}" class="book-show-modal btn btn-info btn-lg">

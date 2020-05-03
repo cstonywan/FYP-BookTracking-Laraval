@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Setting;
 use App\Book;
 use App\Rfid;
+use App\Onemins;
+use App\Fivemins;
+use App\Fifteenmins;
 use App\Allradius;
 use Illuminate\Support\Facades\Session;
 use DB;
@@ -31,7 +34,7 @@ class TrackingController extends Controller
             $width  = Setting::find(1)->distance_A;
             $height = Setting::find(1)->distance_B;                        
       }
-    //   return $records;
+    //return $records;
       return view('books.track')
                 ->with('books', $books)
                 ->with('records',$records)
@@ -47,7 +50,7 @@ class TrackingController extends Controller
         
 
         $tag_id = Book::find($id)->tag_id;
-        $rfid_list = Rfid:: where('tag_id','like','%'.$tag_id.'%')
+        $rfid_list = Fivemins:: where('tag_id','like','%'.$tag_id.'%')
                             //->where('updated_at','>=',$timeformatted) //get the most recent 3s record
                             ->orderby('reader_ip')
                             ->get();
@@ -70,11 +73,11 @@ class TrackingController extends Controller
                 "radius"=>$this->rssi_to_distance($oneRfid->tag_rssi),                
             ];   
             
-            Allradius::create([
-                'tag_id'=>$tag_id,
-                'radius'=>$this->rssi_to_distance($oneRfid->tag_rssi),
-                'reader_ip'=>$oneRfid->reader_ip,
-            ]);
+            // Allradius::create([
+            //     'tag_id'=>$tag_id,
+            //     'radius'=>$this->rssi_to_distance($oneRfid->tag_rssi),
+            //     'reader_ip'=>$oneRfid->reader_ip,
+            // ]);
         }
         
         return $records;

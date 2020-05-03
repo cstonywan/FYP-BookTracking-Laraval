@@ -2,11 +2,7 @@
 
 @section('content')
 
-<style>
-    div.hidden {
-        display: none;
-    }
-</style>
+
         <!-- Search field -->
         <form action="" method="get">
                     @csrf
@@ -15,16 +11,14 @@
                         <button type="button" class="btn btn-link"  style="padding-left:20px"onclick="hideTagTable()">
                                <h3>All Rfid Tags</h3>
                         </button>
-                        @endif -->
-                        
-                    
+                        @endif -->                        
 
-                        <div class="col-md-2">  
-                            <h3 style="color:#3A74A1; padding-left:20px;"><strong>Total Tag Number: {{$count ?? ''}}</strong></h3>   
+                        <div class="col-md-1">  
+                            <h3 style="color:#3A74A1; padding-left:20px;"><strong>All Tag: {{$count ?? ''}}</strong></h3>   
                         </div>       
                        
                         <strong style="color:#0062AF">Reader:</strong>               
-                        <div class="col-md-1 col-sm-8">
+                        <div class="col-md-1">
                             <select id="search_field" style="height:28px;" class="form-control custom-select custom-select-lg mb-3" name="search_field">
                                 <option value="all">All</option>
                                 <option value="reader_a">A</option>
@@ -40,15 +34,15 @@
                                 <option value="fiveMins">5 mins</option>
                                 <option value="fifteenMins">15 mins</option>     
                                 <option value="halfhour">30 mins</option>     
-                                <option value="onehour">60 mins</option>                                                   
+                                <!-- <option value="onehour">60 mins</option>                                                    -->
                             </select>
                         </div>                                      
                         <strong style="color:#0062AF">Tag ID:</strong> 
-                        <div class="col-md-4 col-sm-8">                       
+                        <div class="col-md-5 col-sm-8">                       
                             <select id="search_tag" style="height:28px;" class="form-control custom-select custom-select-lg mb-3" name="search_tag">                      
                                 @if($count ?? '' != null)
                                     @foreach ($rfids ?? '' as $key)
-                                        <option value="{{$key->tag_id}}">{{$key->tag_id}}: {{$key->title}}</option>
+                                        <option value="{{$key->tag_id}}">{{$key->tag_id}}({{$key->id}}): {{$key->title}}</option>
                                     @endforeach
                                 @endif                                                
                             </select>
@@ -76,18 +70,20 @@ timeframe
                 @if($showEmptyChart)
                 <h3 align="center" style="color:#3A74A1">Note: Input the Tag ID for Testing</h3> 
                 <div  id="tmp"></div>               
-                @endif   
-                <div class="row">
+                @endif  
+                @if($showEmptyChart==false) 
+                <div class="row">                    
                     <div class="col-md-12">
-                        <h2 style="color:#7d7c7c;" align="center"><strong>{{$BookName ?? ''}}</strong></h2>
-                    </div> 
+                        <h2 style="color:#7d7c7c;" align="center"><strong>{{$BookID ?? ''}}: {{$BookName ?? ''}}</strong></h2>
+                    </div>                    
                     <div class="col-md-12">
                         <h3 style="color:#7d7c7c;" align="center"><strong>{{$curTagID ?? ''}}</strong></h3>
                     </div> 
                     <div class="col-md-12">
                         <h3 style="color:#7d7c7c;" align="center"><strong>Timeframe: {{$timeframeSimple ?? ''}}<strong></h3> 
                     </div>
-                </div>      
+                </div>  
+                @endif      
                 @if($recordA ?? '' != null)
                     @if(count($recordA ?? '') != 1)                       
                         <div  id="ColumnChartRadiusA"></div>
@@ -113,11 +109,13 @@ timeframe
             @endif
            
             <!-- The All Radius Testing -->
-            @if($flag != null)    
+            @if($flag != null)
+                @if($showEmptyChart == false)    
+               
                 <div class="row">
-                    <h1 class="col-md-12" align="center" style="color:#0062AF"><strong>The Result of Radius</strong></h1>
+                    <h1 class="col-md-12" align="center" style="color:#0062AF"><strong>The Result of Radius</strong></h1>                     
                     <div class="col-md-12">
-                        <h2 style="color:#7d7c7c;" align="center"><strong>{{$BookName ?? ''}}</strong></h2>
+                        <h2 style="color:#7d7c7c;" align="center"><strong>{{$BookID ?? ''}}: {{$BookName ?? ''}}</strong></h2>
                     </div>                 
                     <div class="col-md-12">
                         <h3 style="color:#7d7c7c;" align="center"><strong>{{$curTagID ?? ''}}</strong></h3>
@@ -125,8 +123,92 @@ timeframe
                     <div class="col-md-12">
                         <h3 style="color:#7d7c7c;" align="center"><strong>Timeframe: {{$timeframeSimple ?? ''}}</strong></h3> 
                     </div>
-                </div>              
-                <div  id="linechartRadius"></div>
+                </div> 
+                @endif
+                  
+                <div class="col-md-12" id="linechartRadius"></div>
+               
+               
+              
+                <table class="table table-bordered col-md-6" align="center" style="color:#7d7c7c">
+                  
+                    <tr>
+                        
+                        <td><strong>Reader</strong></td>
+                        <td><strong>A</strong></td>
+                        <td><strong>B</strong></td>
+                        <td><strong>C</strong></td>
+                        <td><strong>D</strong></td>
+                        
+                    </tr>
+                    
+                    <tr>
+                        <td><strong>Mean (m)</strong></td>
+                        @if($RadiusofMeanA == null)
+                            <td>null</td>
+                            @else
+                            <td>{{$RadiusofMeanA}}</td>
+                        @endif
+                        <td>{{$RadiusofMeanB}}</td>
+                        <td>{{$RadiusofMeanC}}</td>
+                        <td>{{$RadiusofMeanD}}</td>
+                    </tr>
+                   
+                    <tr>
+                        <td><strong>Median (m)</strong></td>
+                        @if($RadiusofMedianA == null)
+                            <td>null</td>
+                        @else
+                            <td>{{$RadiusofMedianA}}</td>
+                        @endif
+                        <td>{{$RadiusofMedianB}}</td>
+                        <td>{{$RadiusofMedianC}}</td>
+                        <td>{{$RadiusofMedianD}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mode (m)</strong></td>
+                        @if($RadiusofMedianA == null)
+                             <td>null</td>
+                        @else
+                            <td>{{$RadiusofMostA}}</td>
+                        @endif
+                        <td>{{$RadiusofMostB}}</td>
+                        <td>{{$RadiusofMostC}}</td>
+                        <td>{{$RadiusofMostD}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LinearRegression (m)</strong></td>
+                        @if($RadiusofMedianA == null)
+                        <td>null</td>
+                        @else
+                        <td>{{$RadiusofLinearRegressionValueA}}</td>
+                        @endif
+                        <td>{{$RadiusofLinearRegressionValueB}}</td>
+                        <td>{{$RadiusofLinearRegressionValueC}}</td>
+                        <td>{{$RadiusofLinearRegressionValueD}}</td>                                                                     
+                    </tr>                    
+                </table>
+               
+                <div class="col-md-12" align="center">               
+                    <button  style="background: transparent;border: none;" title="show rssi to distance example" onclick="hideTagTable()">                   
+                          <img src="/icon/example.png" height="30px">                          
+                    </button>
+                </div>
+               
+                <div id="RfidTagTable" class="hidden" style="display: none;">
+                    <table class="table table-bordered col-md-2" align="center" style="color:#7d7c7c"> 
+                        <td align="center"><strong>Rssi (dbm)</strong></td>     
+                        <td align="center"><strong>Radius (m)</strong></td>              
+                        @foreach(array_combine($RssiList['rssi'], $RssiList['radius']) as $k=>$a)
+                        <tr>                         
+                            <td align="center" style="color:#8a8a8a;">{{$k}}</td>                                                                                                                                    
+                            <td align="center" style="color:#8a8a8a;">{{$a}}</td>            
+                        </tr>
+                        @endforeach                   
+                    </table>
+                </div>
+               
+              
                 <!-- <h1 align="center" style="color:#0062AF"><strong>The Rssi Testing</strong></h1> -->
             @endif
              <!-- The Rssi Testing -->
@@ -163,7 +245,9 @@ timeframe
                     </div>
                 @endif
             @endif    
-            </div>       
+            </div> 
+            
+            
 
             <div class="row justify-content-center">                
                 @if($recordA != null)
@@ -182,7 +266,7 @@ timeframe
                                     </tr>
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Mean: {{$MeanofResultA}}</p></tr>               
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Median: {{$medianA}}</p></tr>
-                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Most: {{$FrequentofResultA}}</p></tr>                                                                                                                 
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Mode: {{$FrequentofResultA}}</p></tr>                                                                                                                 
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Slope: {{$LinearRegressionA['slope']}}</p></tr>   
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Linear-Regression: {{$LinearRegressionA['intercept']}}</p></tr>                                                                                                                                                                                                                           
                                 </table>                    
@@ -209,7 +293,7 @@ timeframe
                                     </tr>
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Mean: {{$MeanofResultB}}</p></tr>               
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Median: {{$medianB}}</p></tr>
-                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Most: {{$FrequentofResultB}}</p></tr>                                                                                                                 
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Mode: {{$FrequentofResultB}}</p></tr>                                                                                                                 
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Slope: {{$LinearRegressionB['slope']}}</p></tr>   
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Linear-Regression: {{$LinearRegressionB['intercept']}}</p></tr>                                                                                                                                                                                                                           
                                 </table>                    
@@ -236,7 +320,7 @@ timeframe
                                     </tr>
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Mean: {{$MeanofResultC}}</p></tr>               
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Median: {{$medianC}}</p></tr>
-                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Most: {{$FrequentofResultC}}</p></tr>                                                                                                                 
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Mode: {{$FrequentofResultC}}</p></tr>                                                                                                                 
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Slope: {{$LinearRegressionC['slope']}}</p></tr>   
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Linear-Regression: {{$LinearRegressionC['intercept']}}</p></tr>                                                                                                                                                                                                                           
                                 </table>                    
@@ -263,7 +347,7 @@ timeframe
                                     </tr>
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Mean: {{$MeanofResultD}}</p></tr>               
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Median: {{$medianD}}</p></tr>
-                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Most: {{$FrequentofResultD}}</p></tr>                                                                                                                 
+                                    <tr class="col"><p style="color:#8a8a8a;" align=center>Mode: {{$FrequentofResultD}}</p></tr>                                                                                                                 
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Slope: {{$LinearRegressionD['slope']}}</p></tr>   
                                     <tr class="col"><p style="color:#8a8a8a;" align=center>Linear-Regression: {{$LinearRegressionD['intercept']}}</p></tr>                                                                                                                                                                                                                           
                                 </table>                    
@@ -293,26 +377,83 @@ timeframe
         // var resultRadiusA = @json($resultRadiusA ?? '');   
         // var resultRadiusB = @json($resultRadiusB ?? ''); 
         // var resultRadiusC = @json($resultRadiusC ?? ''); 
-        // var resultRadiusD = @json($resultRadiusD ?? '');         
-        var RadiusofMeanA = @json($RadiusofMeanA ?? '');
-        var RadiusofMedianA = @json($RadiusofMedianA ?? '');
-        var RadiusofMostA = @json($RadiusofMostA ?? '');
-        var RadiusofLinearRegressionValueA = @json($RadiusofLinearRegressionValueA ?? '');
+        // var resultRadiusD = @json($resultRadiusD ?? ''); 
+        var recordA = @json($recordA ?? '');
+        var recordB = @json($recordB ?? '');
+        var recordC = @json($recordC ?? '');
+        var recordD = @json($recordD ?? '');
+        var RadiusofMeanA;
+        var RadiusofMedianA;
+        var RadiusofMostA;
+        var RadiusofLinearRegressionValueA;
+       
+       
+        if(recordA.length == 1){           
+            RadiusofMeanA = null;
+            RadiusofMedianA = null;
+            RadiusofMostA = null;
+            RadiusofLinearRegressionValueA = null;
+        }
+        else{
+            RadiusofMeanA = @json($RadiusofMeanA ?? '');
+            RadiusofMedianA = @json($RadiusofMedianA ?? '');
+            RadiusofMostA = @json($RadiusofMostA ?? '');
+            RadiusofLinearRegressionValueA = @json($RadiusofLinearRegressionValueA ?? '');
+        }
 
-        var RadiusofMeanB = @json($RadiusofMeanB ?? '');
-        var RadiusofMedianB = @json($RadiusofMedianB ?? '');
-        var RadiusofMostB = @json($RadiusofMostB ?? '');
-        var RadiusofLinearRegressionValueB = @json($RadiusofLinearRegressionValueB ?? '');
+        var RadiusofMeanB;
+        var RadiusofMedianB;
+        var RadiusofMostB;
+        var RadiusofLinearRegressionValueB;
+       
+        if(recordB.length == 1){
+            RadiusofMeanB = null;
+            RadiusofMedianB = null;
+            RadiusofMostB = null;
+            RadiusofLinearRegressionValueB = null;            
+        }
+        else{
+            RadiusofMeanB = @json($RadiusofMeanB ?? '');
+            RadiusofMedianB = @json($RadiusofMedianB ?? '');
+            RadiusofMostB = @json($RadiusofMostB ?? '');
+            RadiusofLinearRegressionValueB = @json($RadiusofLinearRegressionValueB ?? '');
 
-        var RadiusofMeanC = @json($RadiusofMeanC ?? '');
-        var RadiusofMedianC = @json($RadiusofMedianC ?? '');
-        var RadiusofMostC = @json($RadiusofMostC ?? '');
-        var RadiusofLinearRegressionValueC = @json($RadiusofLinearRegressionValueC ?? '');
+        }   
+        var RadiusofMeanC; 
+        var RadiusofMedianC; 
+        var RadiusofMostC; 
+        var RadiusofLinearRegressionValueC;  
+       
 
-        var RadiusofMeanD = @json($RadiusofMeanD ?? '');
-        var RadiusofMedianD = @json($RadiusofMedianD ?? '');
-        var RadiusofMostD = @json($RadiusofMostD ?? '');
-        var RadiusofLinearRegressionValueD = @json($RadiusofLinearRegressionValueD ?? '');
+        if(recordC.length == 1){
+             RadiusofMeanC = null; 
+             RadiusofMedianC = null; 
+             RadiusofMostC = null; 
+             RadiusofLinearRegressionValueC = null;             
+        }
+        else{
+             RadiusofMeanC = @json($RadiusofMeanC ?? '');
+             RadiusofMedianC = @json($RadiusofMedianC ?? '');
+             RadiusofMostC = @json($RadiusofMostC ?? '');
+             RadiusofLinearRegressionValueC = @json($RadiusofLinearRegressionValueC ?? '');
+        }     
+        var RadiusofMeanD; 
+        var RadiusofMedianD; 
+        var RadiusofMostD; 
+        var RadiusofLinearRegressionValueD;  
+
+        if(recordD.length == 1){
+            RadiusofMeanD = null;
+            RadiusofMedianD = null;
+            RadiusofMostD = null; 
+            RadiusofLinearRegressionValueD = null;
+        }
+        else{
+            RadiusofMeanD = @json($RadiusofMeanD ?? '');
+            RadiusofMedianD = @json($RadiusofMedianD ?? '');
+            RadiusofMostD = @json($RadiusofMostD ?? '');
+            RadiusofLinearRegressionValueD = @json($RadiusofLinearRegressionValueD ?? '');           
+        }      
        
         // for(var i = 1; i < resultRadiusA.length; i++) {
         //     var resultRadiusa = resultRadiusA[i];
@@ -327,20 +468,44 @@ timeframe
         // console.log(resultRadiusB);
         // console.log(resultRadiusC);
         // console.log(resultRadiusD);
-
+      
+        var showtmp = @json($showEmptyChart);
+        var AllorOne = @json($flag);
+        var readerChoice = @json($field ?? '');
+      
+    
         google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChartRadius);
-        google.charts.setOnLoadCallback(tmp);
-        google.charts.setOnLoadCallback(drawChart);
-        google.charts.setOnLoadCallback(drawChartB);
-        google.charts.setOnLoadCallback(drawChartD);
-        google.charts.setOnLoadCallback(drawChartC);
-        google.charts.setOnLoadCallback(drawChartRadiusA);
-        google.charts.setOnLoadCallback(drawChartRadiusB);
-        google.charts.setOnLoadCallback(drawChartRadiusC);
-        google.charts.setOnLoadCallback(drawChartRadiusD);
-
-
+        if(showtmp){
+                google.charts.setOnLoadCallback(tmp);
+        }
+        else{
+            if(AllorOne=='all'){
+                google.charts.setOnLoadCallback(drawChartRadius);       
+                google.charts.setOnLoadCallback(drawChart);
+                google.charts.setOnLoadCallback(drawChartB);
+                google.charts.setOnLoadCallback(drawChartC);
+                google.charts.setOnLoadCallback(drawChartD);                
+            }
+            else{
+                if(readerChoice=='reader_a'){
+                    google.charts.setOnLoadCallback(drawChartRadiusA);
+                    google.charts.setOnLoadCallback(drawChart);
+                }
+                if(readerChoice=='reader_b'){
+                    google.charts.setOnLoadCallback(drawChartRadiusB);
+                    google.charts.setOnLoadCallback(drawChartB);
+                }
+                if(readerChoice=='reader_c'){
+                    google.charts.setOnLoadCallback(drawChartRadiusC);
+                    google.charts.setOnLoadCallback(drawChartC);
+                }
+                if(readerChoice=='reader_d'){
+                    google.charts.setOnLoadCallback(drawChartRadiusD);
+                    google.charts.setOnLoadCallback(drawChartD);
+                }           
+            }                     
+        }
+    
         function drawChartRadius() {
                 // var data = google.visualization.arrayToDataTable(resultRadiusA);
                 // if(count(resultRadiusC) == 1){
@@ -361,27 +526,32 @@ timeframe
                 //     dataArray.push([resultRadiusA[i][0],resultRadiusA[i][1],resultRadiusB[i][1],resultRadiusC[i][1],resultRadiusD[i][1]]);
                 // }
 
-                // var data = new google.visualization.arrayToDataTable(dataArray);
+                // var data = new google.visualization.arrayToDataTable(dataArray);               
 
                 var data = google.visualization.arrayToDataTable([                   
-                    ['Radius','Mean','Median','Most','Linear Regression'],
-                    ['Reader A', RadiusofMeanA, RadiusofMedianA, RadiusofMostA, RadiusofLinearRegressionValueA],            // RGB value
+                    ['Radius','Mean','Median','Mode','Linear Regression'],                   
+                    ['Reader A', RadiusofMeanA, RadiusofMedianA, RadiusofMostA, RadiusofLinearRegressionValueA],                               
                     ['Reader B', RadiusofMeanB, RadiusofMedianB, RadiusofMostB, RadiusofLinearRegressionValueB],            // English color name
                     ['Reader C', RadiusofMeanC, RadiusofMedianC, RadiusofMostC, RadiusofLinearRegressionValueC],
                     ['Reader D', RadiusofMeanD, RadiusofMedianD, RadiusofMostD, RadiusofLinearRegressionValueD], 
                 ]);
+               
         
                 var options = {        
                     vAxis: {
                         title: 'Radius (m)'
                     }, 
                     hAxis: {
-                        title: 'Time (second)',
+                        // title: 'Methonds',
                         maxValue: 60,
                     },
                     titleTextStyle: {
                         color: '#3A74A1'
-                    },              
+                    }, 
+                    // explorer: {
+                    //     maxZoomOut:1,
+                    //     keepInBounds: true
+                    // },             
                 title: 'Radius Result',
                 'height':300,
                                
@@ -583,8 +753,8 @@ timeframe
         }
 
     //   document.write(record[i][0]+":"+record[i][1]+","+"\n"); //radius
-      var record = @json($recordA); 
-      console.log(record);
+    //   var record = @json($recordA); 
+    //   console.log(record);
       function drawChart() {
             // var jsonData = $.ajax({
             // url: "/rfid/line-chart"+$('#search_content').val(),
@@ -592,8 +762,14 @@ timeframe
             // data:$recordA;
             // async: false
             // }).responseText;
-            
-            var data = google.visualization.arrayToDataTable(record);
+
+            // var dataArray = [['Minute','Second','Reader A']];
+            //     for(var i = 1; i < record.length; i++) {                   
+            //        dataArray.push([record[i][0],record[i][1],record[i][2]]);
+            //     }
+            //     var data = new google.visualization.arrayToDataTable(dataArray);
+          
+           var data = google.visualization.arrayToDataTable(recordA);
            
             var options = {        
                 vAxis: {
@@ -606,13 +782,19 @@ timeframe
                     },
                 }, 
                 hAxis: {
-                    title: 'Time (second)',
-                    // maxValue: 60,
+                    title: 'Record (count)',
+                    // title: 'Time (second)',
+                    maxValue: 60,
                     minValue: 0,
                     viewWindow: {
                         min:0
-                    },
-                }, 
+                    },                    
+                },
+                explorer: {                    
+                    axis: 'horizontal',
+                    maxZoomOut:1,
+                    keepInBounds: true
+                },   
             titleTextStyle: {
                 color: 'blue'
             },           
@@ -639,8 +821,8 @@ timeframe
     //   });
 
 
-      var recordB = @json($recordB); 
-      console.log(recordB);   
+    //   var recordB = @json($recordB); 
+    //   console.log(recordB);   
 
        
       function drawChartB() {
@@ -655,7 +837,8 @@ timeframe
                     },
                 },
                 hAxis: {
-                    title: 'Time (second)',
+                    title: 'Record (count)',
+                    // title: 'Time (second)',
                     maxValue: 60,
                     viewWindow: {
                         min:0
@@ -663,7 +846,12 @@ timeframe
                 }, 
             titleTextStyle: {
                 color: 'red'
-            },         
+            },   
+            explorer: {                   
+                    axis: 'horizontal',
+                    maxZoomOut:1,
+                    keepInBounds: true
+                },         
             title: 'Reader B',
             'height':300,
             colors: ['red'],
@@ -681,8 +869,8 @@ timeframe
             chart.draw(data, options);
       }     
 
-      var recordC = @json($recordC); 
-      console.log(recordC);
+    //   var recordC = @json($recordC); 
+    //   console.log(recordC);
       function drawChartC() {
             var data = google.visualization.arrayToDataTable(recordC);
             var options = {        
@@ -695,7 +883,8 @@ timeframe
                     },
                 },
                 hAxis: {
-                    title: 'Time (second)',
+                    title: 'Record (count)',
+                    // title: 'Time (second)',
                     viewWindow: {
                         min:0
                     },
@@ -704,6 +893,11 @@ timeframe
             titleTextStyle: {
                 color: '#FF903F'
             }, 
+            explorer: {
+                    axis: 'horizontal',
+                    maxZoomOut:1,
+                    keepInBounds: true
+                },   
             title: 'Reader C',
             'height':300,
             colors: ['#FF903F'],
@@ -719,8 +913,8 @@ timeframe
             chart.draw(data, options);
       }
       
-      var recordD = @json($recordD); 
-      console.log(recordD);
+    //   var recordD = @json($recordD); 
+    //   console.log(recordD);
       function drawChartD() {
             var data = google.visualization.arrayToDataTable(recordD);
             var options = {        
@@ -733,12 +927,18 @@ timeframe
                     },
                 },
                 hAxis: {
-                    title: 'Time (second)',
+                    title: 'Record (count)',
+                    // title: 'Time (second)',
                     maxValue: 60,
                     viewWindow: {
-                        min:0
+                        min:0,                      
                     },
                 }, 
+            explorer: {
+                axis: 'horizontal',
+                maxZoomOut:1,
+                keepInBounds: true
+            },   
             titleTextStyle: {
                 color: '#00DB42'
             },     
@@ -810,8 +1010,13 @@ timeframe
             document.getElementById('countResult').innerHTML += 'Sum of Rssi: '+ sum + ' dbm<br>';
             document.getElementById('countResult').innerHTML += 'Mean of Rssi:'+ mean + ' dbm<br>';
     }
-
-</script>           
+       
+</script>     
+<style type="text/css">
+    div.hidden {
+        display: none;
+    }
+</style>      
 
 @endsection
 

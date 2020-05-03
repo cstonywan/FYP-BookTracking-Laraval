@@ -9,7 +9,7 @@
     @endif
     <h1>Books list</h1>
     <div class="table-responsive">
-      <table class="table table-dark table-hover">
+      <table class="table table-light table-hover">
         <thead>
           <tr>
             <th scope="col">#</th>

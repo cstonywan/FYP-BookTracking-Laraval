@@ -11,6 +11,7 @@
 
     <title>Book Tracking System</title>
 
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -64,7 +65,7 @@
                             </li>
                             @endif
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/b/track/0')}}">Track Book</a>
+                                <a class="nav-link" href="{{ url('/b/track/28')}}">Track Book</a>
                             </li>
                             @if (Auth::user()->role >= 1)
                                 <li class="nav-item">
@@ -111,7 +112,7 @@
                             <li class="nav-item dropdown">
 
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                              Welcome, {{ Auth::user()->name }} <span class="caret"></span>
+                                    <img src="/storage/avatar1_small.jpg" class="img-circle" style="width:40px;height:40px">&nbsp;&nbsp;{{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -142,7 +143,7 @@
     <script src="{{ asset('js/user_manage.js') }}"></script>
     <script src="{{ asset('js/book_track.js') }}"></script>
     <script src="{{ asset('js/borrow.js') }}"></script>
-    <script src="{{ asset('js/chart.js') }}"></script>
+    <!-- <script src="{{ asset('js/chart.js') }}"></script> -->
     <script>
        <!-- For hide the alert -->
        window.setTimeout(function() {

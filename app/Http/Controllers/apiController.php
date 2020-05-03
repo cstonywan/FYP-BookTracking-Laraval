@@ -46,87 +46,145 @@ class apiController extends Controller
                 
                 
                 //DB::table('store_all_tag_record')->truncate(); //clean the table 
+                $resetRecord = false; //clean the table 
+                // $resetRecord = true;
+                if($resetRecord){
+                    //Clean the data within 1 minutes
+                    $Onemin = new DateTime;
+                    $Onemin->modify('-1 minutes');
+                    $Oneminformatted = $Onemin->format('Y-m-d H:i:s');
+                    Onemins::where('created_at', '<=', $Oneminformatted)->delete();
+
+                    //Clean the data within 5 minutes
+                    $Fivemin = new DateTime;
+                    $Fivemin->modify('-5 minute');
+                    $Fiveminformatted = $Fivemin->format('Y-m-d H:i:s');
+                    Fivemins::where('created_at', '<=', $Fiveminformatted)->delete();
+
+                    //Clean the data within 15 minutes
+                    $Fifteenmin = new DateTime;
+                    $Fifteenmin->modify('-15 minutes');
+                    $Fifteenminformatted = $Fifteenmin->format('Y-m-d H:i:s');
+                    Fifteenmins::where('created_at', '<=', $Fifteenminformatted)->delete();
+
+                    //Clean the data within 30 minutes
+                    $Halfhour = new DateTime;
+                    $Halfhour->modify('-30 minutes');
+                    $Halfhourformatted = $Halfhour->format('Y-m-d H:i:s');
+                    Halfhour::where('created_at', '<=', $Halfhourformatted)->delete();
+
+                    //Clean the data within 1 hour
+                    $Onehour = new DateTime;
+                    $Onehour->modify('-60 minutes');
+                    $Onehourformatted = $Onehour->format('Y-m-d H:i:s');
+                    Onehour::where('created_at', '<=', $Onehourformatted)->delete();
+                }
                 
-                //Clean the data within 1 minutes
-                $Onemin = new DateTime;
-                $Onemin->modify('-1 minutes');
-                $Oneminformatted = $Onemin->format('Y-m-d H:i:s');
-                Onemins::where('created_at', '<=', $Oneminformatted)->delete();
-                
-                Onemins::create([
-                    'tag_id' => $_POST['Tag_id'],
-                    'tag_rssi' => $_POST['Tag_rssi'],
-                    'tag_count' => $_POST['Tag_count'],                                               
-                    'reader_record_time' => $_POST['Reader_record_time'],
-                    'reader_ip' => $_POST['Reader_ip'],
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
-                ]);
-                
-                //Clean the data within 5 minutes
-                $Fivemin = new DateTime;
-                $Fivemin->modify('-5 minute');
-                $Fiveminformatted = $Fivemin->format('Y-m-d H:i:s');
-                Fivemins::where('created_at', '<=', $Fiveminformatted)->delete();
-                
-                Fivemins::create([
-                    'tag_id' => $_POST['Tag_id'],
-                    'tag_rssi' => $_POST['Tag_rssi'],
-                    'tag_count' => $_POST['Tag_count'],                                               
-                    'reader_record_time' => $_POST['Reader_record_time'],
-                    'reader_ip' => $_POST['Reader_ip'],
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
-                ]);
-                
-                //Clean the data within 15 minutes
-                $Fifteenmin = new DateTime;
-                $Fifteenmin->modify('-15 minutes');
-                $Fifteenminformatted = $Fifteenmin->format('Y-m-d H:i:s');
-                Fifteenmins::where('created_at', '<=', $Fifteenminformatted)->delete();
-                
-                Fifteenmins::create([
-                    'tag_id' => $_POST['Tag_id'],
-                    'tag_rssi' => $_POST['Tag_rssi'],
-                    'tag_count' => $_POST['Tag_count'],                                               
-                    'reader_record_time' => $_POST['Reader_record_time'],
-                    'reader_ip' => $_POST['Reader_ip'],
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
-                ]);
-                
-                 //Clean the data within 30 minutes
-                 $Halfhour = new DateTime;
-                 $Halfhour->modify('-30 minutes');
-                 $Halfhourformatted = $Halfhour->format('Y-m-d H:i:s');
-                 Halfhour::where('created_at', '<=', $Halfhourformatted)->delete();
-                 
-                 Halfhour::create([
-                     'tag_id' => $_POST['Tag_id'],
-                     'tag_rssi' => $_POST['Tag_rssi'],
-                     'tag_count' => $_POST['Tag_count'],                                               
-                     'reader_record_time' => $_POST['Reader_record_time'],
-                     'reader_ip' => $_POST['Reader_ip'],
-                     'created_at' => date('Y-m-d H:i:s'),
-                     'updated_at' => date('Y-m-d H:i:s')
-                 ]);
-                 
-                  //Clean the data within 1 hour
-                  $Onehour = new DateTime;
-                  $Onehour->modify('-60 minutes');
-                  $Onehourformatted = $Onehour->format('Y-m-d H:i:s');
-                  Onehour::where('created_at', '<=', $Onehourformatted)->delete();
-                  
-                  Onehour::create([
-                      'tag_id' => $_POST['Tag_id'],
-                      'tag_rssi' => $_POST['Tag_rssi'],
-                      'tag_count' => $_POST['Tag_count'],                                               
-                      'reader_record_time' => $_POST['Reader_record_time'],
-                      'reader_ip' => $_POST['Reader_ip'],
-                      'created_at' => date('Y-m-d H:i:s'),
-                      'updated_at' => date('Y-m-d H:i:s')
-                  ]);          
-                
+                if($_POST['Tag_rssi'] != "-64"){
+                    Onemins::create([
+                        'tag_id' => $_POST['Tag_id'],
+                        'tag_rssi' => $_POST['Tag_rssi'],
+                        'tag_count' => $_POST['Tag_count'],                                               
+                        'reader_record_time' => $_POST['Reader_record_time'],
+                        'reader_ip' => $_POST['Reader_ip'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    Fivemins::create([
+                        'tag_id' => $_POST['Tag_id'],
+                        'tag_rssi' => $_POST['Tag_rssi'],
+                        'tag_count' => $_POST['Tag_count'],                                               
+                        'reader_record_time' => $_POST['Reader_record_time'],
+                        'reader_ip' => $_POST['Reader_ip'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    Fifteenmins::create([
+                        'tag_id' => $_POST['Tag_id'],
+                        'tag_rssi' => $_POST['Tag_rssi'],
+                        'tag_count' => $_POST['Tag_count'],                                               
+                        'reader_record_time' => $_POST['Reader_record_time'],
+                        'reader_ip' => $_POST['Reader_ip'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    Halfhour::create([
+                        'tag_id' => $_POST['Tag_id'],
+                        'tag_rssi' => $_POST['Tag_rssi'],
+                        'tag_count' => $_POST['Tag_count'],                                               
+                        'reader_record_time' => $_POST['Reader_record_time'],
+                        'reader_ip' => $_POST['Reader_ip'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    Onehour::create([
+                        'tag_id' => $_POST['Tag_id'],
+                        'tag_rssi' => $_POST['Tag_rssi'],
+                        'tag_count' => $_POST['Tag_count'],                                               
+                        'reader_record_time' => $_POST['Reader_record_time'],
+                        'reader_ip' => $_POST['Reader_ip'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]); 
+
+
+                }
+                else{
+                    Onemins::create([
+                        'tag_id' => $_POST['Tag_id'],
+                        'tag_rssi' => -59.9,
+                        'tag_count' => $_POST['Tag_count'],                                               
+                        'reader_record_time' => $_POST['Reader_record_time'],
+                        'reader_ip' => $_POST['Reader_ip'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    Fivemins::create([
+                        'tag_id' => $_POST['Tag_id'],
+                        'tag_rssi' => -59.9,
+                        'tag_count' => $_POST['Tag_count'],                                               
+                        'reader_record_time' => $_POST['Reader_record_time'],
+                        'reader_ip' => $_POST['Reader_ip'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    Fifteenmins::create([
+                        'tag_id' => $_POST['Tag_id'],
+                        'tag_rssi' => -59.9,
+                        'tag_count' => $_POST['Tag_count'],                                               
+                        'reader_record_time' => $_POST['Reader_record_time'],
+                        'reader_ip' => $_POST['Reader_ip'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    Halfhour::create([
+                        'tag_id' => $_POST['Tag_id'],
+                        'tag_rssi' => -59.9,
+                        'tag_count' => $_POST['Tag_count'],                                               
+                        'reader_record_time' => $_POST['Reader_record_time'],
+                        'reader_ip' => $_POST['Reader_ip'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    Onehour::create([
+                        'tag_id' => $_POST['Tag_id'],
+                        'tag_rssi' => -59.9,
+                        'tag_count' => $_POST['Tag_count'],                                               
+                        'reader_record_time' => $_POST['Reader_record_time'],
+                        'reader_ip' => $_POST['Reader_ip'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]); 
+                }                               
+                                                                                                                                
                 //For save all tag data (line graph use)        
                 // $data = array(
                 //     'tag_id' => $_POST['Tag_id'],

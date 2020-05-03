@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+.img-thumbnail{
+    border-color:#3A74A1;
+}
+</style>
 
 <div class="container">
     <div class="justify-content-center">
@@ -13,73 +18,103 @@
             </div>
             @endif
             <!--For show image -->
-            <!-- <?php /*$result = $_GET['image'];*/ ?> -->
-            <!-- <img src="images/gallery/<?php /*echo $result; */?>.jpg">  -->
+            
             <div class="row justify-content-center">
-                @if($book->image)
-                    <img src="/storage/{{ $book->image }}" weight="250" height="350" class="border">
-                @else
-                    <img src="/storage/uploads/default.png" class="border" weight="250" height="350">
-                @endif
+            <div class="col-md-12">
+                <h1 align=center style="color:#0062AF"><strong>Book Information</strong></h1>
             </div>
-        </div>
+                <div class="col-md-3">
+                    @if($book->image)
+                        <img src="/storage/{{ $book->image }}" weight="200px" height="300px" class="img-thumbnail">
+                    @else
+                        <img src="/storage/uploads/default.png" class="border" weight="250" height="350">
+                    @endif
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="text-info"><span><strong >{{$book->title}}</strong></span>                                                   
+                            </h1><br>
+                        </div>
+                        <div class="col-md-12">                        
+                            <span style="color:#043364"><strong> {{$book->status}}</strong></span>
+                        </div>
+                        <div class="col-md-12">
+                        <div class="row">
+                            @if($book->status=="inLibrary")
+                            <div class="col-md-2">                                   
+                                <span>
+                                    <button type="button" class="btn btn-info" title="Track Book" style="background: transparent;border: none;background-repeat:no-repeat;  outline:none;" onclick="window.location='{{ url('/b/track/'.$book->id) }}'">
+                                    <img src="/icon/track.png" style ="border:0;"width="50px" height="50px">                                   
+                                    </button>
+                                </span>
+                            </div> 
+                            @else
+                            <span>
+                                    <button type="button" class="btn btn-info" title="Track Book" style="background: transparent;border: none;background-repeat:no-repeat;  outline:none;" onclick="window.location='{{ url('/b/track/'.$book->id) }}'" disabled>
+                                    <img src="/icon/track.png" style ="border:0;"width="50px" height="50px">                                   
+                                    </button>
+                                </span>
+                            @endif
+                            <div class="col-md-2">
+                                <span>
+                                    @if (Auth::user()->role >= 1 && $book->status == "inLibrary")                                                                
+                                    <form action="{{ route('manageBorrow') }}" method="get">
+                                        @csrf
+                                        <input type="hidden" name="book_id" value="{{ $book->id }}">
+                                        <button type="submit"  class="btn btn-info" title="Lend book" style="background: transparent;border: none; background-repeat:no-repeat; outline:none;" id="leadbook_btn" >
+                                        <img src="/icon/lend.png" style ="border:0;" width="50px" height="50px" >                                                       
+                                    </form>                                                             
+                                    @endif
+                                <span>                                
+                                </div>                                 
+                           </div>                                                                 
+                                              
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="col-md-6">
+                        <br>
+                        <strong style="color:#043364">Tag ID:</strong><h3 style="color:#787878">{{$book->tag_id}}</h3><br>
+                        </div>
+                        <div class="col-md-6">
+                        <br>
+                        <strong style="color:#043364">Type:</strong><h3 style="color:#787878">{{$book->type}}</h3><br>
+                        </div>
+                        <div class="col-md-6">
+                           <strong style="color:#043364">Author:</strong><p style="color:#787878">{{$book->author}}</p>                            
+                        </div>
+                        <div class="col-md-6">
+                            <strong style="color:#043364">Publisher: </strong><p style="color:#787878">{{$book->publisher}}</p>                   
+                        </div>
+                        <div class="col-md-6">
+                            <strong style="color:#043364">Publication Year: </strong><p style="color:#787878">{{$book->publicationYear}}</p>                   
+                        </div>
+                        <div class="col-md-6">
+                            <strong style="color:#043364">Language: </strong><p style="color:#787878">{{$book->language}}</p>                   
+                        </div> 
+                        <div class="col-md-6">
+                            <strong style="color:#043364">ISBN: </strong><p style="color:#787878">{{$book->ISBN}}</p>                   
+                        </div> 
+                        <div class="col-md-6">
+                            <strong style="color:#043364">Page Number: </strong><p style="color:#787878">{{$book->pageNumber}}</p>                   
+                        </div>
+                        
+                        <div class="col-md-12">
+                        <br>
+                        <strong style="color:#043364">Description: </strong>
+                        <p style="color:#787878">{{$book->description}}</p>
+                        </div>
+                    </div>
+                </div>               
+            
+           </div>
 
          <!--For show Book Details -->
 
-        <div class="col-md-12">
-            <h1>Details:</h1>
-            <table class="table table-hover table-dark" style="min-width:200px">
-                <tr>
-                    <td scope="col" class="font-weight-bold">Book Name :</td>
-                    <td scope="col">{{$book->title}}</td>
-                </tr>
-                <tr>
-                    <td scope="col" class="font-weight-bold">Author :</td>
-                    <td scope="col">{{$book->author}}</td>
-                </tr>
-                <tr>
-                    <td scope="col" class="font-weight-bold">Publisher :</td>
-                    <td scope="col">{{$book->publisher}}</td>
-                </tr>
-                <tr>
-                    <td scope="col" class="font-weight-bold">Publication Year :</td>
-                    <td scope="col">{{$book->publicationYear}}</td>
-                </tr>
-                <tr>
-                    <td scope="col" class="font-weight-bold">Language :</td>
-                    <td scope="col">{{$book->language}}</td>
-                </tr>
-                <tr>
-                    <td scope="col" class="font-weight-bold">ISBN :</td>
-                    <td scope="col">{{$book->ISBN}}</td>
-                </tr>
-                <tr>
-                    <td scope="col" class="font-weight-bold">Page Number :</td>
-                    <td scope="col">{{$book->pageNumber}}</td>
-                </tr>
-                <tr>
-                    <td scope="col" class="font-weight-bold">Description :</td>
-                    <td scope="col">{{$book->description}}</td>
-                </tr>
-                <tr>
-                    <td scope="col" class="font-weight-bold">Status :</td>
-                    <td scope="col">{{$book->status}}</td>
-                </tr>
-            </table>
-            <br>
-            @if (Auth::user()->role >= 1 && $book->status == "inLibrary")
-            <div class="">
-              <form action="{{ route('manageBorrow') }}" method="get">
-                  @csrf
-                  <input type="hidden" name="book_id" value="{{ $book->id }}">
-                  <button type="submit" id="leadbook_btn" class="btn btn-primary btn-lg btn-block" >Lead Book</a>
-              </form>
-            </div>
-            <br>
-            @endif
-            <div class="">
-                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.location='{{ url('/b/track/'.$book->id) }}'">Track Book</button>
-            </div>
+       
+
+           
         </div>
     </div>
 </div>

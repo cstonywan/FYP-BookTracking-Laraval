@@ -237,6 +237,8 @@ th {
 label {
   display: inline-block;
   margin-bottom: 0.5rem;
+  color:#043364;
+  /* font-weight: bold;   */
 }
 
 button {
@@ -392,6 +394,8 @@ h6,
 h1,
 .h1 {
   font-size: 2.25rem;
+  color:#043364;
+  font-weight:500px;
 }
 
 h2,
@@ -519,6 +523,9 @@ mark,
   height: auto;
 }
 
+.img-circle {
+  border-radius: 50%;
+}
 .figure {
   display: inline-block;
 }
@@ -4479,7 +4486,7 @@ input[type=button].btn-block {
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #495057;
-  background-color: #f8fafc;
+  background-color: #f8fafc; 
   border-color: #dee2e6 #dee2e6 #f8fafc;
 }
 

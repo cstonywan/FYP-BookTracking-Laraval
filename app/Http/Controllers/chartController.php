@@ -35,6 +35,7 @@ class chartController extends Controller
         $field = $request->search_field;
         $timeframe = $request->time_field;
         $BookName = Book::where('tag_id','like','%'.$tag_id.'%')->value('title');
+        $BookID = Book::where('tag_id','like','%'.$tag_id.'%')->value('id');
         $get_setting = Setting::find(1); 
         // $date = new DateTime;
         // $date->modify('-3 minute');
@@ -110,7 +111,8 @@ class chartController extends Controller
                 DB::raw("tag_rssi as Rssi")
                 )                 
                 ->where('tag_id','like', '%'.$tag_id.'%')                                                            
-                ->where('reader_ip','=',$readerA_IP)     
+                ->where('reader_ip','=',$readerA_IP)
+                ->where('tag_rssi','!=','-64')     
                 // ->where('created_at','>=', $formatted_date)                                                                                                                                              
                 ->orderBy("created_at")                                             
                 ->get();
@@ -120,7 +122,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerB_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerB_IP)
+                    // ->where('tag_rssi','!=','-64')                                                                                                                            
                     ->orderBy("created_at")                                             
                     ->get();
 
@@ -129,7 +132,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerC_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerC_IP)
+                    // ->where('tag_rssi','!=','-64')                                                                                                                            
                     ->orderBy("created_at")                                             
                     ->get();
 
@@ -138,7 +142,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerD_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerD_IP)
+                    // ->where('tag_rssi','!=','-64')                                                                                                                            
                     ->orderBy("created_at")                                             
                     ->get();       
         }
@@ -149,17 +154,20 @@ class chartController extends Controller
                 DB::raw("tag_rssi as Rssi")
                 )                 
                 ->where('tag_id','like', '%'.$tag_id.'%')                                                            
-                ->where('reader_ip','=',$readerA_IP)     
+                ->where('reader_ip','=',$readerA_IP)
+                 ->where('tag_rssi','!=','-64')          
                 // ->where('created_at','>=', $formatted_date)                                                                                                                                              
-                ->orderBy("created_at")                                             
+                ->orderBy("created_at")
+                // ->groupby( DB::raw("Minute(created_at)"))                                            
                 ->get();
-            
+
             $recordB = Fivemins::select(                                                 
                     DB::raw("second(created_at) as Second"),
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerB_IP)  
+                    ->where('reader_ip','=',$readerB_IP)
+                    ->where('tag_rssi','!=','-64')       
                     // ->where('created_at','>=', $formatted_date)                                                                                                                             
                     ->orderBy("created_at")                                             
                     ->get();
@@ -169,7 +177,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerC_IP)   
+                    ->where('reader_ip','=',$readerC_IP)
+                    ->where('tag_rssi','!=','-64')        
                     // ->where('created_at','>=', $formatted_date)                                                                                                                            
                     ->orderBy("created_at")                                             
                     ->get();
@@ -180,6 +189,7 @@ class chartController extends Controller
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
                     ->where('reader_ip','=',$readerD_IP) 
+                    ->where('tag_rssi','!=','-64')     
                     // ->where('created_at','>=', $formatted_date)                                                                                                                              
                     ->orderBy("created_at")                                             
                     ->get();       
@@ -192,7 +202,8 @@ class chartController extends Controller
                 DB::raw("tag_rssi as Rssi")
                 )                 
                 ->where('tag_id','like', '%'.$tag_id.'%')                                                            
-                ->where('reader_ip','=',$readerA_IP)     
+                ->where('reader_ip','=',$readerA_IP)
+                // ->where('tag_rssi','!=','-64')          
                 // ->where('created_at','>=', $formatted_date)                                                                                                                                              
                 ->orderBy("created_at")                                             
                 ->get();
@@ -202,7 +213,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerB_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerB_IP) 
+                    // ->where('tag_rssi','!=','-64')                                                                                                                              
                     ->orderBy("created_at")                                             
                     ->get();
 
@@ -211,7 +223,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerC_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerC_IP)
+                    // ->where('tag_rssi','!=','-64')                                                                                                                               
                     ->orderBy("created_at")                                             
                     ->get();
 
@@ -220,7 +233,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerD_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerD_IP)
+                    // ->where('tag_rssi','!=','-64')                                                                                                                               
                     ->orderBy("created_at")                                             
                     ->get();       
 
@@ -231,7 +245,8 @@ class chartController extends Controller
                 DB::raw("tag_rssi as Rssi")
                 )                 
                 ->where('tag_id','like', '%'.$tag_id.'%')                                                            
-                ->where('reader_ip','=',$readerA_IP)     
+                ->where('reader_ip','=',$readerA_IP) 
+                // ->where('tag_rssi','!=','-64')         
                 // ->where('created_at','>=', $formatted_date)                                                                                                                                              
                 ->orderBy("created_at")                                             
                 ->get();
@@ -241,7 +256,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerB_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerB_IP)
+                    // ->where('tag_rssi','!=','-64')                                                                                                                               
                     ->orderBy("created_at")                                             
                     ->get();
 
@@ -250,7 +266,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerC_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerC_IP)
+                    // ->where('tag_rssi','!=','-64')                                                                                                                               
                     ->orderBy("created_at")                                             
                     ->get();
 
@@ -259,7 +276,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerD_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerD_IP) 
+                    // ->where('tag_rssi','!=','-64')                                                                                                                              
                     ->orderBy("created_at")                                             
                     ->get();       
 
@@ -271,7 +289,8 @@ class chartController extends Controller
                 DB::raw("tag_rssi as Rssi")
                 )                 
                 ->where('tag_id','like', '%'.$tag_id.'%')                                                            
-                ->where('reader_ip','=',$readerA_IP)     
+                ->where('reader_ip','=',$readerA_IP)
+                // ->where('tag_rssi','!=','-64')          
                 // ->where('created_at','>=', $formatted_date)                                                                                                                                              
                 ->orderBy("created_at")                                             
                 ->get();
@@ -281,7 +300,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerB_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerB_IP)
+                    ->where('tag_rssi','!=','-64')                                                                                                                               
                     ->orderBy("created_at")                                             
                     ->get();
 
@@ -290,7 +310,8 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerC_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerC_IP) 
+                    ->where('tag_rssi','!=','-64')                                                                                                                              
                     ->orderBy("created_at")                                             
                     ->get();
 
@@ -299,77 +320,127 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerD_IP)                                                                                                                          
+                    ->where('reader_ip','=',$readerD_IP)
+                    ->where('tag_rssi','!=','-64')                                                                                                                               
                     ->orderBy("created_at")                                             
                     ->get();       
         }
                             
         $resultA[] = ['Second','Rssi'];
-        foreach ($recordA as $key => $value) {
+        foreach ($recordA as $key => $value) {     
+          
             $resultA[++$key] = [(int)$value->Second, (int)$value->Rssi];
-        }
+            //$resultA[++$key] = [(int) $key, (int)$value->Rssi];
+        }       
         $resultB[] = ['Second','Rssi'];
         foreach ($recordB as $key => $value) {
             $resultB[++$key] = [(int)$value->Second, (int)$value->Rssi];
+            //$resultB[++$key] = [(int)$key, (int)$value->Rssi];
         }
         $resultC[] = ['Second','Rssi'];
         foreach ($recordC as $key => $value) {
-            $resultC[++$key] = [(int)$value->Second, (int)$value->Rssi];
+             $resultC[++$key] = [(int)$value->Second, (int)$value->Rssi];
+            //$resultC[++$key] = [(int)$key, (int)$value->Rssi];
         }
         $resultD[] = ['Second','Rssi'];
         foreach ($recordD as $key => $value) {
             $resultD[++$key] = [(int)$value->Second, (int)$value->Rssi];
+           // $resultD[++$key] = [(int)$key, (int)$value->Rssi];
         }
-
+        $CountofResultA = null;
+        $MeanofResultA = null;
+        $medianA = null;
+        $FrequentofResultA = null;
+        $LinearRegressionA = null;
+        $RadiusofMeanA = null;
+        $RadiusofMedianA = null;
+        $RadiusofMostA = null;
+        $RadiusofLinearRegressionValueA = null;
+        $CountofResultB = null;
+        $MeanofResultB = null;
+        $medianB = null;
+        $FrequentofResultB = null;
+        $LinearRegressionB = null;
+        $RadiusofMeanB = null;
+        $RadiusofMedianB = null;
+        $RadiusofMostB = null;
+        $RadiusofLinearRegressionValueB = null;
+        $CountofResultC = null;
+        $MeanofResultC = null;
+        $medianC = null;
+        $FrequentofResultC = null;
+        $LinearRegressionC = null;
+        $RadiusofMeanC = null;
+        $RadiusofMedianC = null;
+        $RadiusofMostC = null;
+        $RadiusofLinearRegressionValueC = null;
+        $CountofResultD = null;
+        $MeanofResultD = null;
+        $medianD = null;
+        $FrequentofResultD = null;
+        $LinearRegressionD = null;
+        $RadiusofMeanD = null;
+        $RadiusofMedianD = null;
+        $RadiusofMostD = null;
+        $RadiusofLinearRegressionValueD = null;
+       
         //Result A for Reader A
-        $CountofResultA = $this->countDuplicatesRssi($resultA);
-        $LinearRegressionA = $this->get_linear_regressionArray($resultA);
-        $MeanofResultA = $this->getMeanRssi($resultA); //Mean
-        $medianA = $this->getMedium($resultA);//Median
-        $FrequentofResultA = $this->getMostFrequentRssi($resultA); //Most        
-        $LinearRegressionAValueA = $this->getLinearRegressionIntercept($resultA);//linearRegression Value
-        $RadiusofMeanA = $this->RssiToRadius($MeanofResultA);
-        $RadiusofMedianA = $this->RssiToRadius($medianA);
-        $RadiusofMostA = $this->RssiToRadius($FrequentofResultA);
-        $RadiusofLinearRegressionValueA = $this->RssiToRadius($LinearRegressionAValueA);
-
+        if(count($resultA) != 1){
+            $CountofResultA = $this->countDuplicatesRssi($resultA);
+            $LinearRegressionA = $this->get_linear_regressionArray($resultA);
+            $MeanofResultA = $this->getMeanRssi($resultA); //Mean
+            $medianA = $this->getMedium($resultA);//Median
+            $FrequentofResultA = $this->getMostFrequentRssi($resultA); //Most        
+            $LinearRegressionAValueA = $this->getLinearRegressionIntercept($resultA);//linearRegression Value
+            $RadiusofMeanA = $this->RssiToRadius($MeanofResultA);
+            $RadiusofMedianA = $this->RssiToRadius($medianA);
+            $RadiusofMostA = $this->RssiToRadius($FrequentofResultA);
+            $RadiusofLinearRegressionValueA = $this->RssiToRadius($LinearRegressionAValueA);
+         }
+        
         //Result B for Reader B
-        $CountofResultB = $this->countDuplicatesRssi($resultB);
-        $LinearRegressionB = $this->get_linear_regressionArray($resultB);
-        $MeanofResultB = $this->getMeanRssi($resultB);
-        $medianB = $this->getMedium($resultB);
-        $FrequentofResultB = $this->getMostFrequentRssi($resultB);
-        $LinearRegressionAValueB = $this->getLinearRegressionIntercept($resultB);//linearRegression Value
-        $RadiusofMeanB = $this->RssiToRadius($MeanofResultB);
-        $RadiusofMedianB = $this->RssiToRadius($medianB);
-        $RadiusofMostB = $this->RssiToRadius($FrequentofResultB);
-        $RadiusofLinearRegressionValueB = $this->RssiToRadius($LinearRegressionAValueB);
+        if(count($resultB) != 1){
+            $CountofResultB = $this->countDuplicatesRssi($resultB);
+            $LinearRegressionB = $this->get_linear_regressionArray($resultB);
+            $MeanofResultB = $this->getMeanRssi($resultB);
+            $medianB = $this->getMedium($resultB);
+            $FrequentofResultB = $this->getMostFrequentRssi($resultB);
+            $LinearRegressionAValueB = $this->getLinearRegressionIntercept($resultB);//linearRegression Value
+            $RadiusofMeanB = $this->RssiToRadius($MeanofResultB);
+            $RadiusofMedianB = $this->RssiToRadius($medianB);
+            $RadiusofMostB = $this->RssiToRadius($FrequentofResultB);
+            $RadiusofLinearRegressionValueB = $this->RssiToRadius($LinearRegressionAValueB);
+        }
        
 
         //Result C for Reader C
-        $CountofResultC = $this->countDuplicatesRssi($resultC);
-        $LinearRegressionC = $this->get_linear_regressionArray($resultC);
-        $MeanofResultC = $this->getMeanRssi($resultC);
-        $medianC = $this->getMedium($resultC);
-        $FrequentofResultC = $this->getMostFrequentRssi($resultC);
-        $LinearRegressionAValueC = $this->getLinearRegressionIntercept($resultC);//linearRegression Value
-        $RadiusofMeanC = $this->RssiToRadius($MeanofResultC);
-        $RadiusofMedianC = $this->RssiToRadius($medianC);
-        $RadiusofMostC = $this->RssiToRadius($FrequentofResultC);
-        $RadiusofLinearRegressionValueC = $this->RssiToRadius($LinearRegressionAValueC);
+        if(count($resultC) != 1){
+            $CountofResultC = $this->countDuplicatesRssi($resultC);
+            $LinearRegressionC = $this->get_linear_regressionArray($resultC);
+            $MeanofResultC = $this->getMeanRssi($resultC);
+            $medianC = $this->getMedium($resultC);
+            $FrequentofResultC = $this->getMostFrequentRssi($resultC);
+            $LinearRegressionAValueC = $this->getLinearRegressionIntercept($resultC);//linearRegression Value
+            $RadiusofMeanC = $this->RssiToRadius($MeanofResultC);
+            $RadiusofMedianC = $this->RssiToRadius($medianC);
+            $RadiusofMostC = $this->RssiToRadius($FrequentofResultC);
+            $RadiusofLinearRegressionValueC = $this->RssiToRadius($LinearRegressionAValueC);
+        }
         
 
         //Result D for Reader D
-        $CountofResultD = $this->countDuplicatesRssi($resultD);
-        $LinearRegressionD = $this->get_linear_regressionArray($resultD);
-        $MeanofResultD = $this->getMeanRssi($resultD);
-        $medianD = $this->getMedium($resultD);
-        $FrequentofResultD = $this->getMostFrequentRssi($resultD);
-        $LinearRegressionAValueD = $this->getLinearRegressionIntercept($resultD);//linearRegression Value
-        $RadiusofMeanD = $this->RssiToRadius($MeanofResultD);
-        $RadiusofMedianD = $this->RssiToRadius($medianD);
-        $RadiusofMostD = $this->RssiToRadius($FrequentofResultD);
-        $RadiusofLinearRegressionValueD = $this->RssiToRadius($LinearRegressionAValueD);
+        if(count($resultD) != 1){
+            $CountofResultD = $this->countDuplicatesRssi($resultD);
+            $LinearRegressionD = $this->get_linear_regressionArray($resultD);
+            $MeanofResultD = $this->getMeanRssi($resultD);
+            $medianD = $this->getMedium($resultD);
+            $FrequentofResultD = $this->getMostFrequentRssi($resultD);
+            $LinearRegressionAValueD = $this->getLinearRegressionIntercept($resultD);//linearRegression Value
+            $RadiusofMeanD = $this->RssiToRadius($MeanofResultD);
+            $RadiusofMedianD = $this->RssiToRadius($medianD);
+            $RadiusofMostD = $this->RssiToRadius($FrequentofResultD);
+            $RadiusofLinearRegressionValueD = $this->RssiToRadius($LinearRegressionAValueD);
+        }
         
 
         
@@ -535,19 +606,24 @@ class chartController extends Controller
                     ->with('showEmptyChart',$showEmptyChart);                                             
         }
        
-         //return $CountofResultA;
+        //return $CountofResultA;
         // return $meanofResultD;
         // return $FrequentofResultD;
         // return dd($this->getSortedArrayY($resultD));
         // $tmp = $this->get_linear_regressionArray($resultD);
         // $t=$this->getMostFrequentRssi($resultC);
-        //  return $resultD;
+        //return $resultA;
+       
+        $RssiList = $this->rssiToradiusSample();
+    
+        
         return view('/rfid/chart')
                 ->with('recordA',$resultA)
                 ->with('recordB',$resultB)
                 ->with('recordC',$resultC)
                 ->with('recordD',$resultD)
                 ->with('flag',$flag)
+                ->with('field',$field)
                 ->with('resultRadiusA',$resultRadiusA)
                 ->with('resultRadiusB',$resultRadiusB)
                 ->with('resultRadiusC',$resultRadiusC)
@@ -562,6 +638,8 @@ class chartController extends Controller
                 ->with('curTagID',$tag_id)
                 ->with('timeframeSimple',$timeframeSimple)
                 ->with('BookName',$BookName)
+                ->with('BookID',$BookID)
+                ->with('RssiList',$RssiList)
 
                 ->with('CountofResultA',$CountofResultA)
                 ->with('MeanofResultA',$MeanofResultA)
@@ -609,6 +687,23 @@ class chartController extends Controller
         $n = Setting::find(1)->n;
         $x = ($p - $rssi) / (10 * $n);
         return pow(10, $x);
+    }
+
+    public function rssiToradiusSample(){
+        
+        $RssiVar = -50;       
+        $rssiArr = [];
+        $radiusArr = []; 
+        for($a = 1; $a <= 16; $a++){           
+            $rssiArr[$a] = (int) $RssiVar;
+            $radiusArr[$a]= (float) $this->RssiToRadius($RssiVar);
+            $RssiVar--;           
+        }     
+     
+        return array(
+            'rssi'=>$rssiArr,
+            'radius'=>$radiusArr
+        );
     }
 
     public function countDuplicatesRssi($resultArray){

@@ -39,6 +39,6 @@ class ResetDatabaseTable extends Command
     {
         //DB::table('store_all_tag_record')->truncate();
         
-        DB::table('store_all_tag_record')->where('created_at', '<=', Carbon::now()->subDay())->delete();
+       // DB::table('store_all_tag_record')->where('created_at', '<=', Carbon::now()->subDay())->delete();
     }
 }

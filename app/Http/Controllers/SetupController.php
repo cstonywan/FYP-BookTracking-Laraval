@@ -16,6 +16,37 @@ class SetupController extends Controller
     {
         //return dd($request->readerA_ip);
         $count = Setting::count();
+        $message = array(
+            'readerA_ip' => 'The Reader A ip must be a valid IP address.',
+            'readerB_ip' => 'The Reader B ip must be a valid IP address.',
+            'readerC_ip' => 'The Reader C ip must be a valid IP address.',
+            'readerD_ip' => 'The Reader D ip must be a valid IP address.',
+            'distance_a' => 'The Distance A must be a number',
+            'distance_b' => 'The Distance B must be a number',
+            'p' => 'The Tx Power must be a number',
+            'n' => 'The Path Loss Exponent must be a number'
+        );
+
+        $validator = Validator::make(request()->all(), 
+        [
+            'readerA_ip' => 'required|ip',
+            'readerB_ip' => 'required|ip',
+            'readerC_ip' => 'required|ip',
+            'readerD_ip' => 'required|ip',
+            'distance_a' => 'required|numeric',
+            'distance_b' => 'required|numeric',
+            'p' => 'required|numeric',
+            'n' => 'required|numeric',           
+        ],$message);    
+
+        if ($validator->fails()) {          
+
+            $record = Setting::find(1);
+
+            return view('rfid.rfidSetting')
+            ->with('record',$record)            
+            ->withErrors($validator); 
+        }
 
         if($count == 0){
             Setting::create([           

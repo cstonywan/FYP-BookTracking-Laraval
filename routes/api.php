@@ -21,3 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/rfidData','apiController@store');
 // Route::post('/rfidget','rfidClientReceive@handle_connect');
+Route::post('/b/list', 'API\BooksController@list');
+Route::get('b/detail/{id}', 'API\BooksController@detail');
+Route::get('user/{id}', 'API\AuthController@getUser');
+Route::get('/record/{id}', 'API\BooksController@record');
+Route::post('/login', 'API\AuthController@login');
+Route::post('/signup', 'API\AuthController@signup');
