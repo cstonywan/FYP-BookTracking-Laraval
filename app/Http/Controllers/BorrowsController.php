@@ -29,31 +29,63 @@ class BorrowsController extends Controller
         $books = Book::all();
 
         if ($content == null or $content == '')
-            $borrows = Borrow::all();
+            $borrows = Borrow::whereNotNull('id');
         else if ($field == "book_title") {
             $matchbooks = Book::select('id')->where('title', 'like', '%'.$content.'%')->get();
-            $borrows = Borrow::whereIn('book_id', $matchbooks)->get();
+            $borrows = Borrow::whereIn('book_id', $matchbooks);
         }
         else if ($field == "user_name") {
             $matchusers = User::select('id')->where('name', 'like', '%'.$content.'%')->get();
-            $borrows = Borrow::whereIn('user_id', $matchusers)->get();
+            $borrows = Borrow::whereIn('user_id', $matchusers);
         }
-
         else
-            $borrows = Borrow::where($field, 'like', '%'.$content.'%')->get();
+            $borrows = Borrow::where($field, 'like', '%'.$content.'%');
 
-        return view('borrows.manage', compact('borrows', 'users', 'books', 'book_id'));
+        $sort = $request->sort;
+        $paginate = 10;
+        if ($sort == null) {
+            $borrows = $borrows->paginate($paginate);
+        } else {
+            $borrows = $borrows->orderBy($sort)->paginate($paginate);
+        }
+        $entries = $borrows->total();
+        $start = $borrows->currentPage() * $paginate - $paginate + 1;
+        $end = $borrows->currentPage() * $paginate;
+        if ($end > $entries) {
+            $end = $entries;
+        }
+        $show = "Showing " . $start . " to " . $end . " of " . $entries . " entries";
+
+        return view('borrows.manage', compact('borrows', 'users', 'books', 'book_id', 'show', 'sort'));
     }
 
     public function record($id)
     {
         $user = User::find($id);
         if ($user->role == 0)
-            $records = User::find($id)->borrows;
+            $records = Borrow::where('user_id', '=', $id);
         else {
-            $records = Borrow::where('staff_id', '=', $id)->get();
+            $records = Borrow::where('staff_id', '=', $id);
         }
-        return view('borrows.record', compact('records', 'user'));
+
+        $sort = request('sort');
+        $paginate = 10;
+        if ($sort == null) {
+            $records = $records->paginate($paginate);
+        } else if ($sort == 'title') {
+            $records = $records->join('books', 'books.id', 'borrows.book_id')->orderBy($sort)->select('borrows.*')->orderBy($sort)->paginate($paginate);
+        } else {
+            $records = $records->orderBy($sort)->paginate($paginate);
+        }
+        $entries = $records->total();
+        $start = $records->currentPage() * $paginate - $paginate + 1;
+        $end = $records->currentPage() * $paginate;
+        if ($end > $entries) {
+            $end = $entries;
+        }
+        $show = "Showing " . $start . " to " . $end . " of " . $entries . " entries";
+
+        return view('borrows.record', compact('records', 'user', 'show', 'sort'));
     }
 
     public function store()
@@ -193,3 +225,6 @@ class BorrowsController extends Controller
 
     // php artisan migrate:refresh --path=/database/migrations/2020_02_24_103035_create_borrows_table.php
 }
+
+
+

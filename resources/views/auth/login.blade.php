@@ -5,8 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
+                <!-- <div class="card-header" style="color:#FFFFFF" align=center><strong>{{ __('Login') }}</strong></div>
+             -->
+             <div class="card-header" style="color:#FFFFFF" align=center><strong>Welcome</strong></div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
@@ -42,7 +43,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-md-6 offset-md-6">
+                            <div class="col-md-6 offset-md-7">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
@@ -53,31 +54,34 @@
                             </div>
                         </div>
 
-                        <div class="form-group row justify-content-md-center">
-                            <div class="col col-md-6 offset-md-4">
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                            </div>
-                        </div>
+                        
 
                         <div class="form-group row justify-content-md-center">
                             <div class="col col-md-8">
-                                <button type="submit" class="btn btn-primary btn-block">
-                                    {{ __('Login') }}
+                                <button type="submit" class="btn btn-primary btn-block" >
+                                   <strong>{{ __('Login') }}</strong>
                                 </button>
                             </div>
                         </div>
                     </form>
                     <div class="form-group row justify-content-md-center">
                         <div class="col col-md-8">
-                            <a href="{{ route('register') }}" class="btn btn-primary btn-block" role="button" aria-pressed="true">Register</a>
+                            <a href="{{ route('register') }}" class="btn btn-primary btn-block" role="button"  aria-pressed="true"><strong>Register</strong></a>
                         </div>
                     </div>
+                    <div class="form-group row justify-content-md-center">
+                            <div class="col col-md-6 offset-md-8">
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    {{ __('Forgot Your Password?') }}
+                                </a>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 @endsection

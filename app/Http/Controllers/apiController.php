@@ -11,6 +11,7 @@ use App\Fivemins;
 use App\Fifteenmins;
 use App\Halfhour;
 use App\Onehour;
+use App\Alltag;
 use DB;
 use DateTime;
 
@@ -34,20 +35,21 @@ class apiController extends Controller
                 var_dump($_POST['Reader_ip']);
 
                 //For add a new tag to the all testing tag table
-                $record_check =  DB::table('all_tag_record')->where('tag_id','=',$_POST['Tag_id'])->first();
-                if($record_check == null){
-                    $data = array(
-                        'tag_id' => $_POST['Tag_id'],
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s')
-                    );
-                    DB::table('all_tag_record')->insert($data);
+                $record_check =  Alltag::where('tag_id','=',$_POST['Tag_id'])->first();
+                if($record_check == null){                 
+                    $Tag_id = $_POST['Tag_id'];
+                    Alltag::create([
+                        'tag_id' => $Tag_id
+                    ]);                   
                 }
+               
+
+                // $checkcurrentTag = Rfid::where()          
+
+                $resetRecord = false; //keep the table 
+
+                // $resetRecord = true; //clean the table 
                 
-                
-                //DB::table('store_all_tag_record')->truncate(); //clean the table 
-                $resetRecord = false; //clean the table 
-                // $resetRecord = true;
                 if($resetRecord){
                     //Clean the data within 1 minutes
                     $Onemin = new DateTime;
@@ -80,6 +82,8 @@ class apiController extends Controller
                     Onehour::where('created_at', '<=', $Onehourformatted)->delete();
                 }
                 
+            if($resetRecord){
+
                 if($_POST['Tag_rssi'] != "-64"){
                     Onemins::create([
                         'tag_id' => $_POST['Tag_id'],
@@ -183,27 +187,8 @@ class apiController extends Controller
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s')
                     ]); 
-                }                               
-                                                                                                                                
-                //For save all tag data (line graph use)        
-                // $data = array(
-                //     'tag_id' => $_POST['Tag_id'],
-                //     'tag_rssi' => $_POST['Tag_rssi'],
-                //     'tag_count' => $_POST['Tag_count'],                                               
-                //     'reader_record_time' => $_POST['Reader_record_time'],
-                //     'reader_ip' => $_POST['Reader_ip'],
-                //     'created_at' => date('Y-m-d H:i:s'),
-                //     'updated_at' => date('Y-m-d H:i:s')
-                // );
-                // DB::table('store_all_tag_record')->insert($data);                              
-
-                // $Tag_id = $_POST['Tag_id'];
-                // $Tag_pc = $_POST['Tag_pc'];
-                // $Tag_count = $_POST['Tag_count'];
-                // $Tag_rssi = $_POST['Tag_rssi'];
-                // $Reader_id = $_POST['Reader_id'];
-                // $Reader_record_time =$_POST['Reader_record_time'];
-                // $Reader_ip =$_POST['Reader_ip'];
+                }
+            }               
                 
                 $record_check = Rfid::where('tag_id','=',$_POST['Tag_id'])
                                     ->where('reader_ip','=',$_POST['Reader_ip'])
@@ -220,7 +205,6 @@ class apiController extends Controller
                         "reader_record_time"=>$_POST['Reader_record_time'],
                         "reader_ip"=>$_POST['Reader_ip'],
                     );                   
-
                     Rfid::where('tag_id','=',$_POST['Tag_id'])
                     ->where('reader_ip','=',$_POST['Reader_ip'])
                     ->update($data);
@@ -236,8 +220,7 @@ class apiController extends Controller
                         'reader_ip' => $_POST['Reader_ip'],
                     ]);                   
                 }                                                                                          
-        }  
-                           
+        }                             
     }
 
     public function show($Tag_id){ 

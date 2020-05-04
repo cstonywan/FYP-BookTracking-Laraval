@@ -13,6 +13,7 @@
             {{ session('message') }}
         </div>
     @endif
+
     <h1 align="center">Lending Record</h1>
     <form action="" method="get">
         @csrf
@@ -25,10 +26,10 @@
                 <select id="search_field" class="form-control custom-select custom-select-lg mb-3" name="search_field">
                     <option value="id">ID</option>
                     <option value="book_id">Book ID</option>
-                    <option value="book_title">Book Title</option>
                     <option value="user_id">User ID</option>
-                    <option value="user_name">User Name</option>
                     <option value="staff_id">Staff ID</option>
+                    <option value="book_title">Book Title</option>                   
+                    <option value="user_name">User Name</option>
                     <option value="renewal_num">Renewal No.</option>
                 </select>
             </div>
@@ -45,18 +46,82 @@
     @if ($book_id)
     <div class="d-none" id="add_specific_book">{{$book_id}}</div>
     @endif
-    <div class="table-responsive">
-      <table class="table table-dark table-hover">
+    <div class="table-responsive border">
+      <table class="table table-sm table-striped">
         <thead>
           <tr>
-            <th class="text-center" scope="col">#</th>
-            <th class="text-center" scope="col">Book ID</th>
-            <th class="text-center" scope="col">User ID</th>
-            <th class="text-center" scope="col">Staff ID</th>
-            <th class="text-center" scope="col">Borrow at</th>
-            <th class="text-center" scope="col">Deadline at</th>
-            <th class="text-center" scope="col">Return at</th>
-            <th class="text-center" scope="col">Renewal No.</th>
+            <th scope="col" style="color:#3A74A1">#
+              @if (Request::get('search_content'))
+              <a href="{{ url(Request::path() . '?_token=' . Request::get('_token') . '&search_field=' . Request::get('search_field') . '&search_content=' . Request::get('search_content') .'&sort=id')}}">
+              @else
+              <a href="?sort=id">
+              @endif
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1">Book ID
+              @if (Request::get('search_content'))
+              <a href="{{ url(Request::path() . '?_token=' . Request::get('_token') . '&search_field=' . Request::get('search_field') . '&search_content=' . Request::get('search_content') .'&sort=book_id')}}">
+              @else
+              <a href="?sort=book_id">
+              @endif
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1">User ID
+              @if (Request::get('search_content'))
+              <a href="{{ url(Request::path() . '?_token=' . Request::get('_token') . '&search_field=' . Request::get('search_field') . '&search_content=' . Request::get('search_content') .'&sort=user_id')}}">
+              @else
+              <a href="?sort=user_id">
+              @endif
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1">Staff ID
+              @if (Request::get('search_content'))
+              <a href="{{ url(Request::path() . '?_token=' . Request::get('_token') . '&search_field=' . Request::get('search_field') . '&search_content=' . Request::get('search_content') .'&sort=staff_id')}}">
+              @else
+              <a href="?sort=staff_id">
+              @endif
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1">Borrowed At
+              @if (Request::get('search_content'))
+              <a href="{{ url(Request::path() . '?_token=' . Request::get('_token') . '&search_field=' . Request::get('search_field') . '&search_content=' . Request::get('search_content') .'&sort=borrow_at')}}">
+              @else
+              <a href="?sort=borrow_at">
+              @endif
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1">Deadline At
+              @if (Request::get('search_content'))
+              <a href="{{ url(Request::path() . '?_token=' . Request::get('_token') . '&search_field=' . Request::get('search_field') . '&search_content=' . Request::get('search_content') .'&sort=deadline_at')}}">
+              @else
+              <a href="?sort=deadline_at">
+              @endif
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1">Returned By
+              @if (Request::get('search_content'))
+              <a href="{{ url(Request::path() . '?_token=' . Request::get('_token') . '&search_field=' . Request::get('search_field') . '&search_content=' . Request::get('search_content') .'&sort=return_at')}}">
+              @else
+              <a href="?sort=return_at">
+              @endif
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1">Renewal No.
+              @if (Request::get('search_content'))
+              <a href="{{ url(Request::path() . '?_token=' . Request::get('_token') . '&search_field=' . Request::get('search_field') . '&search_content=' . Request::get('search_content') .'&sort=renewal_num')}}">
+              @else
+              <a href="?sort=renewal_num">
+              @endif
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
             <th class="text-center" scope="col">
               <a href="#" class="record-create-modal btn btn-success btn-lg">
                 <i class="glyphicon glyphicon-plus"></i> Add Record
@@ -69,21 +134,18 @@
           <tr>
             <td class="text-center">{{ $borrow->id }}</td>
             <td class="text-center">
-              <span class="pr-2">{{ $borrow->book_id }}</span>
-              <a href="{{ route('bookDetail', $borrow->book_id) }}" class="btn btn-info btn-sm">
-                <i class="glyphicon glyphicon-eye-open"></i>
+              <a href="{{ route('bookDetail', $borrow->book_id) }}">
+                <u>{{ $borrow->book_id }}</u>
               </a>
             </td>
             <td class="text-center">
-              <span class="pr-2">{{ $borrow->user_id }}</span>
-              <a href="{{ route('recordBorrow', $borrow->user_id) }}" class="btn btn-info btn-sm">
-                <i class="glyphicon glyphicon-eye-open"></i>
+              <a href="{{ route('recordBorrow', $borrow->user_id) }}">
+                <u>{{ $borrow->user_id }}</u>
               </a>
             </td>
             <td class="text-center">
-              <span class="pr-2">{{ $borrow->staff_id }}</span>
-              <a href="{{ route('recordBorrow', $borrow->staff_id) }}" class="btn btn-info btn-sm">
-                <i class="glyphicon glyphicon-eye-open"></i>
+              <a href="{{ route('recordBorrow', $borrow->staff_id) }}">
+                <u>{{ $borrow->staff_id }}</u>
               </a>
             </td>
             <td class="text-center">{{ $borrow->borrow_at }}</td>
@@ -92,7 +154,7 @@
               @if($borrow->return_at)
                 {{ $borrow->return_at }}
               @else
-                <a href="#" class="return-btn-modal btn btn-light btn-sm" data-id="{{$borrow->id}}" data-bookid="{{$borrow->book_id}}" data-booktitle="{{$borrow->book->title}}" data-userid="{{$borrow->user_id}}" data-username="{{$borrow->user->name}}" data-borrowat="{{$borrow->borrow_at}}" data-deadlineat="{{$borrow->deadline_at}}" data-renewalnum="{{$borrow->renewal_num}}">
+                <a href="#" class="return-btn-modal btn btn-outline-info btn-sm" data-id="{{$borrow->id}}" data-bookid="{{$borrow->book_id}}" data-booktitle="{{$borrow->book->title}}" data-userid="{{$borrow->user_id}}" data-username="{{$borrow->user->name}}" data-borrowat="{{$borrow->borrow_at}}" data-deadlineat="{{$borrow->deadline_at}}" data-renewalnum="{{$borrow->renewal_num}}">
                   <i class="glyphicon glyphicon-transfer"></i> Return
                 </a>
               @endif
@@ -102,7 +164,7 @@
                 {{ $borrow->renewal_num }}
               @else
                 <span class="pr-2">{{ $borrow->renewal_num }}</span>
-                <a href="#" class="renew-btn-modal btn btn-light btn-sm" data-id="{{$borrow->id}}" data-booktitle="{{$borrow->book->title}}" data-username="{{$borrow->user->name}}" data-borrowat="{{$borrow->borrow_at}}" data-deadlineat="{{$borrow->deadline_at}}" data-renewalnum="{{$borrow->renewal_num}}">
+                <a href="#" class="renew-btn-modal btn btn-outline-info btn-sm" data-id="{{$borrow->id}}" data-booktitle="{{$borrow->book->title}}" data-username="{{$borrow->user->name}}" data-borrowat="{{$borrow->borrow_at}}" data-deadlineat="{{$borrow->deadline_at}}" data-renewalnum="{{$borrow->renewal_num}}">
                   <i class="glyphicon glyphicon-repeat"></i> Renewal
                 </a>
               @endif
@@ -119,6 +181,11 @@
           @endforeach
         </tbody>
       </table>
+    </div>
+    <br>
+    <div class="d-flex justify-content-between">
+      <p>{{ $show }}</p>
+      {{ $borrows->appends(['sort' => $sort])->links() }}
     </div>
   </div>
 </div>
@@ -294,7 +361,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" id="create_record_btn" data-token="{{ csrf_token() }}">
-          <span class="glyphicon glyphicon-trash"></span> Submit
+          <span class="glyphicon glyphicon-plus"></span> Submit
         </button>
         <button type="button" class="btn btn-warning" data-dismiss="modal">
           <span class="glyphicon glyphicon-remobe"></span>Close
@@ -380,7 +447,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" id="edit_record_btn" data-token="{{ csrf_token() }}">
-          <span class="glyphicon glyphicon-trash"></span> Submit
+          <span class="glyphicon glyphicon-pencil"></span> Submit
         </button>
         <button type="button" class="btn btn-warning" data-dismiss="modal">
           <span class="glyphicon glyphicon-remobe"></span>Close
@@ -443,7 +510,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" id="delete_record_btn" data-token="{{ csrf_token() }}" data-dismiss="modal">
-          <span class="glyphicon glyphicon-trash"></span> Delete
+          <span class="glyphicon glyphicon-pencil"></span> Delete
         </button>
         <button type="button" class="btn btn-warning" data-dismiss="modal">
           <span class="glyphicon glyphicon-remobe"></span>Close
@@ -454,3 +521,6 @@
 </div>
 
 @endsection
+
+
+

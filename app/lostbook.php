@@ -4,10 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Alltag extends Model
+class lostbook extends Model
 {
     //
     protected $fillable = [
-        'tag_id'        
+        'book_id',
+        'tag_id', 
+        'title'
     ];
 }

@@ -82,7 +82,7 @@
                                 </div> 
                                 <br> 
                                 <div class="row justify-content-center mx-auto">
-                                    <button type="submit" class="btn btn-success btn-lg col-md-12" style="border-radius: 15px; background-color: #043364;border-color: #043364;">
+                                    <button type="submit" class="btn btn-primary btn-lg col-md-12" style="border-radius: 15px;">
                                         <strong>Update Setting</strong>
                                     </button>
                                 </div>          

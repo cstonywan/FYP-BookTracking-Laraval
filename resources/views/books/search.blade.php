@@ -33,7 +33,7 @@
                     <input  id="search_content" type="text" class="form-control" style="height:28px" name="search_content" value="{{ old('search_content') }}" placeholder="Search" autocomplete="search_content" autofocus>
                 </div>
                 <div class="col-md-2 col-sm-12 mt-3 mt-md-0 text-md-left text-right">
-                    <button type="submit" class="btn btn-info btn-lg">
+                    <button type="submit" class="btn btn-primary btn-lg" style="border-radius: 15px;">
                     <span style="color:#FFFFFF" class="glyphicon glyphicon-search"></span><strong style="color:#FFFFFF"> Search</strong>
                     </button>
                 </div>
@@ -58,11 +58,13 @@
                     <div class="media-content-type align-self-start">
                        
                         <div class="col-md-12">
-                            <span class="text-success" style="width:60%"><i>{{ $book->type }}</i></span>
+                            <span class="text-success" style="width:60%"><strong><i>{{ $book->type }}</i></strong></span>
                             <span style="color:#955915"><b><sup>{{ $book->status }}</sup></b></span>
                             <span>
-                            <a href="{{ url('/b/detail/' . $book->id) }}" class="book-show-modal btn btn-link">
-                                <h2 onclick="location.href='{{ url('/b/detail/' . $book->id) }}'"><Strong class="text-info">{{ $book->title }}</Strong></h2></a>
+                            <a  href="{{ url('/b/detail/' . $book->id) }}" class="btn btn-link">
+                                <h2  onclick="location.href='{{ url('/b/detail/' . $book->id) }}'">
+                                <Strong>{{ $book->title }}</Strong></h2>
+                            </a>
                             </span>
                         </div>
 
@@ -72,12 +74,12 @@
                     </div>                   
                 </div>
                 </td>
-                <td>
+                <td class="align-middle">
                     @if($book->status=="inLibrary")
                         <div class="col-md-3">                                   
                                 <span>
                                     <button type="button" class="btn btn-info" title="Track Book" style="background: transparent;border: none;background-repeat:no-repeat;  outline:none;" onclick="window.location='{{ url('/b/track/'.$book->id) }}'">
-                                    <img src="/icon/track.png" style ="border:0;"width="50px" height="50px">                                   
+                                    <img id="booktrack" src="/icon/track.png" style ="border:0;" width="50px" height="50px" onmouseover="hovertrack(this);" onmouseout="unhovertrack(this);">                                   
                                     </button>
                                 </span>
                         </div>
@@ -85,7 +87,7 @@
                         <div class="col-md-3">    
                             <span>
                                 <button type="button" class="btn btn-info" title="Track Book" style="background: transparent;border: none;background-repeat:no-repeat;  outline:none;" onclick="window.location='{{ url('/b/track/'.$book->id) }}'" disabled>
-                                <img src="/icon/track.png" style ="border:0;"width="50px" height="50px">                                   
+                                <img src="/icon/track.png" style ="border:0;" width="50px" height="50px">                                   
                                 </button>
                             </span>
                         </div>
@@ -102,3 +104,30 @@
     </div>
 </div>
 @endsection
+
+<script type="text/javascript">
+
+function hovertrack(element) {
+  element.setAttribute('src', '/icon/trackhover.png');
+  var spans = document.getElementById('booktrack');
+  spans.style.color = '#ff6e42';
+}
+
+function unhovertrack(element) {
+  element.setAttribute('src', '/icon/track.png');
+  var spans = document.getElementById('booktrack');
+  spans.style.color = '#043364';
+} 
+
+function hovertitle(element) {  
+  var title = document.getElementById('booktitle');
+  title.style.color = '#ff6e42';
+}
+
+function unhovertitle(element) {
+ 
+  var title = document.getElementById('booktitle');
+  title.style.color = '#032549';
+} 
+
+</script>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Request;
 use App\Book;
+use App\Alltag;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -20,8 +21,31 @@ class BooksController extends Controller
 
     public function manage()
     {
-        $books = Book::all();
-        return view('books.manage')->with('books', $books);
+        $sort = request('sort');
+        $usedTag = Book::whereNotNull('tag_id')->pluck('tag_id')->toArray();
+        $notusedTag = Alltag::whereNotIn('tag_id',$usedTag)->pluck('tag_id')->toArray();
+        
+        
+       
+        $paginate = 10;
+        if ($sort == null) {
+            $books = Book::paginate($paginate);
+        } else {
+            $books = Book::orderBy($sort)->paginate($paginate);
+        }
+        $entries = $books->total();
+        $start = $books->currentPage() * $paginate - $paginate + 1;
+        $end = $books->currentPage() * $paginate;
+        if ($end > $entries) {
+            $end = $entries;
+        }
+        $show = "Showing " . $start . " to " . $end . " of " . $entries . " entries";
+
+        return view('books.manage')
+                ->with('books', $books)
+                ->with('show', $show)
+                ->with('sort', $sort)
+                ->with('tags',$notusedTag);
     }
 
     public function search(Request $request)
@@ -72,12 +96,7 @@ class BooksController extends Controller
             'status' => 'required',
             'image' => 'nullable|image',
         ]);    
-
-        $validator->after(function($validator) {
-            if (Book::where('tag_id','=',request('tag_id'))->get()) {
-                $validator->errors()->add('tag_id', 'Sorry, the Tag Id was in use!!');
-            }
-        });
+       
 
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->getMessageBag()->toArray()]);

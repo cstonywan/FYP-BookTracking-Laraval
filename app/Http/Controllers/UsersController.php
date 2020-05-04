@@ -7,6 +7,9 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class UsersController extends Controller
 {
@@ -17,8 +20,25 @@ class UsersController extends Controller
 
     public function manage()
     {
-        $users = User::all();
-        return view('users.manage')->with('users', $users);
+        $sort = request('sort');
+        $paginate = 10;
+        if ($sort == null) {
+            $users = User::paginate($paginate);
+        } else {
+            if ($sort == 'role') {
+                $users = User::orderBy($sort, 'desc')->paginate($paginate);
+            } else {
+                $users = User::orderBy($sort)->paginate($paginate);
+            }
+        }
+        $entries = $users->total();
+        $start = $users->currentPage() * $paginate - $paginate + 1;
+        $end = $users->currentPage() * $paginate;
+        if ($end > $entries) {
+            $end = $entries;
+        }
+        $show = "Showing " . $start . " to " . $end . " of " . $entries . " entries";
+        return view('users.manage')->with('users', $users)->with('show', $show)->with('sort', $sort);
     }
 
     public function store()
@@ -27,18 +47,20 @@ class UsersController extends Controller
             'name' => 'required|max:255|unique:users',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:8',
-            'password_confirm' => 'required|same:password',
+            'password-confirm' => 'required|same:password',
+            'photo' => 'required|image',
         ]);
-
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->getMessageBag()->toArray()]);
         }
-
+        $image = request('photo');
+        $imagePath = $image->store('photo', 'public');
         User::create([
             'name' => request('name'),
             'email' => request('email'),
             'password' => Hash::make(request('password')),
             'role' => request('role'),
+            'photo' => $imagePath,
         ]);
 
         Session::flash('message', 'User has been created.');
@@ -49,16 +71,29 @@ class UsersController extends Controller
         $validator = Validator::make(request()->all(), [
             'name' => 'required|max:255|unique:users,name,' . $request->id,
             'email' => 'required|email|max:255|unique:users,email,' . $request->id,
+            'photo' => 'nullable|image'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->getMessageBag()->toArray()]);
         }
 
+        $image = $request->photo;
+
         $user = User::find($request->id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->role = $request->role;
+        if ($image != null) {
+            if ($user->photo) {
+                $url = storage_path('app/public/'.$user->photo);
+                if (file_exists($url)) {
+                    unlink($url);
+                }
+            }
+            $imagePath = $image->store('photo', 'public');
+            $user->photo = $imagePath;
+        }
         $user->save();
 
         Session::flash('message', 'User has been edited.');
@@ -67,6 +102,12 @@ class UsersController extends Controller
     public function delete($id)
     {
         $user = User::find($id);
+        if ($user->photo){
+            $url = storage_path('app/public/'.$user->photo);
+            if (file_exists($url)) {
+                unlink($url);
+            }
+        }
         $user->delete();
 
         Session::flash('message', 'User has been deleted.');

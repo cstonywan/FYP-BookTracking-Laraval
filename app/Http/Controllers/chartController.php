@@ -19,7 +19,11 @@ use DateTime;
 
 class chartController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     //let user input id
     public function Chart(Request $request)
     {
@@ -331,7 +335,8 @@ class chartController extends Controller
           
             $resultA[++$key] = [(int)$value->Second, (int)$value->Rssi];
             //$resultA[++$key] = [(int) $key, (int)$value->Rssi];
-        }       
+        }  
+        
         $resultB[] = ['Second','Rssi'];
         foreach ($recordB as $key => $value) {
             $resultB[++$key] = [(int)$value->Second, (int)$value->Rssi];
@@ -681,6 +686,32 @@ class chartController extends Controller
                 ->with('RadiusofMostD',$RadiusofMostD)
                 ->with('RadiusofLinearRegressionValueD',$RadiusofLinearRegressionValueD);
     }
+
+    // public function getAjax(){  //pass to sucesss ajax
+       
+    //         // $timeframeSimple = '1 mins';
+    //         $tag_id= 'E2 00 00 1D 30 10 01 34 23 70 66 1F';
+    //         $readerB_IP='192.168.1.140';
+    //         $recordB = Onemins::select(                                                 
+    //             DB::raw("Second(created_at) as Second"),
+    //             DB::raw("tag_rssi as Rssi")
+    //             )                 
+    //             ->where('tag_id','like', '%'.$tag_id.'%')                                                            
+    //             ->where('reader_ip','=',$readerB_IP)
+    //             // ->where('tag_rssi','!=','-64')     
+    //             // ->where('created_at','>=', $formatted_date)                                                                                                                                              
+    //             ->orderBy("created_at")                                             
+    //             ->get();
+    //         //  return   $recordA;
+           
+    //             $resultB[] = ['Second','Rssi'];
+    //             foreach ($recordB as $key => $value) {                         
+    //                 $resultB[++$key] = [(int)$value->Second, (int)$value->Rssi];                   
+    //             }  
+            
+    //            return response()->json($resultB);                   
+
+    // }
 
     public function RssiToRadius($rssi) {
         $p = Setting::find(1)->p;

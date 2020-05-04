@@ -8,6 +8,9 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class RegisterController extends Controller
 {
@@ -49,11 +52,20 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        // return dd($data);
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'photo' => ['required', 'image'],
         ]);
+        // $validator = Validator::make($data, [
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        //     'password' => ['required', 'string', 'min:8', 'confirmed'],
+        //     'photo' => ['required', 'image'],
+        // ]);
+        // return dd($validator->getMessageBag());
     }
 
     /**
@@ -64,10 +76,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $image = $data['photo'];
+        $imagePath = $image->store('photo', 'public');
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'photo' => $imagePath,
         ]);
     }
 }

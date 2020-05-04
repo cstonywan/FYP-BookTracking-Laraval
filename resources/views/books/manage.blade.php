@@ -8,23 +8,42 @@
         </div>
     @endif
     <h1>Books list</h1>
-    <div class="table-responsive">
-      <table class="table table-light table-hover">
+    <div class="table-responsive border">
+      <table class="table table-sm table-striped">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Cover</th>
-            <th scope="col">Tag ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Author</th>
-            <th scope="col">Type</th>
-            <th scope="col">Publisher</th>
-            <th scope="col">Publication Year</th>
-            <th scope="col">Language</th>
-            <th scope="col">ISBN</th>
-            <th scope="col">Status</th>
-            <th scope="col">Create At</th>
-            <th class="text-center" width="125px">
+            <th scope="col" style="color:#3A74A1" width="5%">ID
+              <a href="?sort=id">
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1" width="10%">Cover</th>
+            <th scope="col" style="color:#3A74A1" width="20%">Title
+              <a href="?sort=title">
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1" width="15%">Tag ID
+              <a href="?sort=title">
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1" width="15%">Author
+              <a href="?sort=author">
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1" width="15%">Publisher
+              <a href="?sort=publisher">
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th scope="col" style="color:#3A74A1" width="10%">Status
+              <a href="?sort=status">
+                <i class="glyphicon glyphicon-sort"></i>
+              </a>
+            </th>
+            <th  style="color:#3A74A1"class="text-center" width="125px">
               <a href="#" class="book-create-modal btn btn-success btn-lg">
                 <i class="glyphicon glyphicon-plus"></i> Add Book
               </a>
@@ -32,31 +51,26 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($books as $book)
+          @foreach ($books as $indexKey => $book)
           <tr>
-              <td>{{ $book->id }}</td>
-              <td width="10%">
+              <td style="font-size: 15px;">{{ $book->id }}</td>
+              <td>
                   @if($book->image)
-                  <img src="/storage/{{ $book->image }}" weight="80" height="100" class="img-thumbnail">
+                  <img src="/storage/{{ $book->image }}" class="img-thumbnail" style="width:80px;height:100px">
                   @else
-                  <img src="/storage/uploads/default.png" weight="80" height="100" class="img-thumbnail">
+                  <img src="/storage/uploads/default.png" class="img-thumbnail" style="width:80px;height:100px">
                   @endif
               </td>
-              <td>{{ $book->tag_id }}</td>
-              <td>{{ $book->title }}</td>
-              <td>{{ $book->author }}</td>
-              <td>{{ $book->type }}</td>
-              <td>{{ $book->publisher }}</td>
-              <td>{{ $book->publicationYear }}</td>
-              <td>{{ $book->language }}</td>
-              <td>{{ $book->ISBN }}</td>
-              <td>{{ $book->status }}</td>
-              <td>{{ $book->created_at }}</td>
+              <td style="font-size: 15px;">{{ $book->title }}</td>
+              <td style="font-size: 15px;">{{ $book->tag_id }}</td>
+              <td style="font-size: 15px;">{{ $book->author }}</td>
+              <td style="font-size: 15px;">{{ $book->publisher }}</td>
+              <td style="font-size: 15px;">{{ $book->status }}</td>
               <td class="text-center">
                 <a href="{{ url('/b/detail/' . $book->id) }}" class="book-show-modal btn btn-info btn-sm">
                   <i class="glyphicon glyphicon-eye-open"></i>
                 </a>
-                <a href="#" class="book-edit-modal btn btn-warning btn-sm" data-id="{{$book->id}}" data-tag_id="{{$book->tag_id}}" data-title="{{$book->title}}" data-author="{{$book->author}}" data-publisher="{{$book->publisher}}" data-publicationyear="{{$book->publicationYear}}" data-language="{{$book->language}}" data-isbn="{{$book->ISBN}}" data-description="{{$book->description}}" data-pagenumber="{{$book->pageNumber}}" data-status="{{$book->status}}" data-type="{{$book->type}}" data-image="{{$book->image}}">
+                <a href="#" class="book-edit-modal btn btn-warning btn-sm" data-tagid="{{$book->tag_id}}" data-id="{{$book->id}}" data-title="{{$book->title}}" data-author="{{$book->author}}" data-publisher="{{$book->publisher}}" data-publicationyear="{{$book->publicationYear}}" data-language="{{$book->language}}" data-isbn="{{$book->ISBN}}" data-description="{{$book->description}}" data-pagenumber="{{$book->pageNumber}}" data-status="{{$book->status}}" data-type="{{$book->type}}" data-image="{{$book->image}}">
                   <i class="glyphicon glyphicon-pencil"></i>
                 </a>
                 <a href="#" class="book-delete-modal btn btn-danger btn-sm" data-id="{{$book->id}}" data-title="{{$book->title}}">
@@ -67,6 +81,11 @@
           @endforeach
         </tbody>
       </table>
+    </div>
+    <br>
+    <div class="d-flex justify-content-between">
+      <p>{{ $show }}</p>
+      {{ $books->appends(['sort' => $sort])->links() }}
     </div>
 </div>
 
@@ -86,8 +105,13 @@
                     <div id="add_book_error" class="error-box text-center text-danger"></div>
                     <!--Added by tony-->
                     <div class="form-group">
-                        <label for="tag_id" class="pl-3 col-form-label">Tag ID</label>
-                        <input id="tag_id" type="text" class="form-control add-input" name="tag_id" caption="tag_id" value="{{ old('tag_id') }}" required autocomplete="tag_id" autofocus>
+                        <label for="tag_id" class="pl-3 col-form-label">Tag ID</label>                        
+                        <select id="tag_id" class="form-control custom-select custom-select-lg mb-3" name="tag_id">
+                            <option value="">-- Please Select --</option>  
+                            @foreach($tags as $tag)      
+                            <option value="{{$tag}}">{{$tag}}</option>  
+                            @endforeach
+                        </select>
                     </div>
                     <!--Added by tony-->
                     <div class="form-group">
@@ -211,8 +235,13 @@
                     </div>
                      <!--Added by tony-->
                     <div class="form-group">
-                        <label for="tag_id" class="pl-3 col-form-label">Tag ID</label>
-                        <input id="book_edit_tag_id" type="text" class="form-control edit-input" name="tag_id" require>
+                        <label for="tag_id" class="pl-3 col-form-label">Tag ID</label>                        
+                        <select id="book_edit_tag_id" class="form-control custom-select custom-select-lg mb-3" name="tag_id">                            
+                              <option value="">-- Please Select --</option>                            
+                            @foreach($tags as $tag)      
+                            <option value="{{$tag}}">{{$tag}}</option>  
+                            @endforeach                              
+                        </select>
                     </div>
                      <!--Added by tony-->
                     <div class="form-group">

@@ -5,8 +5,12 @@ $(document).on('click','.book-create-modal', function() {
 
 //<!-- Click Edit Button -->
 $(document).on('click', '.book-edit-modal', function() {
+    var select = document.getElementById('book_edit_tag_id');
+    var option = document.createElement('option');
+    option.text = $(this).data('tagid');
+    select.add(option);
     $('#book_edit_id').val($(this).data('id'));
-    $('#book_edit_tag_id').val($(this).data('tag_id')); //added by tony
+    $('#book_edit_tag_id').val($(this).data('tagid')); //added by tony  
     $('#book_edit_title').val($(this).data('title'));
     $('#book_edit_author').val($(this).data('author'));
     $('#book_edit_publisher').val($(this).data('publisher'));
@@ -17,7 +21,6 @@ $(document).on('click', '.book-edit-modal', function() {
     $('#book_edit_pageNumber').val($(this).data('pagenumber'));
     $('#book_edit_type').val($(this).data('type'));
     $('#book_edit_status').val($(this).data('status'));
-
     $('#book_edit_modal').modal('show');
 });
 

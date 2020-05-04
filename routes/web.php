@@ -42,9 +42,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/rfid/rfidSetting/store','SetupController@store');    
     Route::get('/rfid/chart', 'chartController@Chart')->name('showChart');
     Route::get('/rfid/tracking/{id}', 'TrackingController@calculate');
-    // Route::get('/rfid/line-chart', function () {
-    //     return view('rfid/line-chart');
-    // });
+    // Route::get('/rfid/getajax', 'chartController@getAjax');
+    
 });
 
 Route::group(['middleware' => ['manager']], function () {

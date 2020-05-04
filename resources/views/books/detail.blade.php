@@ -1,11 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-.img-thumbnail{
-    border-color:#3A74A1;
-}
-</style>
+
 
 <div class="container">
     <div class="justify-content-center">
@@ -20,8 +16,10 @@
             <!--For show image -->
             
             <div class="row justify-content-center">
+           
             <div class="col-md-12">
-                <h1 align=center style="color:#0062AF"><strong>Book Information</strong></h1>
+                <h1 align=center><strong>Book Information</strong></h1>
+               
             </div>
                 <div class="col-md-3">
                     @if($book->image)
@@ -37,7 +35,7 @@
                             </h1><br>
                         </div>
                         <div class="col-md-12">                        
-                            <span style="color:#043364"><strong> {{$book->status}}</strong></span>
+                            <span id="bookstatus" style="color:#043364"><strong> {{$book->status}}</strong></span>
                         </div>
                         <div class="col-md-12">
                         <div class="row">
@@ -45,7 +43,7 @@
                             <div class="col-md-2">                                   
                                 <span>
                                     <button type="button" class="btn btn-info" title="Track Book" style="background: transparent;border: none;background-repeat:no-repeat;  outline:none;" onclick="window.location='{{ url('/b/track/'.$book->id) }}'">
-                                    <img src="/icon/track.png" style ="border:0;"width="50px" height="50px">                                   
+                                    <img src="/icon/track.png" style ="border:0;"width="50px" height="50px" onmouseover="hovertrack(this);" onmouseout="unhovertrack(this);">                                   
                                     </button>
                                 </span>
                             </div> 
@@ -63,7 +61,7 @@
                                         @csrf
                                         <input type="hidden" name="book_id" value="{{ $book->id }}">
                                         <button type="submit"  class="btn btn-info" title="Lend book" style="background: transparent;border: none; background-repeat:no-repeat; outline:none;" id="leadbook_btn" >
-                                        <img src="/icon/lend.png" style ="border:0;" width="50px" height="50px" >                                                       
+                                        <img src="/icon/lend.png" style ="border:0;" width="50px" height="50px" onmouseover="hoverlend(this);" onmouseout="unhoverlend(this);">                                                       
                                     </form>                                                             
                                     @endif
                                 <span>                                
@@ -118,4 +116,28 @@
         </div>
     </div>
 </div>
+
 @endsection
+<script type="text/javascript">
+
+function hovertrack(element) {
+  element.setAttribute('src', '/icon/trackhover.png');
+  var spans = document.getElementById('bookstatus');
+  spans.style.color = '#ff6e42';
+}
+
+function unhovertrack(element) {
+  element.setAttribute('src', '/icon/track.png');
+  var spans = document.getElementById('bookstatus');
+  spans.style.color = '#043364';
+} 
+
+function hoverlend(element) {
+  element.setAttribute('src', '/icon/lendhover.png');
+}
+
+function unhoverlend(element) {
+  element.setAttribute('src', '/icon/lend.png');
+} 
+
+</script>
