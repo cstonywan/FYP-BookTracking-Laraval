@@ -7,7 +7,8 @@
             {{ session('message') }}
         </div>
     @endif
-    <h1>Books list</h1>
+    <h1>Books list</h1> 
+   
     <div class="table-responsive border">
       <table class="table table-sm table-striped">
         <thead>
@@ -87,7 +88,26 @@
       <p>{{ $show }}</p>
       {{ $books->appends(['sort' => $sort])->links() }}
     </div>
+
+    <h1 id="misstitle" style="display:none">Missing Book</h1><br><br>
+    <button id="startcheck" class="btn btn-primary btn-lg" style="border-radius:1.5rem;"><strong>Show Missing Book</strong></button>
+    <h3 id="nomiss" style="display:none">No missing book was found.</h3>
+    <br> 
+        <table id="misstable" class="table table-sm table-striped" style="display:none;" onload="realTime()">
+            <thead>
+              <tr>
+                <th scope="col" style="color:#3A74A1" width="5%">Book ID</th>
+                <th scope="col" style="color:#3A74A1" width="5%">Title</th>
+                <th scope="col" style="color:#3A74A1" width="5%">Tag ID</th>
+              </tr>
+            </thead>
+            <tbody id="misstablebody">
+            
+            </tbody>
+        </table>
+    
 </div>
+
 
 {{-- Form Add Book --}}
 <div id="book_add_modal" class="modal fade" role="dialog">

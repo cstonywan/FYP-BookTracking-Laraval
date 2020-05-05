@@ -42,9 +42,17 @@ class apiController extends Controller
                         'tag_id' => $Tag_id
                     ]);                   
                 }
-               
 
-                // $checkcurrentTag = Rfid::where()          
+                // $losttime = new DateTime;
+                // $losttime->modify('-3 second');
+                // $losttimeformatted = $losttime->format('Y-m-d H:i:s');
+
+                // $usedTag = Book::whereNotNull('tag_id')->pluck('tag_id')->toArray();
+
+                // $checkcurrentTag = Rfid::where('tag_id','like','%'.$usedTag.'%')
+                //                         ->where('updated_at','<=',$losttime)->get();  
+                
+                
 
                 $resetRecord = false; //keep the table 
 
@@ -190,14 +198,15 @@ class apiController extends Controller
                 }
             }               
                 
-                $record_check = Rfid::where('tag_id','=',$_POST['Tag_id'])
+                $record_check = Rfid::where('tag_id','=',substr($_POST['Tag_id'], 1))
                                     ->where('reader_ip','=',$_POST['Reader_ip'])
                                     ->first();
                                    
                 
-                if($record_check!= null){ //existed to update the record 
-                    $data = array(
-                        "tag_id"=>$_POST['Tag_id'],
+                if($record_check!= null){ //existed to update the record                    
+                
+                    $data = array(            
+                        "tag_id"=>substr($_POST['Tag_id'], 1),
                         "tag_pc_value"=>$_POST['Tag_pc'],
                         "tag_count"=>$_POST['Tag_count'],
                         "tag_rssi"=>$_POST['Tag_rssi'],
@@ -205,14 +214,15 @@ class apiController extends Controller
                         "reader_record_time"=>$_POST['Reader_record_time'],
                         "reader_ip"=>$_POST['Reader_ip'],
                     );                   
-                    Rfid::where('tag_id','=',$_POST['Tag_id'])
+                    Rfid::where('tag_id','=',substr($_POST['Tag_id'], 1))
                     ->where('reader_ip','=',$_POST['Reader_ip'])
                     ->update($data);
                 }
-                else{       //a new record              
+                else{       //a new record  
+                   
                     Rfid::create([
-                        'tag_id' => $_POST['Tag_id'],
-                        'tag_pc_value' => $_POST['Tag_pc'],
+                        "tag_id"=>substr($_POST['Tag_id'], 1),
+                        'tag_pc_value' =>$_POST['Tag_pc'],
                         'tag_count' => $_POST['Tag_count'],
                         'tag_rssi' => $_POST['Tag_rssi'],
                         'reader_antenna' => $_POST['Reader_id'],

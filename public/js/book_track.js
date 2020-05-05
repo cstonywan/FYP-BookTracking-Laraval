@@ -35,7 +35,7 @@ function getResult(canvas, x, y) {
 }
 
 function draw() {
-    //alert(records[0]['radius']);
+    // alert(records[0]['radius']);
     var width = widthData;
     var height = heightData;
 
@@ -45,9 +45,10 @@ function draw() {
     // var c_distance = 0.56;
     // var d_distance = 0.73;
     var radius = [
-        0.50118723362727,	0.38872216021413,	0.6383543108316,	0.5185382005214
-           
-
+        records[0]['radius'],
+        records[1]['radius'],
+        records[2]['radius'],
+        records[3]['radius'],          
     ];
     // for(var i = 0; i < records.length ;i++){
     //     radius[i]=records[i]['radius'];
@@ -403,4 +404,200 @@ function index_to_area(index) {
         break;
     }
     return area;
+}
+
+function onedraw(){
+    //alert(records[0]['radius']);
+    var width = widthData;
+    var height = heightData;
+
+    // ED
+    // var a_distance = 0.3; //radius
+    // var b_distance = 0.56;
+    // var c_distance = 0.56;
+    // var d_distance = 0.73;
+    var radius = [
+        RadiusofLinearRegressionValueA,      
+        RadiusofLinearRegressionValueB,
+        RadiusofLinearRegressionValueC,
+        RadiusofLinearRegressionValueD 
+    ];
+    // for(var i = 0; i < records.length ;i++){
+    //     radius[i]=records[i]['radius'];
+    // }
+
+    // 74
+    // var a_distance = 0.66;
+    // var b_distance = 0.3;
+    // var c_distance = 0.85;
+    // var d_distance = 0.56;
+    // //1F
+    // var a_distance = 0.48;
+    // var b_distance = 0.48;
+    // var c_distance = 0.48;
+    // var d_distance = 0.48;
+    // // 1473
+    // var a_distance = 0.66;
+    // var b_distance = 0.76;
+    // var c_distance = 0.25;
+    // var d_distance = 0.64;
+    // // 6DB
+    // var a_distance = 0.73;
+    // var b_distance = 0.53;
+    // var c_distance = 0.54;
+    // var d_distance = 0.22;
+
+    // var scale = 300;
+    var scale = 300 / (width * 2);
+
+    var svg_data = document.getElementById("svg_data");
+    var canvas = document.getElementById("can");
+    var background_pattern = document.getElementById("background_pattern");
+    var pattern_rect = document.getElementById("pattern_rect");
+    svg_width = width * 2 * scale;
+    svg_height = height * 2 * scale;
+    pattern_width = width / 2 * scale;
+    pattern_height = height / 2 * scale;
+    svg_data.setAttribute("width", svg_width + "px");
+    svg_data.setAttribute("height", svg_height + "px");
+    canvas.setAttribute("width", svg_width + "px");
+    canvas.setAttribute("height", svg_height + "px");
+    background_pattern.setAttribute("width", pattern_width);
+    background_pattern.setAttribute("height", pattern_height);
+    pattern_rect.setAttribute("width", pattern_width);
+    pattern_rect.setAttribute("height", pattern_height);
+
+
+
+    var reader_a = document.getElementById("reader_a");
+    var reader_b = document.getElementById("reader_b");
+    var reader_c = document.getElementById("reader_c");
+    var reader_d = document.getElementById("reader_d");
+    var circle_a = document.getElementById("circle_a");
+    var circle_b = document.getElementById("circle_b");
+    var circle_c = document.getElementById("circle_c");
+    var circle_d = document.getElementById("circle_d");
+
+    var acx = width / 2 * scale;
+    var acy = height / 2 * scale;
+    var bcx = acx + width * scale;
+    var bcy = acy;
+    var ccx = acx;
+    var ccy = acy + height * scale;
+    var dcx = bcx;
+    var dcy = ccy;
+
+    reader_a.setAttribute("cx", acx);
+    reader_a.setAttribute("cy", acy);
+    reader_b.setAttribute("cx", bcx);
+    reader_b.setAttribute("cy", bcy);
+    reader_c.setAttribute("cx", ccx);
+    reader_c.setAttribute("cy", ccy);
+    reader_d.setAttribute("cx", dcx);
+    reader_d.setAttribute("cy", dcy);
+
+    circle_a.setAttribute("cx", acx);
+    circle_a.setAttribute("cy", acy);
+    circle_a.setAttribute("r", radius[0] * scale);
+    circle_b.setAttribute("cx", bcx);
+    circle_b.setAttribute("cy", bcy);
+    circle_b.setAttribute("r", radius[1] * scale);
+    circle_c.setAttribute("cx", ccx);
+    circle_c.setAttribute("cy", ccy);
+    circle_c.setAttribute("r", radius[2] * scale);
+    circle_d.setAttribute("cx", dcx);
+    circle_d.setAttribute("cy", dcy);
+    circle_d.setAttribute("r", radius[3] * scale);
+
+    // var div_svg = document.getElementById("div_svg");
+    // div_svg.style.display = 'block';
+    // can.style.display = "none";
+
+    let xml = new XMLSerializer().serializeToString(svg_data);   // get svg data
+    let svg64 = btoa(xml);                         // make it base64
+    let b64Start = 'data:image/svg+xml;base64,';
+    let image64 = b64Start + svg64;                // prepend a "header"
+
+    circImg.src = image64;                         // image source
+    circImg.onload = x=> {
+        canvas.getContext('2d').drawImage(circImg, 0, 0); // draw
+        window.canvas = canvas;
+        var divide1 = svg_width / 4;
+        var divide2 = svg_width / 2;
+        var divide3 = svg_width / 4 * 3;
+        // for (var i=0; i<svg_width; i++) {
+        //     for (var j=0; j<svg_height; j++) {
+        //         if (i >= divide2 && i < divide3 && j >= divide2 && j < divide3 ) {
+        //             c3 = countResult(canvas, i, j);
+        //         }
+        //     }
+        // }
+        var a1 = countResult(canvas, 0, divide1, 0, divide1);
+        var a2 = countResult(canvas, divide1, divide2, 0, divide1);
+        var a3 = countResult(canvas, divide2, divide3, 0, divide1);
+        var a4 = countResult(canvas, divide3, svg_width, 0, divide1);
+        var b1 = countResult(canvas, 0, divide1, divide1, divide2);
+        var b2 = countResult(canvas, divide1, divide2, divide1, divide2);
+        var b3 = countResult(canvas, divide2, divide3, divide1, divide2);
+        var b4 = countResult(canvas, divide3, svg_width, divide1, divide2);
+        var c1 = countResult(canvas, 0, divide1, divide2, divide3);
+        var c2 = countResult(canvas, divide1, divide2, divide2, divide3);
+        var c3 = countResult(canvas, divide2, divide3, divide2, divide3);
+        var c4 = countResult(canvas, divide3, svg_width, divide2, divide3);
+        var d1 = countResult(canvas, 0, divide1, divide3, svg_height);
+        var d2 = countResult(canvas, divide1, divide2, divide3, svg_height);
+        var d3 = countResult(canvas, divide2, divide3, divide3, svg_height);
+        var d4 = countResult(canvas, divide3, svg_width, divide3, svg_height);
+        var result = [];
+        result.push(a1, a2, a3, a4);
+        result.push(b1, b2, b3, b4);
+        result.push(c1, c2, c3, c4);
+        result.push(d1, d2, d3, d4);
+
+        // getColor(canvas, 0, 0);
+
+        var max_count = 0;
+        var max_index;
+        for (var i=0; i<16; i++) {
+            if (result[i][3] > max_count) {
+                max_count = result[i][3];
+                max_index = i;
+            }
+        }
+        if (max_count == 0) {
+            for (var i=0; i<16; i++) {
+                if (result[i][2] > max_count) {
+                    max_count = result[i][2];
+                    max_index = i;
+                }
+            }
+        }
+        // if (max_count == 0) {
+        //     for (var i=0; i<16; i++) {
+        //         if (result[i][1] > max_count) {
+        //             max_count = result[i][1];
+        //             max_index = i;
+        //         }
+        //     }
+        // }
+        var area_result = index_to_area(max_index);
+        var raw_data = document.getElementById("raw_data");
+        var result = document.getElementById("result");
+        var area = document.getElementById("area");
+        raw_data.innerHTML = "Raw Data: [readerA:" + radius[0] + "m, readerB:" + radius[1]+ "m, readerC:" + radius[2]+ "m, readerD:" + radius[3] + "m]";
+        result.innerHTML = 'count=' + max_count + ', index=' + max_index;
+        area.innerHTML = 'The book is in area ' + area_result;
+
+        var target_x = parseInt(max_index % 4) * pattern_width;
+        var target_y = parseInt(max_index / 4) * pattern_height;
+       
+      
+      
+
+        var spinner = document.getElementById("spinner");
+        spinner.style.display = 'none';
+        
+    }
+
+   
 }

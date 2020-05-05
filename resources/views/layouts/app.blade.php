@@ -77,7 +77,7 @@
                                       Manage<span class="caret"></span>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="manageDropdown">
-                                        <a class="dropdown-item" href="{{ route('manageBook') }}">Manage Book</a>
+                                        <a id="managebook" class="dropdown-item" href="{{ route('manageBook') }}" onclick="realTime()">Manage Book</a>
                                         <a class="dropdown-item" href="{{ route('manageBorrow') }}">Manage Lending</a>                                                                             
                                         @if (Auth::user()->role == 2)
                                         <a class="dropdown-item" href="{{ route('manageUser') }}">Manage User</a>
@@ -156,7 +156,8 @@
             $(".alert").fadeTo(500, 0).slideUp(500, function(){
                 $(this).remove();
             });
-       }, 2000);
+       }, 2000);    
+       
     </script>
 </body>
 </html>

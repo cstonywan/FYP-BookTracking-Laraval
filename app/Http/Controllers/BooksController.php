@@ -6,11 +6,16 @@ use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Request;
 use App\Book;
 use App\Alltag;
+use App\Rfid;
+use App\Setting;
+use App\lostbook;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use DateTime;
+
 
 class BooksController extends Controller
 {
@@ -19,13 +24,63 @@ class BooksController extends Controller
         $this->middleware('auth');
     }
 
+    public function getAjax(){
+        $usedTag = Book::whereNotNull('tag_id')->where('status','=','inLibrary')->pluck('tag_id')->toArray();
+        $currentTag = Rfid::whereIn('tag_id', $usedTag)->get();
+
+        $miss_tag = array();
+        $group = collect($currentTag)->groupBy('tag_id');
+        
+        $currentDate = date('Y-m-d H:i:s.') . gettimeofday()['usec'];
+       
+         
+        foreach($group as $tag) {
+            $missing = true;
+            for ($i=0; $i<count($tag); $i++) {
+              if (strtotime($currentDate) - strtotime($tag[$i]['reader_record_time']) <= 5) {
+                  $missing  = false;            
+              }                      
+            }
+            if ($missing) {
+                array_push($miss_tag, $tag[0]['tag_id']);
+            }
+        }
+        $bookid = array();
+        $bookTitle = array(); 
+        $record = array(); 
+        
+        for($i=0; $i<count($miss_tag); $i++){
+            $bookid[$i] = Book::where('tag_id','=',$miss_tag[$i])->value('id');
+            $bookTitle[$i] = Book::where('tag_id','=',$miss_tag[$i])->value('title'); 
+            $record[$i] = [$bookid[$i], $bookTitle[$i],$miss_tag[$i]];                                                               
+        }
+      
+        return response()->json(
+            $record
+        );            
+        //   $bookid = array();
+        //   $bookTitle = array();      
+        //   $checkmiss = whereNotIn('tag_id',$miss_tag)->get();
+
+        //   return $checkmiss;
+        //   for($i=0;$i<count($miss_tag);$i++){
+        //         $bookid[$i] = Book::where('tag_id','=',$miss_tag[$i])->value('id');
+        //         $bookTitle[$i] = Book::where('tag_id','=',$miss_tag[$i])->value('title');  
+            
+            
+        //             lostbook::create([
+        //                 'book_id'=> $bookid[$i],
+        //                 'tag_id'=>$miss_tag[$i],
+        //                 'title'=> $bookTitle[$i]
+        //              ]);                                
+        //   }
+    }
+
     public function manage()
-    {
+    {     
         $sort = request('sort');
         $usedTag = Book::whereNotNull('tag_id')->pluck('tag_id')->toArray();
         $notusedTag = Alltag::whereNotIn('tag_id',$usedTag)->pluck('tag_id')->toArray();
-        
-        
        
         $paginate = 10;
         if ($sort == null) {

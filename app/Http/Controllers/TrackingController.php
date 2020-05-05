@@ -24,7 +24,9 @@ class TrackingController extends Controller
     
     public function track($id)
     {               
-      $books = Book::all();
+        $b = Book::find($id);
+        $books = Book::all();
+
       if($id != 0){
         $check = Book::find($id)->tag_id;
       }
@@ -41,6 +43,7 @@ class TrackingController extends Controller
     //return $records;
       return view('books.track')
                 ->with('books', $books)
+                ->with('b', $b)
                 ->with('records',$records)
                 ->with('width',$width)
                 ->with('height',$height);

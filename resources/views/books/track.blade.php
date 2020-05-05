@@ -12,12 +12,15 @@
     <div class="row">
     <div class="col-8 ">
           <div id="status"></div>
+          <h2 class="text-success" style="font-size:30px"><strong>{{$b->title}}</strong></h2>
+          <h3 style="color:#8a8a8a">Tag ID: {{$b->tag_id}}</h3>
+
           <div id="spinner" class="spinner-border" style="height:100px;width:100px"></div>
           <p id="color"></p>
-          <p id="raw_data"></p>
-          <p id="result"></p>
-          <p id="area"></p>
-          <canvas id="can" width="600px" height="600px"></canvas>
+          <p id="raw_data" style="display:none"></p>
+          <p id="result" style="display:none"></p>
+          <h2 id="area" class="text-info" style="font-size:35px"></h2>
+          <canvas id="can" width="600px" height="600px" style="display:none"></canvas>
           <img id="circImg" style="display:none"></img>
           <img id="display_img"></img>
           <div id="div_svg" style="display:none">
@@ -131,8 +134,11 @@
                 <table class="table table-hover">
                     <tbody id="trackTable">
                         @foreach ($books as $book)
-                
+                        @if($book->id==$b->id)
+                        <tr style="background-color:#ffffe6" onclick= "window.location = '{{ url('/b/track/'.$book->id) }}'" >
+                        @else
                         <tr onclick= "window.location = '{{ url('/b/track/'.$book->id) }}'">
+                        @endif
                             <td width="30%">
                                 @if($book->image)
                                 <img src="/storage/{{ $book->image }}" weight="40" height="65" class="rounded mx-auto d-block border">
@@ -141,14 +147,15 @@
                                 @endif
                             </td>
                             <td width="60%">
-                                <h3 class="text-success"><strong>{{ $book->title }}</strong></h3>
-                                <h5 style="color:#444444">Author: @if($book->author) {{ $book->author }} @else N/A @endif</h5>
-                                <h5 style="color:#444444">Language: @if($book->language) {{$book->language }} @else N/A @endif</h5>
+                                <a href="{{ url('/b/detail/' . $book->id) }}">
+                                <h2><strong>{{ $book->title }}</strong></h3></2>
+                                <!-- <h5 style="color:#444444">Author: @if($book->author) {{ $book->author }} @else N/A @endif</h5>
+                                <h5 style="color:#444444">Language: @if($book->language) {{$book->language }} @else N/A @endif</h5> -->
                             </td>
-                            <td width="10%" class="align-middle">
-                                <a href="{{ url('/b/detail/' . $book->id) }}" class="book-show-modal btn btn-info btn-lg">
-                                <i class="glyphicon glyphicon-eye-open" style="backgroud-color:#FFFFFF"></i></a>
-                            </td>
+                            <!-- <td width="10%" class="align-middle">
+                                
+                                <i class="glyphicon glyphicon-eye-open" style="backgroud-color:#FFFFFF"></i>
+                            </td> -->
                         </tr>                        
                         @endforeach
 

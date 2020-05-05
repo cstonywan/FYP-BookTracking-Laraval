@@ -33,6 +33,9 @@ class chartController extends Controller
         // $count = DB::table('all_tag_record')->count();
         $rfids = Book::where('tag_id','!=','')->get();
         $count = Book::where('tag_id','!=','')->count();
+
+        $width  = Setting::find(1)->distance_A;
+        $height = Setting::find(1)->distance_B;             
        
        
         $tag_id = $request->search_tag;
@@ -608,7 +611,9 @@ class chartController extends Controller
                     ->with('flag',$flag)
                     ->with('rfids',$rfids)
                     ->with('count',$count)
-                    ->with('showEmptyChart',$showEmptyChart);                                             
+                    ->with('showEmptyChart',$showEmptyChart)
+                    ->with('width',$width)
+                    ->with('height',$height);                                             
         }
        
         //return $CountofResultA;
@@ -645,6 +650,8 @@ class chartController extends Controller
                 ->with('BookName',$BookName)
                 ->with('BookID',$BookID)
                 ->with('RssiList',$RssiList)
+                ->with('width',$width)
+                ->with('height',$height)
 
                 ->with('CountofResultA',$CountofResultA)
                 ->with('MeanofResultA',$MeanofResultA)

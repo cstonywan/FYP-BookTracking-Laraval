@@ -24,6 +24,7 @@
             </div>
             <div class="col-md-3 col-sm-12">
                 <select id="search_field" class="form-control custom-select custom-select-lg mb-3" name="search_field">
+                  
                     <option value="id">ID</option>
                     <option value="book_id">Book ID</option>
                     <option value="user_id">User ID</option>

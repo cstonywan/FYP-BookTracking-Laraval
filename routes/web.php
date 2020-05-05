@@ -31,6 +31,7 @@ Route::group(['middleware' => ['manager']], function () {
     Route::post('/b/edit/{id}', 'BooksController@edit');
     Route::get('/b/delete/{id}', 'BooksController@delete');
     Route::get('/b/manage', 'BooksController@manage')->name('manageBook');
+    Route::get('/b/getajax', 'BooksController@getAjax');
 });
 
 Route::group(['middleware' => ['admin']], function () {

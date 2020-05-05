@@ -183,3 +183,102 @@ $(document).ready(function(){
         });
     });
 });
+
+$(document).ready(function() {
+    $("#startcheck").on('click', function() {
+        realTime();
+        document.getElementById('startcheck').style.display = 'none';   
+    });
+})
+
+// $(window).on("load", realTime);
+// window.onload = realTime;
+// $( document ).ready(function() {
+//     realTime();
+// });
+var curlist = [];
+function realTime() {
+
+    setTimeout(function () {
+        $.ajax({
+             type:"GET",
+             url:"/b/getajax",
+             success : function(response) {   
+                                                
+                    var body = document.getElementById('misstablebody');
+                    
+                    if(response.length>0){
+                        document.getElementById('misstable').style.display = 'inline';
+                        document.getElementById('misstitle').style.display = 'inline';                             
+                        document.getElementById('nomiss').style.display = 'none';                      
+                    }
+                    else{
+                        document.getElementById('misstable').style.display = 'none';    
+                        document.getElementById('nomiss').style.display = 'inline';                                                                                                     
+                    }
+                    var temlist = [];
+                    for(var i=0; i<response.length; i++){                   
+                        temlist.push(response[i][0]);                                                   
+                    }                 
+
+                    var removeList = [];
+                    for(var i = 0; i< curlist.length;i++){
+                        if(!temlist.includes(curlist[i])){
+                            removeList.push(curlist[i]);                           
+                        }
+                    }
+                   
+                    if(removeList.length != 0){
+                        
+                        for(var i = 0; i <removeList.length;i++ ){                           
+                            for(var j=0; j<body.childNodes.length; j++){
+                                 //alert(body.childNodes[j].firstElementChild.innerHTML);
+                                if(body.childNodes[j].firstElementChild.innerHTML == removeList[i]){
+                                     
+                                    var tr = body.childNodes[j];
+                                    // alert(tr.firstElementChild.innerHTML);
+                                    // tr.remove();    
+                                    body.removeChild(tr);                               
+                                }
+                            }
+                        }
+                    }                  
+                    // document.getElementById('hi').innerHTML = removeList;            
+                    for(var i = 0 ;i < response.length ; i++){
+                        if(!curlist.includes(response[i][0])){
+                            var tr = document.createElement('tr');
+                            var td1 = document.createElement('td');
+                            var td2 = document.createElement('td');
+                            var td3 = document.createElement('td');
+                            var book_id = document.createTextNode(response[i][0]);
+                            var book_title = document.createTextNode(response[i][1]);
+                            var tag_id = document.createTextNode(response[i][2]);
+
+                            td1.appendChild(book_id);
+                            td2.appendChild(book_title);
+                            td3.appendChild(tag_id);
+                            tr.appendChild(td1);
+                            tr.appendChild(td2);
+                            tr.appendChild(td3);
+                            body.appendChild(tr);
+                        }
+                       
+                        // else{
+                        //     var tr = body.firstElementChild;
+                        //     for(var j=0; j<tr.childNodes.length; j++){
+                        //         alert(tr.childNodes[j].firstElementChild.innerHTML);
+                        //         if(tr.childNodes[j].nodeValue == response[i][0]){
+                        //             tr.remove(tr.childNodes[j]);
+                        //         }
+                        //     }
+                        // }
+                    }   
+
+                curlist = [];   
+                curlist = temlist;                                   
+             }
+        });
+       
+        realTime();
+    }, 1000);
+}

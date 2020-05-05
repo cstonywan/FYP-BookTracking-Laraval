@@ -126,8 +126,59 @@ timeframe
                 </div> 
                 @endif
                   
-                <div class="col-md-12" id="linechartRadius"></div>
-               
+        <div class="col-md-12" id="linechartRadius"></div>
+        <!--hidqwdqw-->
+
+        <div class="col-md-12" align="center">
+          <div id="status"></div>
+          <div id="spinner" class="spinner-border" style="height:100px;width:100px"></div>
+          <p id="color"></p>
+          <p id="raw_data"></p>
+          <p id="result"></p>
+          <p id="area"></p>
+          <canvas id="can" width="600px" height="600px"></canvas>
+          <img id="circImg" style="display:none"></img>
+          <img id="display_img"></img>
+          <div id="div_svg" style="display:none">
+            <!-- <img src="/img/map.png" class="border" height="600px" weight="600px"> -->
+            <svg id="svg_data" onload="onedraw()"
+                 xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                 xmlns:xlink="http://www.w3.org/1999/xlink"
+                 xmlns:dc="http://purl.org/dc/elements/1.1/"
+                 xmlns:cc="http://creativecommons.org/ns#"
+                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                 xmlns:svg="http://www.w3.org/2000/svg"
+                 xmlns="http://www.w3.org/2000/svg"
+                 xmlns:a="http://www.adobe.com/svg10-extensions" a:timeline="independent">
+            <defs>
+              <pattern id="background_pattern" x="0" y="0" patternUnits="userSpaceOnUse">
+                <rect id="pattern_rect" x="0" y="0" style="fill:transparent;stroke:blue; stroke-width:1;"/>
+              </pattern>
+            </defs>
+              <rect width="100%" height="100%" style="fill:url(#background_pattern);stroke:orange;stroke-width:4" />
+
+              <circle id="reader_a" r="5" style="fill:red"/>
+              <circle id="reader_b" r="5" style="fill:red"/>
+              <circle id="reader_c" r="5" style="fill:red"/>
+              <circle id="reader_d" r="5" style="fill:red"/>
+
+              <circle id="circle_a" style="stroke:black;stroke-width:40;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_b" style="stroke:black;stroke-width:40;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_c" style="stroke:black;stroke-width:40;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_d" style="stroke:black;stroke-width:40;fill:transparent;stroke-opacity:0.5"/>
+
+              <!-- <line id="line_ab" style="stroke:black;stroke-width:2" />
+              <line id="line_bc" style="stroke:black;stroke-width:2" />
+              <line id="line_cd" style="stroke:black;stroke-width:2" />
+              <line id="line_ad" style="stroke:black;stroke-width:2" />
+              <text id="label_ab" style="font-size:16px;text-anchor:middle">m</text>
+              <text id="label_bc" style="font-size:16px;text-anchor:middle">m</text>
+              <text id="label_cd" style="font-size:16px;text-anchor:middle">m</text>
+              <text id="label_ad" style="font-size:16px;text-anchor:middle">m</text> -->
+            </svg>
+          </div>
+          </div>
                
               
                 <table class="table table-bordered col-md-6" align="center" style="color:#7d7c7c">
@@ -378,6 +429,8 @@ timeframe
         // var resultRadiusB = @json($resultRadiusB ?? ''); 
         // var resultRadiusC = @json($resultRadiusC ?? ''); 
         // var resultRadiusD = @json($resultRadiusD ?? ''); 
+        var widthData = {{json_encode($width)}};
+        var heightData = {{json_encode($height)}};  
        
         var recordA = @json($recordA ?? '');
         var recordB = @json($recordB ?? '');

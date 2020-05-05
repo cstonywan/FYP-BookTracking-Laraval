@@ -1,4 +1,7 @@
 
+var showtmp;
+var AllorOne;
+var readerChoice;
 
 google.charts.load('current', {'packages':['corechart']});
 
