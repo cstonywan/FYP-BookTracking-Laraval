@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<div style="background-image:url('{{ asset('icon\hkustbg.jpg')}}');"></div>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
+            
                 <!-- <div class="card-header" style="color:#FFFFFF" align=center><strong>{{ __('Login') }}</strong></div>
              -->
              <div class="card-header" style="color:#FFFFFF" align=center><strong>Welcome</strong></div>
@@ -81,7 +83,6 @@
         </div>
     </div>
 </div>
-
 
 
 @endsection
