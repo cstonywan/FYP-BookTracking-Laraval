@@ -93,6 +93,7 @@ class AuthController extends Controller
             'email' => request('email'),
             'password' => Hash::make(request('password')),
             'role' => 0,
+            'photo'=> 'photo/defaultuser.png',
         ]);
 
         $success_response = array(
@@ -108,4 +109,91 @@ class AuthController extends Controller
         return response()->json($user);
     }
 
+
+    public function editName() {
+        $id = request("id");
+        $validator = Validator::make(request()->all(), [
+            'name' => 'required|max:255|unique:users,name,' . $id,
+        ]);
+        if ($validator->fails()) {
+            $fail_response = array(
+                'status' => 'fail',
+            );
+            if ($validator->errors()->get('name') != null)
+                $fail_response['name'] = $validator->errors()->get('name')[0];
+            return response()->json($fail_response);
+        }
+        else {
+            $user = User::find($id);
+            $user->name = request("name");
+            $user->save();
+
+            $success_response = array(
+                'status' => 'success',
+                'name' => $user->name,
+            );
+            return response()->json($success_response);
+        }
+    }
+
+    public function editEmail() {
+        $id = request("id");
+        $validator = Validator::make(request()->all(), [
+            'email' => 'required|email|max:255|unique:users,email,' . $id,
+        ]);
+        if ($validator->fails()) {
+            $fail_response = array(
+                'status' => 'fail',
+            );
+            if ($validator->errors()->get('email') != null)
+                $fail_response['email'] = $validator->errors()->get('email')[0];
+            return response()->json($fail_response);
+        }
+        else {
+            $user = User::find($id);
+            $user->email = request("email");
+            $user->save();
+
+            $success_response = array(
+                'status' => 'success',
+                'email' => $user->email,
+            );
+            return response()->json($success_response);
+        }
+    }
+
+    public function uploadPhoto() {
+        $id = request("id");
+
+        $validator = Validator::make(request()->all(), [
+            'photo' => 'image'
+        ]);
+        if ($validator->fails()) {
+            $fail_response = array(
+                'status' => 'fail',
+            );
+            if ($validator->errors()->get('photo') != null)
+                $fail_response['photo'] = $validator->errors()->get('photo')[0];
+            return response()->json($fail_response);
+        }
+        else {
+            $user = User::find($id);
+            if ($user->photo && $user->photo != "photo/defaultuser.png") {
+                $url = storage_path('app/public/'.$user->photo);
+                if (file_exists($url)) {
+                    unlink($url);
+                }
+            }
+            $image = request("photo");
+            $imagePath = $image->store('photo', 'public');
+            $user->photo = $imagePath;
+            $user->save();
+            $success_response = array(
+                'status' => 'success',
+                'photo' => $imagePath,
+            );
+            return response()->json($success_response);
+        }
+
+    }
 }

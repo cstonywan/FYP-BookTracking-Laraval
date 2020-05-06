@@ -39,43 +39,13 @@ function draw() {
     var width = widthData;
     var height = heightData;
   
-    // ED
-    // var a_distance = 0.3; //radius
-    // var b_distance = 0.56;
-    // var c_distance = 0.56;
-    // var d_distance = 0.73;
     var radius = [
         records[0][1],  //readerA
         records[1][1],  //readerB
         records[2][1],  //readerC
         records[3][1],  //readerD          
     ];
-    // for(var i = 0; i < records.length ;i++){
-    //     radius[i]=records[i]['radius'];
-    // }
-
-    // 74
-    // var a_distance = 0.66;
-    // var b_distance = 0.3;
-    // var c_distance = 0.85;
-    // var d_distance = 0.56;
-    // //1F
-    // var a_distance = 0.48;
-    // var b_distance = 0.48;
-    // var c_distance = 0.48;
-    // var d_distance = 0.48;
-    // // 1473
-    // var a_distance = 0.66;
-    // var b_distance = 0.76;
-    // var c_distance = 0.25;
-    // var d_distance = 0.64;
-    // // 6DB
-    // var a_distance = 0.73;
-    // var b_distance = 0.53;
-    // var c_distance = 0.54;
-    // var d_distance = 0.22;
-
-    // var scale = 300;
+   
     var scale = 420 / (width * 2);
 
     var svg_data = document.getElementById("svg_data");
@@ -237,15 +207,7 @@ function draw() {
         let show_svg64 = btoa(show_xml);                         // make it base64
         let show_b64Start = 'data:image/svg+xml;base64,';
         let show_image64 = show_b64Start + show_svg64;                // prepend a "header"
-        display_img.src = show_image64;
-
-        // var xhr = new XMLHttpRequest();
-        // xhr.open("POST", "/api/b/image", true);
-        // xhr.setRequestHeader('Content-Type', 'application/json');
-        // xhr.send(JSON.stringify({
-        //     value: show_image64,
-        // }));
-        // location.replace("/api/b/image?image=" + show_image64);
+        display_img.src = show_image64;      
     }
 
     // Draw display svg for user

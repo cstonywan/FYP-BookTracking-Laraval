@@ -24,8 +24,30 @@ class BooksController extends Controller
         $this->middleware('auth');
     }
 
+    // public function create()
+    // {
+    //   return view('/b/postajax');
+    // }
+
+    // public function postAjax(Request $request){
+    //      $bookid = $request->bookid;
+
+    //     $book = Book::find($bookid);
+    //     if($book){
+    //         $book->status = 'inLibrary';
+    //         $book->save();
+    //     }     
+    //    // $data = $request->all();
+    //     #create or update your data here
+
+    //     return response()->json(['success'=>$bookid]); 
+    // }
+
     public function getAjax(){
-        $usedTag = Book::whereNotNull('tag_id')->where('status','=','inLibrary')->pluck('tag_id')->toArray();
+
+        $usedTag = Book::whereNotNull('tag_id')->where('status','=','inLibrary')
+        ->orwhere('status','=','missing')
+        ->pluck('tag_id')->toArray(); //inlibrary        
         $currentTag = Rfid::whereIn('tag_id', $usedTag)->get();
 
         $miss_tag = array();
@@ -51,9 +73,20 @@ class BooksController extends Controller
         
         for($i=0; $i<count($miss_tag); $i++){
             $bookid[$i] = Book::where('tag_id','=',$miss_tag[$i])->value('id');
-            $bookTitle[$i] = Book::where('tag_id','=',$miss_tag[$i])->value('title'); 
-            $record[$i] = [$bookid[$i], $bookTitle[$i],$miss_tag[$i]];                                                               
+            $bookTitle[$i] = Book::where('tag_id','=',$miss_tag[$i])->value('title');             
+            $record[$i] = [$bookid[$i], $bookTitle[$i], $miss_tag[$i]];                                                               
         }
+
+        // if(count($record)>0){
+        //     for($a=0;$a<count($record);$a++){                              
+        //         $book = Book::find( $record[$a][0]);
+        //         if($book){
+        //             $book->status = 'missing';
+        //             $book->save();
+        //         }
+        //     }
+        // }
+            
       
         return response()->json(
             $record

@@ -32,6 +32,8 @@ Route::group(['middleware' => ['manager']], function () {
     Route::get('/b/delete/{id}', 'BooksController@delete');
     Route::get('/b/manage', 'BooksController@manage')->name('manageBook');
     Route::get('/b/getajax', 'BooksController@getAjax');
+   // Route::get('/b/postajax', 'BooksController@create');
+    Route::post('/b/postajax', 'BooksController@postAjax');
 });
 
 Route::group(['middleware' => ['admin']], function () {
@@ -43,7 +45,9 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/rfid/rfidSetting/store','SetupController@store');    
     Route::get('/rfid/chart', 'chartController@Chart')->name('showChart');
     Route::get('/rfid/tracking/{id}', 'TrackingController@calculate');
-    // Route::get('/rfid/getajax', 'chartController@getAjax');
+
+    // Route::get('/rfid/realtimechart', 'realtimeController@Chart')->name('showrealtimeChart');
+    // Route::get('/rfid/getajax', 'realtimeController@getAjax');
     
 });
 

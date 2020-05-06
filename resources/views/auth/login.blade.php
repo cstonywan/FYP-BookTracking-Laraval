@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="background-image:url('{{ asset('icon\hkustbg.jpg')}}');"></div>
+<div style="background-image:url('icon\hkustbg.jpg');">
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -82,6 +83,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 

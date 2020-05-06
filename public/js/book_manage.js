@@ -186,7 +186,7 @@ $(document).ready(function(){
 
 $(document).ready(function() {
     $("#startcheck").on('click', function() {
-        realTime();
+        realTime();       
         document.getElementById('startcheck').style.display = 'none';   
     });
 })
@@ -232,12 +232,10 @@ function realTime() {
                         
                         for(var i = 0; i <removeList.length;i++ ){                           
                             for(var j=0; j<body.childNodes.length; j++){
-                                 //alert(body.childNodes[j].firstElementChild.innerHTML);
-                                if(body.childNodes[j].firstElementChild.innerHTML == removeList[i]){
-                                     
+                                // alert(body.childNodes[j].firstElementChild.innerHTML);
+                                if(body.childNodes[j].firstElementChild.innerHTML == removeList[i]){                                                                      
                                     var tr = body.childNodes[j];
-                                    // alert(tr.firstElementChild.innerHTML);
-                                    // tr.remove();    
+                                    // alert(tr.firstElementChild.innerHTML);                                  
                                     body.removeChild(tr);                               
                                 }
                             }
@@ -272,3 +270,21 @@ function realTime() {
         realTime();
     }, 1000);
 }
+
+//  $(window).on("load", realTimePost);
+// function realTimePost(){
+//         $.ajaxSetup({
+//             headers: {
+//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//             }
+//         });
+//         $.ajax({            
+//             type:'POST',                        
+//             url:'/b/postajax',                             
+//             data:{bookid:45},                             
+//             success:function(data){  
+                
+//                 alert(data.success);                             
+//             }                             
+//         });  
+// }

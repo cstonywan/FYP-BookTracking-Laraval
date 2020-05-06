@@ -27,3 +27,10 @@ Route::get('user/{id}', 'API\AuthController@getUser');
 Route::get('/record/{id}', 'API\BooksController@record');
 Route::post('/login', 'API\AuthController@login');
 Route::post('/signup', 'API\AuthController@signup');
+
+Route::post('/edit/name', 'API\AuthController@editName');
+Route::post('/edit/email', 'API\AuthController@editEmail');
+Route::post('/upload/photo', 'API\AuthController@uploadPhoto');
+Route::get('/b/track/{id}', 'API\BooksController@track');
+
+

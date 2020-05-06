@@ -56,7 +56,7 @@ class apiController extends Controller
 
                 //$resetRecord = false; //keep the table 
 
-                 $resetRecord = true; //clean the table 
+                $resetRecord = true; //clean the table 
                 
                 if($resetRecord){
                     //Clean the data within 1 minutes
