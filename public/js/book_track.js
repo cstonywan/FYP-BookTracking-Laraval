@@ -38,17 +38,17 @@ function draw() {
     // alert(records[0]['radius']);
     var width = widthData;
     var height = heightData;
-
+  
     // ED
     // var a_distance = 0.3; //radius
     // var b_distance = 0.56;
     // var c_distance = 0.56;
     // var d_distance = 0.73;
     var radius = [
-        records[0]['radius'],
-        records[1]['radius'],
-        records[2]['radius'],
-        records[3]['radius'],          
+        records[0][1],  //readerA
+        records[1][1],  //readerB
+        records[2][1],  //readerC
+        records[3][1],  //readerD          
     ];
     // for(var i = 0; i < records.length ;i++){
     //     radius[i]=records[i]['radius'];
@@ -367,16 +367,16 @@ function countResult(canvas, i1, i2, j1, j2) {
     for (var i=i1; i<i2; i++) {
         for (var j=j1; j<j2; j++) {
             switch(getResult(canvas, i, j)) {
-                case 128:
+                case 128: //one shawdow 
                   array[0]++;
                   break;
-                case 192:
+                case 192: //two shawdow 
                   array[1]++;
                   break;
-                case 224:
+                case 224: //three shawdow 
                   array[2]++;
                   break;
-                case 240:
+                case 240: //four shawdow 
                   array[3]++;
                   break;
             }
@@ -416,12 +416,26 @@ function onedraw(){
     // var b_distance = 0.56;
     // var c_distance = 0.56;
     // var d_distance = 0.73;
+
     var radius = [
         RadiusofLinearRegressionValueA,      
         RadiusofLinearRegressionValueB,
         RadiusofLinearRegressionValueC,
         RadiusofLinearRegressionValueD 
     ];
+    // var radius = [
+    //     RadiusofMostA,      
+    //     RadiusofMostB,
+    //     RadiusofMostC,
+    //     RadiusofMostD 
+    // ];
+
+    // var radius = [
+    //     RadiusofMeanA,      
+    //     RadiusofMeanB,
+    //     RadiusofMeanC,
+    //     RadiusofMeanD 
+    // ];
     // for(var i = 0; i < records.length ;i++){
     //     radius[i]=records[i]['radius'];
     // }
@@ -448,7 +462,7 @@ function onedraw(){
     // var d_distance = 0.22;
 
     // var scale = 300;
-    var scale = 300 / (width * 2);
+    var scale = 500 / (width * 2);
 
     var svg_data = document.getElementById("svg_data");
     var canvas = document.getElementById("can");
@@ -559,7 +573,7 @@ function onedraw(){
         var max_count = 0;
         var max_index;
         for (var i=0; i<16; i++) {
-            if (result[i][3] > max_count) {
+            if (result[i][3] > max_count) { 
                 max_count = result[i][3];
                 max_index = i;
             }
@@ -589,15 +603,13 @@ function onedraw(){
         area.innerHTML = 'The book is in area ' + area_result;
 
         var target_x = parseInt(max_index % 4) * pattern_width;
-        var target_y = parseInt(max_index / 4) * pattern_height;
-       
-      
-      
+        var target_y = parseInt(max_index / 4) * pattern_height;                   
 
         var spinner = document.getElementById("spinner");
         spinner.style.display = 'none';
         
     }
 
+  
    
 }

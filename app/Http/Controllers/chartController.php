@@ -162,7 +162,7 @@ class chartController extends Controller
                 )                 
                 ->where('tag_id','like', '%'.$tag_id.'%')                                                            
                 ->where('reader_ip','=',$readerA_IP)
-                 ->where('tag_rssi','!=','-64')          
+                    
                 // ->where('created_at','>=', $formatted_date)                                                                                                                                              
                 ->orderBy("created_at")
                 // ->groupby( DB::raw("Minute(created_at)"))                                            
@@ -173,8 +173,7 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerB_IP)
-                    ->where('tag_rssi','!=','-64')       
+                    ->where('reader_ip','=',$readerB_IP)                      
                     // ->where('created_at','>=', $formatted_date)                                                                                                                             
                     ->orderBy("created_at")                                             
                     ->get();
@@ -184,8 +183,7 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerC_IP)
-                    ->where('tag_rssi','!=','-64')        
+                    ->where('reader_ip','=',$readerC_IP)                     
                     // ->where('created_at','>=', $formatted_date)                                                                                                                            
                     ->orderBy("created_at")                                             
                     ->get();
@@ -195,8 +193,7 @@ class chartController extends Controller
                     DB::raw("tag_rssi as Rssi")
                     )               
                     ->where('tag_id','like', '%'.$tag_id.'%')                                          
-                    ->where('reader_ip','=',$readerD_IP) 
-                    ->where('tag_rssi','!=','-64')     
+                    ->where('reader_ip','=',$readerD_IP)                      
                     // ->where('created_at','>=', $formatted_date)                                                                                                                              
                     ->orderBy("created_at")                                             
                     ->get();       
@@ -334,8 +331,7 @@ class chartController extends Controller
         }
                             
         $resultA[] = ['Second','Rssi'];
-        foreach ($recordA as $key => $value) {     
-          
+        foreach ($recordA as $key => $value) {               
             $resultA[++$key] = [(int)$value->Second, (int)$value->Rssi];
             //$resultA[++$key] = [(int) $key, (int)$value->Rssi];
         }  
@@ -347,13 +343,13 @@ class chartController extends Controller
         }
         $resultC[] = ['Second','Rssi'];
         foreach ($recordC as $key => $value) {
-             $resultC[++$key] = [(int)$value->Second, (int)$value->Rssi];
+            $resultC[++$key] = [(int)$value->Second, (int)$value->Rssi];
             //$resultC[++$key] = [(int)$key, (int)$value->Rssi];
         }
         $resultD[] = ['Second','Rssi'];
         foreach ($recordD as $key => $value) {
             $resultD[++$key] = [(int)$value->Second, (int)$value->Rssi];
-           // $resultD[++$key] = [(int)$key, (int)$value->Rssi];
+           //$resultD[++$key] = [(int)$key, (int)$value->Rssi];
         }
         $CountofResultA = null;
         $MeanofResultA = null;
@@ -732,7 +728,7 @@ class chartController extends Controller
         $RssiVar = -50;       
         $rssiArr = [];
         $radiusArr = []; 
-        for($a = 1; $a <= 16; $a++){           
+        for($a = 1; $a < 16; $a++){           
             $rssiArr[$a] = (int) $RssiVar;
             $radiusArr[$a]= (float) $this->RssiToRadius($RssiVar);
             $RssiVar--;           
@@ -889,7 +885,8 @@ class chartController extends Controller
         }
      
         // Slope
-        $slope = ( ( count($x) * $xy_sum ) - ( $SumofX * $SumofY ) ) / ( ( count($x) * $xx_sum ) - ( $SumofX * $SumofX ) );
+        $slope = ( ( count($x) * $xy_sum ) - ( $SumofX * $SumofY ) ) /
+         ( ( count($x) * $xx_sum ) - ( $SumofX * $SumofX ) );
         
         // intercept
         $intercept = ( $SumofY - ( $slope * $SumofX ) ) / count($x);

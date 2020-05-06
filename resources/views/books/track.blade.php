@@ -47,10 +47,10 @@
               <circle id="reader_c" r="5" style="fill:red"/>
               <circle id="reader_d" r="5" style="fill:red"/>
 
-              <circle id="circle_a" style="stroke:black;stroke-width:40;fill:transparent;stroke-opacity:0.5"/>
-              <circle id="circle_b" style="stroke:black;stroke-width:40;fill:transparent;stroke-opacity:0.5"/>
-              <circle id="circle_c" style="stroke:black;stroke-width:40;fill:transparent;stroke-opacity:0.5"/>
-              <circle id="circle_d" style="stroke:black;stroke-width:40;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_a" style="stroke:black;stroke-width:80;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_b" style="stroke:black;stroke-width:80;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_c" style="stroke:black;stroke-width:80;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_d" style="stroke:black;stroke-width:80;fill:transparent;stroke-opacity:0.5"/>
 
               <!-- <line id="line_ab" style="stroke:black;stroke-width:2" />
               <line id="line_bc" style="stroke:black;stroke-width:2" />
@@ -148,7 +148,7 @@
                             </td>
                             <td width="60%">
                                 <a href="{{ url('/b/detail/' . $book->id) }}">
-                                <h2><strong>{{ $book->title }}</strong></h3></2>
+                                <h2>{{ $book->id }}: <strong>{{ $book->title }}</strong></h3></2>
                                 <!-- <h5 style="color:#444444">Author: @if($book->author) {{ $book->author }} @else N/A @endif</h5>
                                 <h5 style="color:#444444">Language: @if($book->language) {{$book->language }} @else N/A @endif</h5> -->
                             </td>

@@ -261,17 +261,7 @@ function realTime() {
                             tr.appendChild(td2);
                             tr.appendChild(td3);
                             body.appendChild(tr);
-                        }
-                       
-                        // else{
-                        //     var tr = body.firstElementChild;
-                        //     for(var j=0; j<tr.childNodes.length; j++){
-                        //         alert(tr.childNodes[j].firstElementChild.innerHTML);
-                        //         if(tr.childNodes[j].nodeValue == response[i][0]){
-                        //             tr.remove(tr.childNodes[j]);
-                        //         }
-                        //     }
-                        // }
+                        }                 
                     }   
 
                 curlist = [];   
