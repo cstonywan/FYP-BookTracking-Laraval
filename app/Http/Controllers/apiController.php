@@ -21,6 +21,11 @@ class apiController extends Controller
 
         $count = Rfid::count(); //check total record number
         $allowAddTag = false;
+        // $resetRecord = true; //clean the table 
+        // $Trackstart = true; //important!! 5mins table
+
+        $resetRecord = false; //keep the table 
+        $Trackstart = false;
               
         if (isset($_POST['Tag_id']) && isset($_POST['Tag_pc'])&&
         isset($_POST['Tag_count']) && isset($_POST['Tag_rssi'])&&
@@ -73,15 +78,7 @@ class apiController extends Controller
                 // $usedTag = Book::whereNotNull('tag_id')->pluck('tag_id')->toArray();
 
                 // $checkcurrentTag = Rfid::where('tag_id','like','%'.$usedTag.'%')
-                //                         ->where('updated_at','<=',$losttime)->get();  
-                
-                
-                $resetRecord = true; //clean the table 
-                $Trackstart = true; //important!!
-
-                //$resetRecord = false; //keep the table 
-                //$Trackstart = false;
-               
+                //                         ->where('updated_at','<=',$losttime)->get();                                                
                 
                 if($resetRecord){
                     //Clean the data within 1 minutes
