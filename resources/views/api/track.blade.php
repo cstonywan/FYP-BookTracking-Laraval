@@ -64,17 +64,17 @@
             <rect id="pattern_rect" x="0" y="0" style="fill:transparent;stroke:blue; stroke-width:1;"/>
           </pattern>
         </defs>
-          <rect width="100%" height="100%" style="fill:url(#background_pattern);stroke:orange;stroke-width:4" />
+          <!-- <rect width="100%" height="100%" style="fill:url(#background_pattern);stroke:orange;stroke-width:4" /> -->
 
           <circle id="reader_a" r="5" style="fill:red"/>
           <circle id="reader_b" r="5" style="fill:red"/>
           <circle id="reader_c" r="5" style="fill:red"/>
           <circle id="reader_d" r="5" style="fill:red"/>
 
-          <circle id="circle_a" style="stroke:black;stroke-width:50;fill:transparent;stroke-opacity:0.5"/>
-          <circle id="circle_b" style="stroke:black;stroke-width:50;fill:transparent;stroke-opacity:0.5"/>
-          <circle id="circle_c" style="stroke:black;stroke-width:50;fill:transparent;stroke-opacity:0.5"/>
-          <circle id="circle_d" style="stroke:black;stroke-width:50;fill:transparent;stroke-opacity:0.5"/>
+          <circle id="circle_a" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
+          <circle id="circle_b" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
+          <circle id="circle_c" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
+          <circle id="circle_d" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
 
           <!-- <line id="line_ab" style="stroke:black;stroke-width:2" />
           <line id="line_bc" style="stroke:black;stroke-width:2" />

@@ -332,24 +332,24 @@ class chartController extends Controller
                             
         $resultA[] = ['Second','Rssi'];
         foreach ($recordA as $key => $value) {               
-            $resultA[++$key] = [(int)$value->Second, (int)$value->Rssi];
-            //$resultA[++$key] = [(int) $key, (int)$value->Rssi];
+            //$resultA[++$key] = [(int)$value->Second, (int)$value->Rssi];
+            $resultA[++$key] = [(int) $key, (int)$value->Rssi];
         }  
         
         $resultB[] = ['Second','Rssi'];
         foreach ($recordB as $key => $value) {
-            $resultB[++$key] = [(int)$value->Second, (int)$value->Rssi];
-            //$resultB[++$key] = [(int)$key, (int)$value->Rssi];
+            //$resultB[++$key] = [(int)$value->Second, (int)$value->Rssi];
+            $resultB[++$key] = [(int)$key, (int)$value->Rssi];
         }
         $resultC[] = ['Second','Rssi'];
         foreach ($recordC as $key => $value) {
-            $resultC[++$key] = [(int)$value->Second, (int)$value->Rssi];
-            //$resultC[++$key] = [(int)$key, (int)$value->Rssi];
+            //$resultC[++$key] = [(int)$value->Second, (int)$value->Rssi];
+            $resultC[++$key] = [(int)$key, (int)$value->Rssi];
         }
         $resultD[] = ['Second','Rssi'];
         foreach ($recordD as $key => $value) {
-            $resultD[++$key] = [(int)$value->Second, (int)$value->Rssi];
-           //$resultD[++$key] = [(int)$key, (int)$value->Rssi];
+           // $resultD[++$key] = [(int)$value->Second, (int)$value->Rssi];
+           $resultD[++$key] = [(int)$key, (int)$value->Rssi];
         }
         $CountofResultA = null;
         $MeanofResultA = null;

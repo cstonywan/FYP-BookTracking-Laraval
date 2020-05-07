@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="background-image:url('icon\hkustbg.jpg');">
+
 
 <div class="container">
     <div class="row justify-content-center">
@@ -10,7 +10,7 @@
             
                 <!-- <div class="card-header" style="color:#FFFFFF" align=center><strong>{{ __('Login') }}</strong></div>
              -->
-             <div class="card-header" style="color:#FFFFFF" align=center><strong>Welcome</strong></div>
+             <div class="card-header" style="color:#FFFFFF;" align=center><strong>Welcome</strong></div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
@@ -84,7 +84,5 @@
         </div>
     </div>
 </div>
-</div>
-
 
 @endsection

@@ -6,12 +6,7 @@
         <!-- Search field -->
         <form action="" method="get">
                     @csrf
-                <div class="form-group row justify-content-center pt-3">
-                        <!-- @if($flag==null && $recordA==null && $recordB==null && $recordC==null && $recordD==null)
-                        <button type="button" class="btn btn-link"  style="padding-left:20px"onclick="hideTagTable()">
-                               <h3>All Rfid Tags</h3>
-                        </button>
-                        @endif -->                        
+                <div class="form-group row justify-content-center pt-3">                                          
 
                         <div class="col-md-1">  
                             <h3 style="color:#3A74A1; padding-left:20px;"><strong>Tag: {{$count ?? ''}}</strong></h3>   
@@ -42,7 +37,7 @@
                             <select id="search_tag" style="height:28px;" class="form-control custom-select custom-select-lg mb-3" name="search_tag">                      
                                 @if($count ?? '' != null)
                                     @foreach ($rfids ?? '' as $key)
-                                        <option value="{{$key->tag_id}}">{{$key->tag_id}}({{$key->id}}): {{$key->title}}</option>
+                                        <option value="{{$key->tag_id}}">{{$key->tag_id}}: ({{$key->id}}) {{$key->title}}</option>
                                     @endforeach
                                 @endif                                                
                             </select>
@@ -56,12 +51,6 @@
                         
                 </div>
         </form>
-        
-        <!-- The all tags Number -->
-        <!-- <div id="RfidTagTable" class="hidden col-md-4 col-sm-5" style="display: none;">
-             curTagID
-timeframe
-        </div>        -->
        
             </div>                
             <!-- Each Reader Radius Testing -->
@@ -134,9 +123,9 @@ timeframe
           <div id="status"></div>
           <div id="spinner" class="spinner-border" style="height:100px;width:100px"></div>
           <p id="color"></p>
-          <p id="raw_data"></p>
-          <p id="result"></p>
-          <p id="area"></p>
+          <p style="color:#7d7c7c;" id="raw_data"></p>
+          <p style="color:#7d7c7c;" id="result"></p>
+          <strong><p style="color:red;" id="area"></p></strong>
           <canvas id="can" width="600px" height="600px"></canvas>
           <img id="circImg" style="display:none"></img>
           <img id="display_img"></img>
@@ -164,10 +153,10 @@ timeframe
               <circle id="reader_c" r="5" style="fill:red"/>
               <circle id="reader_d" r="5" style="fill:red"/>
 
-              <circle id="circle_a" style="stroke:black;stroke-width:110;fill:transparent;stroke-opacity:0.5"/>
-              <circle id="circle_b" style="stroke:black;stroke-width:110;fill:transparent;stroke-opacity:0.5"/>
-              <circle id="circle_c" style="stroke:black;stroke-width:110;fill:transparent;stroke-opacity:0.5"/>
-              <circle id="circle_d" style="stroke:black;stroke-width:110;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_a" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_b" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_c" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="circle_d" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
 
               <!-- <line id="line_ab" style="stroke:black;stroke-width:2" />
               <line id="line_bc" style="stroke:black;stroke-width:2" />
@@ -180,65 +169,39 @@ timeframe
             </svg>
           </div>
           </div>
-         
-             
-
-              
-               
-           
-         <table class="table table-bordered col-md-6" align="center" style="color:#7d7c7c">
-                  
-                  <tr>
-                      
+                                                              
+         <table class="table table-bordered col-md-6" align="center" style="color:#7d7c7c">                  
+                  <tr>                      
                       <td><strong>Reader</strong></td>
                       <td><strong>A</strong></td>
                       <td><strong>B</strong></td>
                       <td><strong>C</strong></td>
-                      <td><strong>D</strong></td>
-                      
-                  </tr>
-                  
+                      <td><strong>D</strong></td>                      
+                  </tr>                  
                   <tr>
-                      <td><strong>Mean (m)</strong></td>
-                      @if($RadiusofMeanA == null)
-                          <td>null</td>
-                          @else
-                          <td>{{$RadiusofMeanA}}</td>
-                      @endif
+                      <td><strong>Mean (m)</strong></td>                     
+                      <td>{{$RadiusofMeanA}}</td>                    
                       <td>{{$RadiusofMeanB}}</td>
                       <td>{{$RadiusofMeanC}}</td>
                       <td>{{$RadiusofMeanD}}</td>
-                  </tr>
-                 
+                  </tr>                 
                   <tr>
-                      <td><strong>Median (m)</strong></td>
-                      @if($RadiusofMedianA == null)
-                          <td>null</td>
-                      @else
-                          <td>{{$RadiusofMedianA}}</td>
-                      @endif
+                      <td><strong>Median (m)</strong></td>                    
+                      <td>{{$RadiusofMedianA}}</td>                     
                       <td>{{$RadiusofMedianB}}</td>
                       <td>{{$RadiusofMedianC}}</td>
                       <td>{{$RadiusofMedianD}}</td>
                   </tr>
                   <tr>
-                      <td><strong>Mode (m)</strong></td>
-                      @if($RadiusofMedianA == null)
-                           <td>null</td>
-                      @else
-                          <td>{{$RadiusofMostA}}</td>
-                      @endif
+                      <td><strong>Mode (m)</strong></td>                                                                       
+                      <td>{{$RadiusofMostA}}</td>                      
                       <td>{{$RadiusofMostB}}</td>
                       <td>{{$RadiusofMostC}}</td>
                       <td>{{$RadiusofMostD}}</td>
                   </tr>
                   <tr>
-                      <td><strong>LinearRegression (m)</strong></td>
-                      @if($RadiusofMedianA == null)
-                      <td>null</td>
-                      @else
-                      <td>{{$RadiusofLinearRegressionValueA}}</td>
-                      @endif
+                      <td><strong>LinearRegression (m)</strong></td>                                         
+                      <td>{{$RadiusofLinearRegressionValueA}}</td>                    
                       <td>{{$RadiusofLinearRegressionValueB}}</td>
                       <td>{{$RadiusofLinearRegressionValueC}}</td>
                       <td>{{$RadiusofLinearRegressionValueD}}</td>                                                                     

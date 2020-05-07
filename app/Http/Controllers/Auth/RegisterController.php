@@ -52,20 +52,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        // return dd($data);
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'photo' => ['required', 'image'],
+            'photo' => ['nullable', 'image'],
         ]);
-        // $validator = Validator::make($data, [
-        //     'name' => ['required', 'string', 'max:255'],
-        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        //     'password' => ['required', 'string', 'min:8', 'confirmed'],
-        //     'photo' => ['required', 'image'],
-        // ]);
-        // return dd($validator->getMessageBag());
     }
 
     /**
@@ -76,8 +68,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $image = $data['photo'];
-        $imagePath = $image->store('photo', 'public');
+        if (isset($data['photo'])) {
+            $image = $data['photo'];
+        } else {
+            $image = null;
+        }
+        if ($image == null) {
+            $imagePath = "photo/defaultuser.png";
+        } else {
+            $imagePath = $image->store('photo', 'public');
+        }
 
         return User::create([
             'name' => $data['name'],

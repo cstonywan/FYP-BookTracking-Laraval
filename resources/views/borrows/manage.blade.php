@@ -324,7 +324,7 @@
               </div>
               <div class="row justify-content-between">
                 <div class="form-group col-md-4">
-                  <label for="book_id" class="pl-3 col-form-label">Book ID</label>
+                  <label for="book_id" class="pl-3 col-form-label">Book ID <strong class="text-danger">*</strong></label>
                   <input id="borrow_create_book_id" onchange="autocomplete_create_book({{$books}})" type="text" class="form-control create-input" name="book_id">
                 </div>
                 <div class="form-group col-md-8">
@@ -334,7 +334,7 @@
               </div>
               <div class="row justify-content-between">
                 <div class="form-group col-md-4">
-                  <label for="user_id" class="pl-3 col-form-label">User ID</label>
+                  <label for="user_id" class="pl-3 col-form-label">User ID <strong class="text-danger">*</strong></label>
                   <input id="borrow_create_user_id" onchange="autocomplete_create_user({{$users}})" type="text" class="form-control create-input" name="user_id">
                 </div>
                 <div class="form-group col-md-8">
@@ -343,14 +343,14 @@
                 </div>
               </div>
               <div class="form-group" onchange="change_deadline()">
-                <label for="borrow_at" class="pl-3 col-form-label">Borrow At</label>
+                <label for="borrow_at" class="pl-3 col-form-label">Borrow At <strong class="text-danger">*</strong></label>
                 <div class="input-group-append">
                   <input id="borrow_at" type="text" class="form-control selectDate create-input" name="borrow_at">
                   <span class="input-group-text"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
               </div>
               <div class="form-group">
-                <label for="deadline_at" class="pl-3 col-form-label">Deadline At</label>
+                <label for="deadline_at" class="pl-3 col-form-label">Deadline At <strong class="text-danger">*</strong></label>
                 <div class="input-group-append">
                   <input id="deadline_at" type="text" class="form-control selectDate create-input" name="deadline_at">
                   <span class="input-group-text"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -393,7 +393,7 @@
               </div>
               <div class="row justify-content-between">
                 <div class="form-group col-md-4">
-                  <label for="book_id" class="pl-3 col-form-label">Book ID</label>
+                  <label for="book_id" class="pl-3 col-form-label">Book ID <strong class="text-danger">*</strong></label>
                   <input id="borrow_edit_book_id" onchange="autocomplete_edit_book({{$books}})" type="text" class="form-control edit-input" name="book_id">
                 </div>
                 <div class="form-group col-md-8">
@@ -403,7 +403,7 @@
               </div>
               <div class="row justify-content-between">
                 <div class="form-group col-md-4">
-                  <label for="user_id" class="pl-3 col-form-label">User ID</label>
+                  <label for="user_id" class="pl-3 col-form-label">User ID <strong class="text-danger">*</strong></label>
                   <input id="borrow_edit_user_id" onchange="autocomplete_edit_user({{$users}})" type="text" class="form-control edit-input" name="user_id">
                 </div>
                 <div class="form-group col-md-8">
@@ -413,23 +413,23 @@
               </div>
               <div class="row justify-content-between">
                 <div class="form-group col-md-6">
-                  <label for="staff_id" class="pl-3 col-form-label">Staff ID</label>
+                  <label for="staff_id" class="pl-3 col-form-label">Staff ID <strong class="text-danger">*</strong></label>
                   <input id="borrow_edit_staff_id" type="text" class="form-control edit-input" name="staff_id">
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="renewal_num" class="pl-3 col-form-label">Renewal No.</label>
+                  <label for="renewal_num" class="pl-3 col-form-label">Renewal No. <strong class="text-danger">*</strong></label>
                   <input id="borrow_edit_renewal_num" type="text" class="form-control edit-input" name="renewal_num">
                 </div>
               </div>
               <div class="form-group">
-                <label for="borrow_at" class="pl-3 col-form-label">Borrow At</label>
+                <label for="borrow_at" class="pl-3 col-form-label">Borrow At <strong class="text-danger">*</strong></label>
                 <div class="input-group-append">
                   <input id="borrow_edit_borrow_at" type="text" class="form-control selectDate edit-input" name="borrow_at">
                   <span class="input-group-text"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
               </div>
               <div class="form-group">
-                <label for="deadline_at" class="pl-3 col-form-label">Deadline At</label>
+                <label for="deadline_at" class="pl-3 col-form-label">Deadline At <strong class="text-danger">*</strong></label>
                 <div class="input-group-append">
                   <input id="borrow_edit_deadline_at" type="text" class="form-control selectDate edit-input" name="deadline_at">
                   <span class="input-group-text"><i class="glyphicon glyphicon-calendar"></i></span>

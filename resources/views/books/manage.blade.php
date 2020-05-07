@@ -125,7 +125,7 @@
                     <div id="add_book_error" class="error-box text-center text-danger"></div>
                     <!--Added by tony-->
                     <div class="form-group">
-                        <label for="tag_id" class="pl-3 col-form-label">Tag ID</label>                        
+                        <label for="tag_id" class="pl-3 col-form-label">Tag ID <strong class="text-danger">*</strong></label>                        
                         <select id="tag_id" class="form-control custom-select custom-select-lg mb-3" name="tag_id">
                             <option value="">-- Please Select --</option>  
                             @foreach($tags as $tag)      
@@ -135,7 +135,7 @@
                     </div>
                     <!--Added by tony-->
                     <div class="form-group">
-                        <label for="title" class="pl-3 col-form-label">Title</label>
+                        <label for="title" class="pl-3 col-form-label">Title <strong class="text-danger">*</strong></label>
                         <input id="title" type="text" class="form-control add-input" name="title" caption="title" value="{{ old('title') }}" required autocomplete="title" autofocus>
                     </div>
 
@@ -174,7 +174,7 @@
                     </div>
                     <div class="row justify-content-between">
                         <div class="form-group col-md-6">
-                            <label for="type" class="pl-3 col-form-label">Type</label>
+                            <label for="type" class="pl-3 col-form-label">Type <strong class="text-danger">*</strong></label>
                             <select id="type" class="form-control custom-select custom-select-lg mb-3" name="type">
                                 <option value="">-- Please Select --</option>
                                 <option value="academic">Academic</option>
@@ -189,7 +189,7 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="status" class="pl-3 col-form-label">Status</label>
+                            <label for="status" class="pl-3 col-form-label">Status <strong class="text-danger">*</strong></label>
                             <select id="status" class="form-control custom-select custom-select-lg mb-3" name="status">
                                 <option selected value="inLibrary">In Library</option>
                                 <option value="Lend">Lend</option>
@@ -255,7 +255,7 @@
                     </div>
                      <!--Added by tony-->
                     <div class="form-group">
-                        <label for="tag_id" class="pl-3 col-form-label">Tag ID</label>                        
+                        <label for="tag_id" class="pl-3 col-form-label">Tag ID <strong class="text-danger">*</strong></label>                        
                         <select id="book_edit_tag_id" class="form-control custom-select custom-select-lg mb-3" name="tag_id">                            
                               <option value="">-- Please Select --</option>                            
                             @foreach($tags as $tag)      
@@ -265,7 +265,7 @@
                     </div>
                      <!--Added by tony-->
                     <div class="form-group">
-                        <label for="title" class="pl-3 col-form-label">Title</label>
+                        <label for="title" class="pl-3 col-form-label">Title <strong class="text-danger">*</strong></label>
                         <input id="book_edit_title" type="text" class="form-control edit-input" name="title" required>
                     </div>
 
@@ -305,7 +305,7 @@
 
                     <div class="row justify-content-between">
                         <div class="form-group col-md-6">
-                            <label for="status" class="pl-3 col-form-label">Type</label>
+                            <label for="status" class="pl-3 col-form-label">Type <strong class="text-danger">*</strong></label>
                             <select id="book_edit_type" class="form-control custom-select custom-select-lg mb-3" name="type">
                                 <option value="academic">Academic</option>
                                 <option value="classics">Classics</option>
@@ -318,7 +318,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="status" class="pl-3 col-form-label">Status</label>
+                            <label for="status" class="pl-3 col-form-label">Status <strong class="text-danger">*</strong></label>
                             <select id="book_edit_status" class="form-control custom-select custom-select-lg mb-3" name="status">
                                 <option value="inLibrary">In Library</option>
                                 <option value="Lend">Lend</option>

@@ -40,7 +40,7 @@
                 <rect id="pattern_rect" x="0" y="0" style="fill:transparent;stroke:blue; stroke-width:1;"/>
               </pattern>
             </defs>
-              <rect width="100%" height="100%" style="fill:url(#background_pattern);stroke:orange;stroke-width:4" />
+              <!-- <rect width="100%" height="100%" style="fill:url(#background_pattern);stroke:orange;stroke-width:4" /> -->
 
               <circle id="reader_a" r="5" style="fill:red"/>
               <circle id="reader_b" r="5" style="fill:red"/>
@@ -86,10 +86,10 @@
               <rect id="show_reader_c" width="40" height="40" style="stroke:gray;stroke-width:2;fill:red;fill-opacity:0.5" />
               <rect id="show_reader_d" width="40" height="40" style="stroke:gray;stroke-width:2;fill:red;fill-opacity:0.5" />
 
-              <circle id="show_circle_a" style="stroke:black;stroke-width:50;fill:transparent;stroke-opacity:0.5"/>
-              <circle id="show_circle_b" style="stroke:black;stroke-width:50;fill:transparent;stroke-opacity:0.5"/>
-              <circle id="show_circle_c" style="stroke:black;stroke-width:50;fill:transparent;stroke-opacity:0.5"/>
-              <circle id="show_circle_d" style="stroke:black;stroke-width:50;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="show_circle_a" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="show_circle_b" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="show_circle_c" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
+              <circle id="show_circle_d" style="stroke:black;stroke-width:100;fill:transparent;stroke-opacity:0.5"/>
 
               <line id="line_width" style="stroke:red;stroke-width:2" />
               <line id="line_height" style="stroke:red;stroke-width:2" />

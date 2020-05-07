@@ -172,14 +172,14 @@ function draw() {
                 }
             }
         }
-        // if (max_count == 0) {
-        //     for (var i=0; i<16; i++) {
-        //         if (result[i][1] > max_count) {
-        //             max_count = result[i][1];
-        //             max_index = i;
-        //         }
-        //     }
-        // }
+        if (max_count == 0) {
+            for (var i=0; i<16; i++) {
+                if (result[i][1] > max_count) {
+                    max_count = result[i][1];
+                    max_index = i;
+                }
+            }
+        }
         var area_result = index_to_area(max_index);
         var raw_data = document.getElementById("raw_data");
         var result = document.getElementById("result");
@@ -187,7 +187,10 @@ function draw() {
         raw_data.innerHTML = "Raw Data: [readerA:" + radius[0] + "m, readerB:" + radius[1]+ "m, readerC:" + radius[2]+ "m, readerD:" + radius[3] + "m]";
         result.innerHTML = 'count=' + max_count + ', index=' + max_index;
         area.innerHTML = 'The book is in area ' + area_result;
-
+        
+        if(area_result == null){            
+            target_area.style.display ='none';
+        }
         var target_x = parseInt(max_index % 4) * pattern_width;
         var target_y = parseInt(max_index / 4) * pattern_height;
         var label_target = document.getElementById("label_target");
@@ -548,14 +551,15 @@ function onedraw(){
                 }
             }
         }
-        // if (max_count == 0) {
-        //     for (var i=0; i<16; i++) {
-        //         if (result[i][1] > max_count) {
-        //             max_count = result[i][1];
-        //             max_index = i;
-        //         }
-        //     }
-        // }
+        if (max_count == 0) {
+            for (var i=0; i<16; i++) {
+                if (result[i][1] > max_count) {
+                    max_count = result[i][1];
+                    max_index = i;
+                }
+            }
+        }
+       
         var area_result = index_to_area(max_index);
         var raw_data = document.getElementById("raw_data");
         var result = document.getElementById("result");

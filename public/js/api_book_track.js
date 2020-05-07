@@ -48,7 +48,13 @@ function draw() {
        ];
       
        var scale = 420 / (width * 2);
-   
+        //For display scale
+       var display_scale = 376 / (width * 2);
+       var display_svg_width = width * 2 * display_scale;
+       var display_svg_height = height * 2 * display_scale;
+       var display_pattern_width = width / 2 * display_scale;
+       var display_pattern_height = height / 2 * display_scale;
+
        var svg_data = document.getElementById("svg_data");
        var canvas = document.getElementById("can");
        var background_pattern = document.getElementById("background_pattern");
@@ -67,8 +73,8 @@ function draw() {
        pattern_rect.setAttribute("height", pattern_height);
    
        var target_area = document.getElementById("target_area");
-       target_area.setAttribute("width", pattern_width);
-       target_area.setAttribute("height", pattern_height);
+       target_area.setAttribute("width", display_pattern_width);
+       target_area.setAttribute("height", display_pattern_height);
    
        var reader_a = document.getElementById("reader_a");
        var reader_b = document.getElementById("reader_b");
@@ -173,25 +179,28 @@ function draw() {
                    }
                }
            }
-           // if (max_count == 0) {
-           //     for (var i=0; i<16; i++) {
-           //         if (result[i][1] > max_count) {
-           //             max_count = result[i][1];
-           //             max_index = i;
-           //         }
-           //     }
-           // }
+           if (max_count == 0) {
+               for (var i=0; i<16; i++) {
+                   if (result[i][1] > max_count) {
+                       max_count = result[i][1];
+                       max_index = i;
+                   }
+               }
+           }
            var area_result = index_to_area(max_index); 
            var message = document.getElementById('message');
            message.innerHTML = "The book is in "+area_result+" area.";             
-   
-           var target_x = parseInt(max_index % 4) * pattern_width;
-           var target_y = parseInt(max_index / 4) * pattern_height;
+           
+           if(area_result == null){            
+                 target_area.style.display ='none';
+           }
+           var target_x = parseInt(max_index % 4) * display_pattern_width;
+           var target_y = parseInt(max_index / 4) * display_pattern_height;
            var label_target = document.getElementById("label_target");
            target_area.setAttribute("x", target_x);
            target_area.setAttribute("y", target_y);
-           label_target.setAttribute("x", target_x + pattern_width / 2);
-           label_target.setAttribute("y", target_y + pattern_height / 2);
+           label_target.setAttribute("x", target_x + display_pattern_width / 2);
+           label_target.setAttribute("y", target_y + display_pattern_height / 2);
            label_target.firstChild.data = area_result;
    
            var spinner = document.getElementById("spinner");
@@ -207,46 +216,54 @@ function draw() {
            display_img.src = show_image64;      
        }
    
-       // Draw display svg for user
+       var display_acx = width / 2 * display_scale;
+       var display_acy = height / 2 * display_scale;
+       var display_bcx = display_acx + width * display_scale;
+       var display_bcy = display_acy;
+       var display_ccx = display_acx;
+       var display_ccy = display_acy + height * display_scale;
+       var display_dcx = display_bcx;
+       var display_dcy = display_ccy;
+   
        var display_svg = document.getElementById("display_svg");
        var show_svg = document.getElementById("show_svg");
        var show_background_pattern = document.getElementById("show_background_pattern");
        var show_pattern_rect = document.getElementById("show_pattern_rect");
    
-       show_svg.setAttribute("width", svg_width);
-       show_svg.setAttribute("height", svg_height);
-       show_background_pattern.setAttribute("width", pattern_width);
-       show_background_pattern.setAttribute("height", pattern_height);
-       show_pattern_rect.setAttribute("width", pattern_width);
-       show_pattern_rect.setAttribute("height", pattern_height);
+       show_svg.setAttribute("width", display_svg_width);
+       show_svg.setAttribute("height", display_svg_height);
+       show_background_pattern.setAttribute("width", display_pattern_width);
+       show_background_pattern.setAttribute("height", display_pattern_height);
+       show_pattern_rect.setAttribute("width", display_pattern_width);
+       show_pattern_rect.setAttribute("height", display_pattern_height);
    
        var show_reader_a = document.getElementById("show_reader_a");
        var show_reader_b = document.getElementById("show_reader_b");
        var show_reader_c = document.getElementById("show_reader_c");
        var show_reader_d = document.getElementById("show_reader_d");
    
-       show_reader_a.setAttribute("x", acx - 20);
-       show_reader_a.setAttribute("y", acy - 20);
-       show_reader_b.setAttribute("x", bcx - 20);
-       show_reader_b.setAttribute("y", bcy - 20);
-       show_reader_c.setAttribute("x", ccx - 20);
-       show_reader_c.setAttribute("y", ccy - 20);
-       show_reader_d.setAttribute("x", dcx - 20);
-       show_reader_d.setAttribute("y", dcy - 20);
+       show_reader_a.setAttribute("x", display_acx - 20);
+       show_reader_a.setAttribute("y", display_acy - 20);
+       show_reader_b.setAttribute("x", display_bcx - 20);
+       show_reader_b.setAttribute("y", display_bcy - 20);
+       show_reader_c.setAttribute("x", display_ccx - 20);
+       show_reader_c.setAttribute("y", display_ccy - 20);
+       show_reader_d.setAttribute("x", display_dcx - 20);
+       show_reader_d.setAttribute("y", display_dcy - 20);
    
        var label_reader_a = document.getElementById("label_reader_a");
        var label_reader_b = document.getElementById("label_reader_b");
        var label_reader_c = document.getElementById("label_reader_c");
        var label_reader_d = document.getElementById("label_reader_d");
    
-       label_reader_a.setAttribute("x", acx);
-       label_reader_a.setAttribute("y", acy);
-       label_reader_b.setAttribute("x", bcx);
-       label_reader_b.setAttribute("y", bcy);
-       label_reader_c.setAttribute("x", ccx);
-       label_reader_c.setAttribute("y", ccy);
-       label_reader_d.setAttribute("x", dcx);
-       label_reader_d.setAttribute("y", dcy);
+       label_reader_a.setAttribute("x", display_acx);
+       label_reader_a.setAttribute("y", display_acy);
+       label_reader_b.setAttribute("x", display_bcx);
+       label_reader_b.setAttribute("y", display_bcy);
+       label_reader_c.setAttribute("x", display_ccx);
+       label_reader_c.setAttribute("y", display_ccy);
+       label_reader_d.setAttribute("x", display_dcx);
+       label_reader_d.setAttribute("y", display_dcy);
    
    
        // var show_circle_a = document.getElementById("show_circle_a");
@@ -272,9 +289,9 @@ function draw() {
        var label_c = document.getElementById("label_c");
        var label_d = document.getElementById("label_d");
    
-       var area_width = svg_width / 4;
+       var area_width = display_svg_width / 4;
        var area_x = area_width / 2;
-       var area_height = svg_height / 4;
+       var area_height = display_svg_height / 4;
        var area_y = area_height / 2;
        label_1.setAttribute("x", area_x);
        label_2.setAttribute("x", area_x + area_width);
@@ -313,12 +330,13 @@ function draw() {
        arrow_down.setAttribute("transform", "translate(" + down_x + "," + down_y + ")");
        arrow_left.setAttribute("transform", "translate(" + left_x + "," + left_y + ")");
        arrow_right.setAttribute("transform", "translate(" + right_x + "," + right_y + ")");
-       label_width.setAttribute("x", svg_width / 2);
+       label_width.setAttribute("x", display_svg_width / 2);
        label_width.setAttribute("y", left_y + 20);
        label_width.firstChild.data = width + " m";
        label_height.setAttribute("x", up_x + 30);
-       label_height.setAttribute("y", svg_height / 2);
+       label_height.setAttribute("y", display_svg_height / 2);
        label_height.firstChild.data = height + " m";
+      
 }
 
 function countResult(canvas, i1, i2, j1, j2) {

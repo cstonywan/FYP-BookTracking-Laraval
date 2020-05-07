@@ -104,27 +104,27 @@
                 <div class="col-md-8">
                     <div id="add_user_error" class="error-box text-center text-danger"></div>
                     <div class="form-group">
-                        <label for="name" class="pl-3 col-form-label">Name</label>
+                        <label for="name" class="pl-3 col-form-label">Name <strong class="text-danger">*</strong></label>
                         <input id="name" type="text" class="form-control add-input" name="name" caption="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="pl-3 col-form-label">Email</label>
+                        <label for="email" class="pl-3 col-form-label">Email <strong class="text-danger">*</strong></label>
                         <input id="email" type="text" class="form-control add-input" name="email" caption="email" value="{{ old('email') }}" autocomplete="email" autofocus>
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="pl-3 col-form-label text-md-right">{{ __('Password') }}</label>
+                        <label for="password" class="pl-3 col-form-label text-md-right">Password <strong class="text-danger">*</strong></label>
                         <input id="password" type="password" class="form-control add-input" name="password" required autocomplete="new-password">
                     </div>
 
                     <div class="form-group">
-                        <label for="password-confirm" class="pl-3 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                        <label for="password-confirm" class="pl-3 col-form-label text-md-right">Confirm Password <strong class="text-danger">*</strong></label>
                         <input id="password-confirm" type="password" class="form-control add-input" name="password-confirm" required autocomplete="new-password">
                     </div>
 
                     <div class="form-group">
-                        <label for="role" class="pl-3 col-form-label">Role</label>
+                        <label for="role" class="pl-3 col-form-label">Role <strong class="text-danger">*</strong></label>
                         <select id="role" class="form-control custom-select custom-select-lg mb-3" name="role">
                             <option value=0>User</option>
                             <option value=1>Manager</option>
@@ -171,17 +171,17 @@
                         <input id="user_edit_id" type="text" class="form-control" name="id" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="name" class="pl-3 col-form-label">Name</label>
+                        <label for="name" class="pl-3 col-form-label">Name <strong class="text-danger">*</strong></label>
                         <input id="user_edit_name" type="text" class="form-control edit-input" name="name" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="pl-3 col-form-label">Email</label>
+                        <label for="email" class="pl-3 col-form-label">Email <strong class="text-danger">*</strong></label>
                         <input id="user_edit_email" type="text" class="form-control edit-input" name="email">
                     </div>
 
                     <div class="form-group">
-                        <label for="role" class="pl-3 col-form-label">Role</label>
+                        <label for="role" class="pl-3 col-form-label">Role <strong class="text-danger">*</strong></label>
                         <select id="user_edit_role" class="form-control custom-select custom-select-lg mb-3" name="role">
                             <option value=0>User</option>
                             <option value=1>Manager</option>

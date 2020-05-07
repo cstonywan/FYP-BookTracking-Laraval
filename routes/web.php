@@ -60,6 +60,8 @@ Route::group(['middleware' => ['manager']], function () {
     Route::get('/borrow/delete/{id}', 'BorrowsController@delete');
 });
 
+Route::get('/profile', 'UsersController@getProfile')->name('editProfile');
+Route::post('/profile/edit', 'UsersController@editProfile');
  
 
 //Route::get('/api/test','rfidReceive');

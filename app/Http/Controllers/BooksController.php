@@ -9,6 +9,7 @@ use App\Alltag;
 use App\Rfid;
 use App\Setting;
 use App\lostbook;
+use App\Fivemins;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -45,8 +46,7 @@ class BooksController extends Controller
 
     public function getAjax(){
 
-        $usedTag = Book::whereNotNull('tag_id')->where('status','=','inLibrary')
-        ->orwhere('status','=','missing')
+        $usedTag = Book::whereNotNull('tag_id')->where('status','=','inLibrary')      
         ->pluck('tag_id')->toArray(); //inlibrary        
         $currentTag = Rfid::whereIn('tag_id', $usedTag)->get();
 
@@ -110,10 +110,10 @@ class BooksController extends Controller
     }
 
     public function manage()
-    {     
+    {            
         $sort = request('sort');
         $usedTag = Book::whereNotNull('tag_id')->pluck('tag_id')->toArray();
-        $notusedTag = Alltag::whereNotIn('tag_id',$usedTag)->pluck('tag_id')->toArray();
+        $notusedTag = Alltag::whereNotIn('tag_id',$usedTag)->pluck('tag_id')->toArray();  
        
         $paginate = 10;
         if ($sort == null) {

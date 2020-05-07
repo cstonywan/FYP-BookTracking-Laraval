@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
 
 class UsersController extends Controller
 {
@@ -48,13 +49,22 @@ class UsersController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:8',
             'password-confirm' => 'required|same:password',
-            'photo' => 'required|image',
+            'photo' => 'nullable|image',
         ]);
+
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->getMessageBag()->toArray()]);
         }
+
         $image = request('photo');
-        $imagePath = $image->store('photo', 'public');
+
+        if ($image == null) {
+            $imagePath = "photo/defaultuser.png";
+        } 
+        else {
+            $imagePath = $image->store('photo', 'public');
+        }
+
         User::create([
             'name' => request('name'),
             'email' => request('email'),
@@ -85,7 +95,7 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->role = $request->role;
         if ($image != null) {
-            if ($user->photo) {
+            if ($user->photo && $user->photo != "photo/defaultuser.png") {
                 $url = storage_path('app/public/'.$user->photo);
                 if (file_exists($url)) {
                     unlink($url);
@@ -112,4 +122,44 @@ class UsersController extends Controller
 
         Session::flash('message', 'User has been deleted.');
     }
+
+    public function getProfile() {
+        return view('users.edit');
+    }
+
+    public function editProfile() {
+        $validator = Validator::make(request()->all(), [
+            'id' => 'required',
+            'name' => 'required|max:255|unique:users,name,' . request('id'),
+            'email' => 'required|email|max:255|unique:users,email,' . request('id'),
+            'photo' => 'nullable|image'
+        ]);
+
+        if ($validator->fails()) {
+            return Redirect::to('/profile')->withErrors($validator);
+        }
+        else {
+            $image = request('photo');
+
+            $user = User::find(request('id'));
+            $user->name = request('name');
+            $user->email = request('email');
+            if ($image != null) {
+                if ($user->photo && $user->photo != "photo/defaultuser.png") {
+                    $url = storage_path('app/public/'.$user->photo);
+                    if (file_exists($url)) {
+                        unlink($url);
+                    }
+                }
+                $imagePath = $image->store('photo', 'public');
+                $user->photo = $imagePath;
+            }
+            $user->save();
+
+            Session::flash('message', 'Profile has been edited.');
+
+            return redirect()->back();
+        }
+    }
+
 }
