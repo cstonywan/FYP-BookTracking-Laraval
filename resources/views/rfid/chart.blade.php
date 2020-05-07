@@ -115,10 +115,46 @@
                 </div> 
                 @endif
                   
-        <div class="col-md-12" id="linechartRadius"></div>
+        <div class="col-md-12" id="linechartRadius"></div>       
+
+        <div align="center">
+        <button id="start" type="button"  class="btn btn-primary btn-lg" style="border-radius: 15px;">
+            <span style="color:#FFFFFF" class="glyphicon glyphicon-search"></span><strong style="color:#FFFFFF"> Show Real-Time Rssi</strong>
+        </button></div>
+        <h1 id="misshead" class="col-md-12" align="center" style="color:#0062AF;display:none;"><strong>Real Time Data</strong></h1>                     
+        <!-- <p id="test" align="center" ></p> -->  
        
-    
+        <div id="realtimeradius" class="col-md-12" ></div>
+       
+       
+        <!-- <h2 id="realTimerssi" style="color:#7d7c7c"></h2> -->
+       
+        <table id="misstable" class="table table-bordered col-md-8" align="center" style="color:#7d7c7c;display:none;">                  
+                  <tr>                      
+                      <td style="width: 500px;"><strong>Reader</strong></td>
+                      <td style="width: 500px;"><strong>A</strong></td>
+                      <td style="width: 500px;"><strong>B</strong></td>
+                      <td style="width: 500px;"><strong>C</strong></td>
+                      <td style="width: 500px;"><strong>D</strong></td>                      
+                  </tr>                  
+                  <tr>
+                      <td><strong>Rssi (dbm)</strong></td>                     
+                      <td style="width: 500px;" id="rssia"></td>
+                      <td style="width: 500px;" id="rssib"></td>     
+                      <td style="width: 500px;" id="rssic"></td>     
+                      <td style="width: 500px;" id="rssid"></td>                                             
+                  </tr>                 
+                  <tr>
+                      <td><strong>Radius (m)</strong></td>                    
+                      <td style="width: 500px;" id="radiusa"></td>
+                      <td style="width: 500px;" id="radiusb"></td>     
+                      <td style="width: 500px;" id="radiusc"></td>     
+                      <td style="width: 500px;" id="radiusd"></td>             
+                  </tr>
+        </table>
+        <br>
         <!--linear regression-->
+        <h1 class="col-md-12" align="center" style="color:#0062AF;"><strong>The calculation with {{$timeframeSimple ?? ''}} timeframe</strong></h1>                     
         <div class="col-md-12" align="center">
           <div id="status"></div>
           <div id="spinner" class="spinner-border" style="height:100px;width:100px"></div>
@@ -169,8 +205,7 @@
             </svg>
           </div>
           </div>
-                                                              
-         <table class="table table-bordered col-md-6" align="center" style="color:#7d7c7c">                  
+          <table class="table table-bordered col-md-6" align="center" style="color:#7d7c7c">                  
                   <tr>                      
                       <td><strong>Reader</strong></td>
                       <td><strong>A</strong></td>
@@ -206,7 +241,7 @@
                       <td>{{$RadiusofLinearRegressionValueC}}</td>
                       <td>{{$RadiusofLinearRegressionValueD}}</td>                                                                     
                   </tr>                    
-              </table>
+              </table>                                                                      
 
               <div class="col-md-12" align="center">               
                   <button  style="background: transparent;border: none;" title="show rssi to distance example" onclick="hideTagTable()">                   
@@ -225,10 +260,7 @@
                       @endforeach                   
                   </table>
               </div>
-                
-               
-               
-              
+                                                         
                 <!-- <h1 align="center" style="color:#0062AF"><strong>The Rssi Testing</strong></h1> -->
             @endif
              <!-- The Rssi Testing -->
@@ -379,10 +411,7 @@
                     @endif
                 @endif
             </div>
-            
-            
-                      
-                     
+                                                                   
             <!-- <div align="right">
                 <button class="btn btn-info btn-lg"  onclick="count()">
                     <strong style="color:#FFFFFF"> count</strong>
@@ -409,9 +438,9 @@
         var RadiusofMedianA;
         var RadiusofMostA;
         var RadiusofLinearRegressionValueA;
+      
        
-       
-        if(recordA.length == 1){           
+        if(recordA.length == 1 || recordA.length < 10){           
             RadiusofMeanA = null;
             RadiusofMedianA = null;
             RadiusofMostA = null;
@@ -429,7 +458,7 @@
         var RadiusofMostB;
         var RadiusofLinearRegressionValueB;
        
-        if(recordB.length == 1){
+        if(recordB.length == 1 || recordB.length < 10){
             RadiusofMeanB = null;
             RadiusofMedianB = null;
             RadiusofMostB = null;
@@ -448,7 +477,7 @@
         var RadiusofLinearRegressionValueC;  
        
 
-        if(recordC.length == 1){
+        if(recordC.length == 1 || recordC.length < 10){
              RadiusofMeanC = null; 
              RadiusofMedianC = null; 
              RadiusofMostC = null; 
@@ -465,7 +494,7 @@
         var RadiusofMostD; 
         var RadiusofLinearRegressionValueD;  
 
-        if(recordD.length == 1){
+        if(recordD.length == 1 || recordD.length < 10){
             RadiusofMeanD = null;
             RadiusofMedianD = null;
             RadiusofMostD = null; 
@@ -485,7 +514,8 @@
         //         //document.write(resultRadiusa[0]+"\n"); //second
         //         document.write(resultRadiusa[1]+"\n"); //radius
         //     }
-        // }      
+        // }   
+        
         var showtmp = @json($showEmptyChart);
         var AllorOne = @json($flag);
         var readerChoice = @json($field ?? '');

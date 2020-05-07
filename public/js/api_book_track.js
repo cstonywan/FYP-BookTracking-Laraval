@@ -192,8 +192,9 @@ function draw() {
            message.innerHTML = "The book is in "+area_result+" area.";             
            
            if(area_result == null){            
-                 target_area.style.display ='none';
+                target_area.style.display ='none';
            }
+           
            var target_x = parseInt(max_index % 4) * display_pattern_width;
            var target_y = parseInt(max_index / 4) * display_pattern_height;
            var label_target = document.getElementById("label_target");

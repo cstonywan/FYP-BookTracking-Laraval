@@ -5,6 +5,20 @@
 
 </head>
 <div class="container">
+
+    @if (session('error'))
+        <div class="alert alert-warning" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+    @foreach (Auth::user()->borrows as $borrow)
+        @if ( (strtotime($borrow->deadline_at) - strtotime(date('Y-m-d')))/86400 <= 4 && $borrow->return_at == null)
+            <div class="alert alert-danger mx-auto" role="alert">
+                Reminder: The deadline of returning the book "{{ $borrow->book->title }}" is due on {{ $borrow->deadline_at }}
+            </div>
+        @endif
+    @endforeach
+
     <div class="justify-content-center">
         <h1 align="center">Book Searching System</h1>
         <form action="" method="get">

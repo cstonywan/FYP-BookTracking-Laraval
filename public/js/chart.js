@@ -2,6 +2,8 @@
 var showtmp;
 var AllorOne;
 var readerChoice;
+var ArrayLength = 10;
+
 
 google.charts.load('current', {'packages':['corechart']});
 
@@ -9,29 +11,47 @@ if(showtmp){
         google.charts.setOnLoadCallback(tmp);
 }
 else{
-    if(AllorOne=='all'){
-        google.charts.setOnLoadCallback(drawChartRadius);       
-        google.charts.setOnLoadCallback(drawChart);
-        google.charts.setOnLoadCallback(drawChartB);
-        google.charts.setOnLoadCallback(drawChartC);
-        google.charts.setOnLoadCallback(drawChartD);                
-    }
-    else{
-        if(readerChoice=='reader_a'){
-            google.charts.setOnLoadCallback(drawChartRadiusA);
+    if(AllorOne == 'all'){
+       
+        google.charts.setOnLoadCallback(drawChartRadius); 
+        
+        if(recordA.length > ArrayLength){
             google.charts.setOnLoadCallback(drawChart);
-        }
-        if(readerChoice=='reader_b'){
-            google.charts.setOnLoadCallback(drawChartRadiusB);
+        }      
+        if(recordB.length > ArrayLength){
             google.charts.setOnLoadCallback(drawChartB);
         }
-        if(readerChoice=='reader_c'){
-            google.charts.setOnLoadCallback(drawChartRadiusC);
+        if(recordC.length > ArrayLength){
             google.charts.setOnLoadCallback(drawChartC);
         }
-        if(readerChoice=='reader_d'){
-            google.charts.setOnLoadCallback(drawChartRadiusD);
-            google.charts.setOnLoadCallback(drawChartD);
+        if(recordD.length > ArrayLength){
+            google.charts.setOnLoadCallback(drawChartD);                
+        }
+    }
+    else{
+        if(readerChoice=='reader_a'){            
+            if(recordA.length > ArrayLength){
+                google.charts.setOnLoadCallback(drawChartRadiusA);
+                google.charts.setOnLoadCallback(drawChart);
+            } 
+        }
+        if(readerChoice=='reader_b'){            
+            if(recordB.length > ArrayLength){
+                google.charts.setOnLoadCallback(drawChartRadiusB);
+                google.charts.setOnLoadCallback(drawChartB);
+            }
+        }
+        if(readerChoice=='reader_c'){            
+            if(recordC.length > ArrayLength){
+                google.charts.setOnLoadCallback(drawChartRadiusC);
+                google.charts.setOnLoadCallback(drawChartC);
+            }
+        }
+        if(readerChoice=='reader_d'){           
+            if(recordD.length > ArrayLength){
+                google.charts.setOnLoadCallback(drawChartRadiusD);
+                google.charts.setOnLoadCallback(drawChartD);
+            }
         }           
     }                     
 }
@@ -58,10 +78,11 @@ function drawChartRadius() {
 
         // var data = new google.visualization.arrayToDataTable(dataArray);               
 
+       
         var data = google.visualization.arrayToDataTable([                   
             ['Radius','Mean','Median','Mode','Linear Regression'],                   
             ['Reader A', RadiusofMeanA, RadiusofMedianA, RadiusofMostA, RadiusofLinearRegressionValueA],                               
-            ['Reader B', RadiusofMeanB, RadiusofMedianB, RadiusofMostB, RadiusofLinearRegressionValueB],            // English color name
+            ['Reader B', RadiusofMeanB, RadiusofMedianB, RadiusofMostB, RadiusofLinearRegressionValueB],               
             ['Reader C', RadiusofMeanC, RadiusofMedianC, RadiusofMostC, RadiusofLinearRegressionValueC],
             ['Reader D', RadiusofMeanD, RadiusofMedianD, RadiusofMostD, RadiusofLinearRegressionValueD], 
         ]);
@@ -561,26 +582,70 @@ function restoreOption() {
 
     var storedReader = localStorage.getItem("search_field");
     var storedTimeframe = localStorage.getItem("time_field");
-    var storedTagID = localStorage.getItem("search_tag");
+    var storedTagID = localStorage.getItem("search_tag");   
+
     $("#search_field").val(storedReader);
     $("#time_field").val(storedTimeframe);
     $("#search_tag").val(storedTagID);
 }
 
-// $(document).ready(function() {
-//     $("#start").on('click', function() {
-//         realTime();
-//     });
-// })
+$(document).ready(function() {
+    $("#start").on('click', function() {       
+        realTimePost();
+        document.getElementById('start').style.display = 'none'; 
+        document.getElementById('misstable').style.display = 'block';  
+        document.getElementById('misshead').style.display = 'block';                      
+    });
+})
+
+function realTimePost(){
+    setTimeout(function () {
+        $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/rfid/postajax',
+            type: 'POST',
+            data: { input: localStorage.getItem("search_tag") },
+            success: function (result) { 
+                         
+                realtimeChartRadius(result);                
+                document.getElementById('rssia').innerHTML = result[0];
+                document.getElementById('radiusa').innerHTML = result[1]; 
+                document.getElementById('rssib').innerHTML = result[2];
+                document.getElementById('radiusb').innerHTML = result[3]; 
+                document.getElementById('rssic').innerHTML = result[4];
+                document.getElementById('radiusc').innerHTML = result[5]; 
+                document.getElementById('rssid').innerHTML = result[6];
+                document.getElementById('radiusd').innerHTML = result[7];       
+            },
+            // error: function () {
+            //     alert("error");
+            // }
+        });
+        realTimePost();
+    }, 500);
+}
+
 
 // function realTime() {
+       
 //     setTimeout(function () {
 //         $.ajax({
 //              type:"GET",
 //              url:"/rfid/getajax",
-//              success : function(response) {
-//                 // var recordB = JSON.parse(response);                
-//                 drawChartB(response);
+//              success : function(response){
+//                  alert(response);                                                                
+//                 document.getElementById('rssia').innerHTML = response[0];
+//                 document.getElementById('radiusa').innerHTML = response[1]; 
+//                 document.getElementById('rssib').innerHTML = response[2];
+//                 document.getElementById('radiusb').innerHTML = response[3]; 
+//                 document.getElementById('rssic').innerHTML = response[4];
+//                 document.getElementById('radiusc').innerHTML = response[5]; 
+//                 document.getElementById('rssid').innerHTML = response[6];
+//                 document.getElementById('radiusd').innerHTML = response[7];                               
 //              }
 //         });
        
@@ -588,6 +653,50 @@ function restoreOption() {
 //     }, 1000);
 // }
 
+function realtimeChartRadius(result) {
+
+
+    //document.getElementById('test').innerHTML = result;
+          
+    var radius = google.visualization.arrayToDataTable([                   
+        ['Radius','Radius',{ role: 'style' }],                   
+        ['Reader A', result[1],'blue'],                               
+        ['Reader B', result[3],'red'],               
+        ['Reader C', result[5],'orange'],
+        ['Reader D', result[7],'green'], 
+    ]);
+
+    var options = {        
+        vAxis: {
+            title: 'Radius (m)',
+            minValue:0,
+        }, 
+        hAxis: {
+            //  title: 'Methonds',
+           
+        },
+        titleTextStyle: {
+            color: '#3A74A1'
+        }, 
+        // explorer: {
+        //     maxZoomOut:1,
+        //     keepInBounds: true
+        // },             
+    title: 'Radius Result',
+    'height':300,
+                   
+    // backgroundColor: '#FFFFFF',
+    curveType: 'function',
+    legend: { position: 'right',
+            textStyle: {
+                color: 'silver',
+            } 
+        }
+    };
+   
+    var radiuschart = new google.visualization.ColumnChart(document.getElementById('realtimeradius'));
+    radiuschart.draw(radius, options);         
+}
 
 
 

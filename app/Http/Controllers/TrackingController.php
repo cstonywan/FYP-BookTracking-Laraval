@@ -126,19 +126,19 @@ class TrackingController extends Controller
                 //$resultD[++$key] = [(int)$key, (int)$value->Rssi];
             } 
 
-            if(count($resultA) != 1){
+            if(count($resultA)> 10){
                 $LinearRegressionAValueA = $this->getLinearRegressionIntercept($resultA);//linearRegression Value
                 $RadiusofLinearRegressionValueA = $this->rssi_to_distance($LinearRegressionAValueA);
             }
-            if(count($resultB) != 1){
+            if(count($resultB)> 10){
                 $LinearRegressionAValueB = $this->getLinearRegressionIntercept($resultB);//linearRegression Value
                 $RadiusofLinearRegressionValueB = $this->rssi_to_distance($LinearRegressionAValueB);
             }
-            if(count($resultC) != 1){
+            if(count($resultC)> 10){
                 $LinearRegressionAValueC = $this->getLinearRegressionIntercept($resultC);//linearRegression Value
                 $RadiusofLinearRegressionValueC = $this->rssi_to_distance($LinearRegressionAValueC);
             }
-            if(count($resultD) != 1){
+            if(count($resultD)> 10){
                 $LinearRegressionAValueD = $this->getLinearRegressionIntercept($resultD);//linearRegression Value
                 $RadiusofLinearRegressionValueD = $this->rssi_to_distance($LinearRegressionAValueD);
             }

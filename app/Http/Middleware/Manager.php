@@ -17,6 +17,6 @@ class Manager
     {
       if (auth()->user()->role >= 1)
           return $next($request);
-      return redirect('/home')->with('error', 'You are not allow to access this page');
+      return redirect('/b/search')->with('error', 'You are not allow to access this page');
     }
 }

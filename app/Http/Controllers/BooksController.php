@@ -110,7 +110,7 @@ class BooksController extends Controller
     }
 
     public function manage()
-    {            
+    {                
         $sort = request('sort');
         $usedTag = Book::whereNotNull('tag_id')->pluck('tag_id')->toArray();
         $notusedTag = Alltag::whereNotIn('tag_id',$usedTag)->pluck('tag_id')->toArray();  

@@ -7,7 +7,7 @@
 <div class=row>
    
         @if($errors->any())   
-            <div class="alert alert-danger w-50 mx-auto">
+            <div class="alert alert-warning w-50 mx-auto">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li><strong>{{ $error }}</strong></li>

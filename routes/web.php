@@ -45,9 +45,10 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/rfid/rfidSetting/store','SetupController@store');    
     Route::get('/rfid/chart', 'chartController@Chart')->name('showChart');
     Route::get('/rfid/tracking/{id}', 'TrackingController@calculate');
-
+   // Route::get('/rfid/getajax', 'chartController@getAjax');
+    Route::post('/rfid/postajax', 'chartController@postAjax');
     // Route::get('/rfid/realtimechart', 'realtimeController@Chart')->name('showrealtimeChart');
-    // Route::get('/rfid/getajax', 'realtimeController@getAjax');
+     
     
 });
 
