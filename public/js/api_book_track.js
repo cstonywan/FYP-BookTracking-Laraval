@@ -139,6 +139,7 @@ function draw() {
            //         }
            //     }
            // }
+          
            var a1 = countResult(canvas, 0, divide1, 0, divide1);
            var a2 = countResult(canvas, divide1, divide2, 0, divide1);
            var a3 = countResult(canvas, divide2, divide3, 0, divide1);
@@ -343,9 +344,11 @@ function draw() {
 
 function countResult(canvas, i1, i2, j1, j2) {
     var array = [0, 0, 0, 0];
+   
     for (var i=i1; i<i2; i++) {
         for (var j=j1; j<j2; j++) {
             switch(getResult(canvas, i, j)) {
+             
                 case 128:
                   array[0]++;
                   break;

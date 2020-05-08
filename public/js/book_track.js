@@ -512,6 +512,7 @@ function onedraw(){
         //         }
         //     }
         // }
+       
         var a1 = countResult(canvas, 0, divide1, 0, divide1);
         var a2 = countResult(canvas, divide1, divide2, 0, divide1);
         var a3 = countResult(canvas, divide2, divide3, 0, divide1);
@@ -528,6 +529,7 @@ function onedraw(){
         var d2 = countResult(canvas, divide1, divide2, divide3, svg_height);
         var d3 = countResult(canvas, divide2, divide3, divide3, svg_height);
         var d4 = countResult(canvas, divide3, svg_width, divide3, svg_height);
+      
         var result = [];
         result.push(a1, a2, a3, a4);
         result.push(b1, b2, b3, b4);

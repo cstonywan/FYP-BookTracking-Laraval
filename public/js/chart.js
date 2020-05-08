@@ -326,7 +326,7 @@ function drawChart() {
             },
         }, 
         hAxis: {
-            title: 'Record (count)',
+            title: 'Time (second)',
             // title: 'Time (second)',
             maxValue: 60,
             minValue: 0,
@@ -381,7 +381,7 @@ function drawChartB() {
             },
         },
         hAxis: {
-            title: 'Record (count)',
+            title: 'Time (second)',
             // title: 'Time (second)',
             maxValue: 60,
             viewWindow: {
@@ -427,7 +427,7 @@ function drawChartC() {
             },
         },
         hAxis: {
-            title: 'Record (count)',
+            title: 'Time (second)',
             // title: 'Time (second)',
             viewWindow: {
                 min:0
@@ -471,7 +471,7 @@ function drawChartD() {
             },
         },
         hAxis: {
-            title: 'Record (count)',
+            title: 'Time (second)',
             // title: 'Time (second)',
             maxValue: 60,
             viewWindow: {
