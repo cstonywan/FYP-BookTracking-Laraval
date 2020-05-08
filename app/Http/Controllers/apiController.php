@@ -32,13 +32,13 @@ class apiController extends Controller
         isset($_POST['Reader_id']) && isset($_POST['Reader_record_time'])&&
         isset($_POST['Reader_ip'])) {
                 //debug use
-                // var_dump($_POST['Tag_id']);
-                // var_dump($_POST['Tag_pc']);
-                // var_dump($_POST['Tag_count']);
-                // var_dump($_POST['Tag_rssi']);
-                // var_dump($_POST['Reader_id']);
-                // var_dump($_POST['Reader_record_time']);
-                // var_dump($_POST['Reader_ip']);
+                var_dump($_POST['Tag_id']);
+                var_dump($_POST['Tag_pc']);
+                var_dump($_POST['Tag_count']);
+                var_dump($_POST['Tag_rssi']);
+                var_dump($_POST['Reader_id']);
+                var_dump($_POST['Reader_record_time']);
+                var_dump($_POST['Reader_ip']);
                 $rssi = 0;
                 if($_POST['Tag_rssi'] == "-52"){
                     $rssi = -50;
@@ -121,7 +121,14 @@ class apiController extends Controller
                         $fakedata = true;   
                     }
                     else{
-                        var_dump("True Data!!");
+                        var_dump("True Data!!");                     
+                        var_dump($_POST['Tag_id']);
+                        var_dump($_POST['Tag_pc']);
+                        var_dump($_POST['Tag_count']);
+                        var_dump($rssi);
+                        var_dump($_POST['Reader_id']);
+                        var_dump($_POST['Reader_record_time']);
+                        var_dump($_POST['Reader_ip']);
                         $fakedata = false;
                     } 
 
@@ -182,7 +189,7 @@ class apiController extends Controller
                     }
                 }
                           
-                if (strtotime($currentDate) - strtotime($_POST['Reader_record_time']) <= 5) {
+                // if (strtotime($currentDate) - strtotime($_POST['Reader_record_time']) <= 5) {
                             $record_check = Rfid::where('tag_id','=',substr($_POST['Tag_id'], 1))
                                                 ->where('reader_ip','=',$_POST['Reader_ip'])
                                                 ->first();
@@ -213,7 +220,7 @@ class apiController extends Controller
                                     'reader_ip' => $_POST['Reader_ip'],
                                 ]);                   
                             } 
-                }                                                                                         
+                // }                                                                                         
         }                             
     }
 

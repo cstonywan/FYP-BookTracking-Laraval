@@ -77,7 +77,7 @@
                             <span>
                             <a  href="{{ url('/b/detail/' . $book->id) }}" class="btn btn-link">
                                 <h2  onclick="location.href='{{ url('/b/detail/' . $book->id) }}'">
-                                <Strong>{{ $book->title }}</Strong></h2>
+                                <u><Strong>{{ $book->title }}</Strong></u></h2>
                             </a>
                             </span>
                         </div>

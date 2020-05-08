@@ -190,15 +190,16 @@ function draw() {
         
         if(area_result == null){            
             target_area.style.display ='none';
+        } else {
+            var target_x = parseInt(max_index % 4) * pattern_width;
+            var target_y = parseInt(max_index / 4) * pattern_height;
+            var label_target = document.getElementById("label_target");
+            target_area.setAttribute("x", target_x);
+            target_area.setAttribute("y", target_y);
+            label_target.setAttribute("x", target_x + pattern_width / 2);
+            label_target.setAttribute("y", target_y + pattern_height / 2);
+            label_target.firstChild.data = area_result;
         }
-        var target_x = parseInt(max_index % 4) * pattern_width;
-        var target_y = parseInt(max_index / 4) * pattern_height;
-        var label_target = document.getElementById("label_target");
-        target_area.setAttribute("x", target_x);
-        target_area.setAttribute("y", target_y);
-        label_target.setAttribute("x", target_x + pattern_width / 2);
-        label_target.setAttribute("y", target_y + pattern_height / 2);
-        label_target.firstChild.data = area_result;
 
         var spinner = document.getElementById("spinner");
         spinner.style.display = 'none';

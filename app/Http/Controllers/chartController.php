@@ -704,14 +704,14 @@ class chartController extends Controller
 
             $readerIP = array($readerA_IP, $readerB_IP, $readerC_IP, $readerD_IP);
 
-            $Onesecond = new DateTime;
-            $Onesecond->modify('-1 second');
-            $formatted = $Onesecond->format('Y-m-d H:i:s');
+            // $Onesecond = new DateTime;
+            // $Onesecond->modify('-1 second');
+            // $formatted = $Onesecond->format('Y-m-d H:i:s');
            
             
             $rssia = Rfid::where('tag_id','=', $tag_id)                                                            
                             ->where('reader_ip','=',$readerIP[0])
-                            ->where('reader_record_time', '>=', $formatted)                                                                                                                                                        
+                            //->where('reader_record_time', '>=', $formatted)                                                                                                                                                        
                             ->value('tag_rssi');
                            
                             
@@ -727,7 +727,7 @@ class chartController extends Controller
 
             $rssib = Rfid::where('tag_id','=', $tag_id)                                                            
                             ->where('reader_ip','=',$readerIP[1])
-                            ->where('reader_record_time', '>=', $formatted)                                                                                                                                                           
+                            //->where('reader_record_time', '>=', $formatted)                                                                                                                                                           
                             ->value('tag_rssi');
                            
             if($rssib != null){  
@@ -742,7 +742,7 @@ class chartController extends Controller
 
             $rssic = Rfid::where('tag_id','=', $tag_id)                                                            
                             ->where('reader_ip','=',$readerIP[2])
-                            ->where('reader_record_time', '>=', $formatted)                                                                                                                                                           
+                            //->where('reader_record_time', '>=', $formatted)                                                                                                                                                           
                             ->value('tag_rssi');
                             
             if($rssic != null){  
@@ -756,7 +756,7 @@ class chartController extends Controller
             }        
             $rssid = Rfid::where('tag_id','=', $tag_id)                                                            
                             ->where('reader_ip','=',$readerIP[3]) 
-                            ->where('reader_record_time', '>=', $formatted)                                                                                                                                                          
+                            //->where('reader_record_time', '>=', $formatted)                                                                                                                                                          
                             ->value('tag_rssi'); 
                            
             if($rssid != null){                         
@@ -768,8 +768,7 @@ class chartController extends Controller
                 $rssid = null;       
                 $radiusd = null;
             }           
-           
-            
+                       
             $allresult = array(
                 $rssia,$radiusa,
                 $rssib,$radiusb,

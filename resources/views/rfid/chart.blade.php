@@ -122,7 +122,7 @@
             <span style="color:#FFFFFF" class="glyphicon glyphicon-search"></span><strong style="color:#FFFFFF"> Show Real-Time Rssi</strong>
         </button></div>
         <h1 id="misshead" class="col-md-12" align="center" style="color:#0062AF;display:none;"><strong>Real Time Data</strong></h1>                     
-        <!-- <p id="test" align="center" ></p> -->  
+        <p id="test" align="center" ></p>  
        
         <div id="realtimeradius" class="col-md-12" ></div>
        

@@ -106,6 +106,9 @@ class AuthController extends Controller
 
     public function getUser($id) {
         $user = User::find($id);
+        if ($user->photo == null) {
+            $user['photo'] = "photo/defaultuser.png";
+        }
         return response()->json($user);
     }
 

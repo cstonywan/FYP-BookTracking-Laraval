@@ -83,10 +83,11 @@
                                         <a class="dropdown-item" href="{{ route('manageBorrow') }}">Manage Lending</a>                                                                             
                                         @if (Auth::user()->role == 2)
                                         <a class="dropdown-item" href="{{ route('manageUser') }}">Manage User</a>
-                                        @endif
                                         <a class="dropdown-item" href="{{ route('manageRfid') }}">Rfid Setting</a>   
+                                        @endif
                                     </div>
                                 </li>
+                                @if (Auth::user()->role == 2)
                                 <li class="nav-item dropdown">
                                     <a id="statisticDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                       Statistic<span class="caret"></span>
@@ -95,6 +96,7 @@
                                         <a class="dropdown-item" href="{{ route('showChart') }}">Rfid Testing Chart</a>                                      
                                     </div>
                                 </li>
+                                @endif
                             @endif
                         @endguest
                     </ul>

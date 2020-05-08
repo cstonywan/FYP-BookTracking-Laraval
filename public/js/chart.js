@@ -610,7 +610,7 @@ function realTimePost(){
             type: 'POST',
             data: { input: localStorage.getItem("search_tag") },
             success: function (result) { 
-                         
+                 
                 realtimeChartRadius(result);                
                 document.getElementById('rssia').innerHTML = result[0];
                 document.getElementById('radiusa').innerHTML = result[1]; 
@@ -626,7 +626,7 @@ function realTimePost(){
             // }
         });
         realTimePost();
-    }, 500);
+    }, 100);
 }
 
 
@@ -656,7 +656,7 @@ function realTimePost(){
 function realtimeChartRadius(result) {
 
 
-    //document.getElementById('test').innerHTML = result;
+    document.getElementById('test').innerHTML = result;
           
     var radius = google.visualization.arrayToDataTable([                   
         ['Radius','Radius',{ role: 'style' }],                   

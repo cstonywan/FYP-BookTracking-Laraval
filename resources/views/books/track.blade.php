@@ -10,7 +10,7 @@
 
 <div class="container">
     <div class="row">
-    <div class="col-8 ">
+    <div class="col-md-8 col-sm-12">
           <div id="status"></div>
           <h2 class="text-success" style="font-size:30px"><strong>{{$b->title}}</strong></h2>
           <h3 style="color:#8a8a8a">Tag ID: {{$b->tag_id}}</h3>
@@ -127,7 +127,7 @@
             </svg>
           </div>
         </div>
-        <div id="book_list" class="col-4">
+        <div id="book_list" class="col-md-4 col-sm-12">
             <div class="border table-responsive" style="height:600px;overflow-y:scroll;">
 
                 <h1 align="center">Books List</h1>                
