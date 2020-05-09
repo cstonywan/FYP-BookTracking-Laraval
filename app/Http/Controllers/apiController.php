@@ -188,8 +188,7 @@ class apiController extends Controller
                       
                     }
                 }
-                          
-                // if (strtotime($currentDate) - strtotime($_POST['Reader_record_time']) <= 5) {
+                                        
                             $record_check = Rfid::where('tag_id','=',substr($_POST['Tag_id'], 1))
                                                 ->where('reader_ip','=',$_POST['Reader_ip'])
                                                 ->first();
@@ -219,8 +218,7 @@ class apiController extends Controller
                                     'reader_record_time' => $_POST['Reader_record_time'],
                                     'reader_ip' => $_POST['Reader_ip'],
                                 ]);                   
-                            } 
-                // }                                                                                         
+                            }                                                                                                
         }                             
     }
 
