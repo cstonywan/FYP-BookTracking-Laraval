@@ -22,9 +22,9 @@ class apiController extends Controller
         $count = Rfid::count(); //check total record number
         $currentDate = date('Y-m-d H:i:s.') . gettimeofday()['usec'];
         $allowAddTag = false;
-        // $resetRecord = true; //clean the table 
-        // $Trackstart = true; //important!! 5mins table
-        $resetRecord = false; //keep the table 
+        // $resetRecord = true; 
+        // $Trackstart = true; 
+        $resetRecord = false; 
         $Trackstart = false;
               
         if (isset($_POST['Tag_id']) && isset($_POST['Tag_pc'])&&
@@ -187,8 +187,7 @@ class apiController extends Controller
                             ]); 
                       
                     }
-                }
-                                        
+                }                                        
                             $record_check = Rfid::where('tag_id','=',substr($_POST['Tag_id'], 1))
                                                 ->where('reader_ip','=',$_POST['Reader_ip'])
                                                 ->first();
