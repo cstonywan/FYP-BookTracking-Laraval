@@ -93,7 +93,7 @@ class AuthController extends Controller
             'email' => request('email'),
             'password' => Hash::make(request('password')),
             'role' => 0,
-            'photo'=> 'photo/defaultuser.png',
+            'photo'=> 'icon/defaultuser.png',
         ]);
 
         $success_response = array(
@@ -107,7 +107,7 @@ class AuthController extends Controller
     public function getUser($id) {
         $user = User::find($id);
         if ($user->photo == null) {
-            $user['photo'] = "photo/defaultuser.png";
+            $user['photo'] = "icon/defaultuser.png";
         }
         return response()->json($user);
     }
@@ -181,7 +181,7 @@ class AuthController extends Controller
         }
         else {
             $user = User::find($id);
-            if ($user->photo && $user->photo != "photo/defaultuser.png") {
+            if ($user->photo && $user->photo != "icon/defaultuser.png") {
                 $url = storage_path('app/public/'.$user->photo);
                 if (file_exists($url)) {
                     unlink($url);

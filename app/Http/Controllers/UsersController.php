@@ -59,7 +59,7 @@ class UsersController extends Controller
         $image = request('photo');
 
         if ($image == null) {
-            $imagePath = "photo/defaultuser.png";
+            $imagePath = "icon/defaultuser.png";
         } 
         else {
             $imagePath = $image->store('photo', 'public');
@@ -95,7 +95,7 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->role = $request->role;
         if ($image != null) {
-            if ($user->photo && $user->photo != "photo/defaultuser.png") {
+            if ($user->photo && $user->photo != "icon/defaultuser.png") {
                 $url = storage_path('app/public/'.$user->photo);
                 if (file_exists($url)) {
                     unlink($url);
@@ -112,12 +112,14 @@ class UsersController extends Controller
     public function delete($id)
     {
         $user = User::find($id);
-        if ($user->photo){
+  
+        if ($user->photo && $user->photo != "icon/defaultuser.png") {
             $url = storage_path('app/public/'.$user->photo);
             if (file_exists($url)) {
                 unlink($url);
             }
         }
+        
         $user->delete();
 
         Session::flash('message', 'User has been deleted.');
@@ -145,7 +147,7 @@ class UsersController extends Controller
             $user->name = request('name');
             $user->email = request('email');
             if ($image != null) {
-                if ($user->photo && $user->photo != "photo/defaultuser.png") {
+                if ($user->photo && $user->photo != "icon/defaultuser.png") {
                     $url = storage_path('app/public/'.$user->photo);
                     if (file_exists($url)) {
                         unlink($url);

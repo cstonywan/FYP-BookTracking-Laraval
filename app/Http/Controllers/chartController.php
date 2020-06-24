@@ -613,15 +613,7 @@ class chartController extends Controller
                     ->with('showEmptyChart',$showEmptyChart)
                     ->with('width',$width)
                     ->with('height',$height);                                             
-        }
-       
-        //return $CountofResultA;
-        // return $meanofResultD;
-        // return $FrequentofResultD;
-        // return dd($this->getSortedArrayY($resultD));
-        // $tmp = $this->get_linear_regressionArray($resultD);
-        // $t=$this->getMostFrequentRssi($resultC);
-        //return $resultA;
+        }            
        
         $RssiList = $this->rssiToradiusSample();
     

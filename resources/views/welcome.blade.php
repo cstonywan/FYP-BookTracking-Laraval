@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">       
         <title>Book Tracking System</title>
+        <link rel="icon" href="{{ asset('icon/hkust.png') }}" type="image/png">
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -69,14 +70,15 @@
             } 
 
             .m-b-md {
-                margin-bottom: 30px;
+                margin-bottom: 20px;
             }
         </style>
     </head>
 
+    @section('content')
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+            <!-- @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/b/search') }}" style="hover:color:#ff8c1a"><strong>Home</strong></a>
@@ -88,7 +90,7 @@
                         @endif
                     @endauth
                 </div>
-            @endif
+            @endif -->
 
             <div class="content">
                 <div class="title m-b-md">
@@ -135,4 +137,5 @@
             </div>
         </div>
     </body>
+    @endsection
 </html>

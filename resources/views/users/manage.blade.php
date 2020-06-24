@@ -53,7 +53,7 @@
                 @if($user->photo != null)
                   <img src="/storage/{{ $user->photo }}" style="width:40px;height:40px">
                 @else
-                  <img src="/storage/photo/defaultuser.png" style="width:40px;height:40px">
+                  <img src="/icon/defaultuser.png" style="width:40px;height:40px">
                 @endif
               </td>
               <td>{{ $user->name }}</td>

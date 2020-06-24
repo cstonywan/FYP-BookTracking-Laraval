@@ -120,7 +120,7 @@
                                     @if(Auth::user()->photo !=null)
                                         <img src="/storage/{{ Auth::user()->photo }}" class="img-circle" style="width:40px;height:40px">
                                     @else
-                                        <img src="/storage/photo/defaultuser.png" class="img-circle" style="width:40px;height:40px">
+                                        <img src="/icon/defaultuser.png" class="img-circle" style="width:40px;height:40px">
                                     @endif
                                     &nbsp;&nbsp;{{ Auth::user()->name }} <span class="caret"></span>
                                 </a>

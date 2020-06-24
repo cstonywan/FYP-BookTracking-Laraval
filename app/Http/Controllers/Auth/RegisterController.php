@@ -74,7 +74,7 @@ class RegisterController extends Controller
             $image = null;
         }
         if ($image == null) {
-            $imagePath = "photo/defaultuser.png";
+            $imagePath = "icon/defaultuser.png";
         } else {
             $imagePath = $image->store('photo', 'public');
         }
