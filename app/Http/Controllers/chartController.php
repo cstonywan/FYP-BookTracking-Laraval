@@ -702,8 +702,7 @@ class chartController extends Controller
            
             
             $rssia = Rfid::where('tag_id','=', $tag_id)                                                            
-                            ->where('reader_ip','=',$readerIP[0])
-                            //->where('reader_record_time', '>=', $formatted)                                                                                                                                                        
+                            ->where('reader_ip','=',$readerIP[0])                            
                             ->value('tag_rssi');
                            
                             
